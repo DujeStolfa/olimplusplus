@@ -1,3 +1,3 @@
 # olimplusplus
 
-Ide gas, testriam samo malo ovaj Github Desktop
+Projektni zadatak na kolegiju Programsko inženjerstvo: **FlipMemo** (G17.4)
