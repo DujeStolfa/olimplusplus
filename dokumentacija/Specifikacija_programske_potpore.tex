@@ -61,37 +61,146 @@
 					\textit{Funkcionalne zahtjeve razraditi u obliku obrazaca uporabe. Svaki obrazac je potrebno razraditi prema donjem predlošku. Ukoliko u nekom koraku može doći do odstupanja, potrebno je to odstupanje opisati i po mogućnosti ponuditi rješenje kojim bi se tijek obrasca vratio na osnovni tijek.}\\
 					
 
-					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ -$<$ime obrasca$>$}}
+					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Brisanje rječnika}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$sudionik$>$
-						\item  \textbf{Cilj:} $<$cilj$>$
-						\item  \textbf{Sudionici:} $<$sudionici$>$
-						\item  \textbf{Preduvjet:} $<$preduvjet$>$
+						\item \textbf{Glavni sudionik:} Admininistrator riječi
+						\item  \textbf{Cilj:} Brisanje rječnika iz sustava
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} UC Pregledavanje i odabir rječnika
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$opis korak jedan$>$
-							\item $<$opis korak dva$>$
-							\item $<$opis korak tri$>$
-							\item $<$opis korak četiri$>$
-							\item $<$opis korak pet$>$
+							\item Administrator potvrđuje brisanje rječnika $($UC Potvrda brisanja elementa$)$
+							\item Sustav iz baze briše odabrani rječnik
+						\end{packed_enum}
+					
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Stvaranje administratora riječi}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik:} korijenski administrator
+						\item  \textbf{Cilj:} Stvaranje admina riječi
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Prijava korijenskog administratora u sustav $($UC Prijava u sustav$)$
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Korijenski administrator $($nadalje kAdmin$)$ odabire opciju ”stvori admina riječi”
+							\item kAdmin dolazi na stranicu u kojoj mora upisati email adresu i lozinku novog admina riječi $($nadalje rAdmin$)$
+							\item kAdmin potvrđuje stvaranje novog rAdmina
+							\item Podaci se spremaju u bazu podataka
 						\end{packed_enum}
 						
 						\item  \textbf{Opis mogućih odstupanja:}
 						
 						\item[] \begin{packed_item}
 	
-							\item[2.a] $<$opis mogućeg scenarija odstupanja u koraku 2$>$
+							\item[2.a] kAdmin može upisati email adresu već postojećeg rAdmina
 							\item[] \begin{packed_enum}
 								
-								\item $<$opis rješenja mogućeg scenarija korak 1$>$
-								\item $<$opis rješenja mogućeg scenarija korak 2$>$
-								
+								\item Sustav ga upozorava da vec postoji rAdmin s upisanom email adresom							
 							\end{packed_enum}
-							\item[2.b] $<$opis mogućeg scenarija odstupanja u koraku 2$>$
-							\item[3.a] $<$opis mogućeg scenarija odstupanja  u koraku 3$>$
+
+							\item[2.b] kAdmin unosi email korisnika
+							\item[] \begin{packed_enum}
+								
+								\item Sustav ga upozorava da korisnička adresa ne može bit iskorištena pri stvaranju rAdmina								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Brisanje administratora riječi}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik: }korijenski administrator
+						\item  \textbf{Cilj:} Uklanjanje Admina riječi iz sustava
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Prijavljen kAdmin u sustav $($UC Prijava u sustav$)$, postojanje
+						rAdmina kojeg se želi izbrisati
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item kAdmin odabire opciju ”pregled rAdmina” i prikazuje mu se popis rAdmina
+							\item kAdmin za specifičnog rAdmina odabire opcije ”obriši rAdmina”
+							\item Odabirom te opcije mu se nudi prozorčić za potvrdu $($nastavak UC Potvrda brisanja elementa$)$
+						\end{packed_enum}
+						
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Registracija učenika}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik:} Učenik
+						\item  \textbf{Cilj:} Stvaranje učeničkog računa
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Učenik nije registriran niti prijavljen u sustav
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Učenik odabire opciju ”Registracija”
+							\item Učenik unosi ime, prezime, e-mail i potvrđuje prijavu
+							\item Učenik se prijavljuje u sustav s generiranom lozinkom (UC Prijava u sustav)							
+							\item Sustav učeniku prikazuje obrazac za promjenu inicijalne lozinke (nastavak UC Promjena inicijalne lozinke)
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[2.a]Učenik se pokušava registrirati e-mail adresom na koju je već prijavljen račun
+							\item[] \begin{packed_enum}
+								
+								\item Sustav upozorava korisnika i onemogućuje mu registraciju							
+							\end{packed_enum}
+
+							\item[2.b] Učenik se pokušava registrirati nepostojećom e-mail adresom
+							\item[] \begin{packed_enum}
+								
+								\item Sustav upozorava korisnika i onemogućuje mu registraciju 								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+
+					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Promjena inicijalne lozinke}}
+					\begin{packed_item}
+	
+						\item \textbf{Glavni sudionik:} Učenik
+						\item  \textbf{Cilj:} Stvaranje računa
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} UC Registracija učenika
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+	
+							\item Učenik u obrascu dvaput unosi novu lozinku i potvrđuje unos
+							\item Ako se lozinke podudaraju nova se lozinka sprema u bazu i označava da
+							je inicijalna lozinka promijenjena
+							\item Sustav preusmjerava korisnika na zaslon za odabir jezika (UC Pregledavanje i odabir jezika)
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+	
+							\item[1.a]Učenik gasi aplikaciju
+							\item[] \begin{packed_enum}
+								
+								\item Ponovnom prijavom u sustav korisniku je prikazan obrazac za promjenu lozinke						
+							\end{packed_enum}
+
+							\item[2.a] Lozinke se ne podudaraju
+							\item[] \begin{packed_enum}
+								
+								\item Sustav upozorava učenika i traži ispravak unosa  								
+							\end{packed_enum}
 							
 						\end{packed_item}
 					\end{packed_item}
