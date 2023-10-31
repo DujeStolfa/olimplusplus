@@ -50,15 +50,174 @@
 			\end{packed_enum}
 			
 			\eject 
+
+
+\subsection{Obrasci uporabe}
+
+\subsubsection{Opis obrazaca uporabe}
+
+\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Prijava u sustav}}
+\begin{packed_item}
+
+	\item \textbf{Glavni sudionik: } Učenik ili administrator
+	\item \textbf{Cilj: } Dobivanje pristupa učeničkom ili administratorskom sučelju
+	\item \textbf{Sudionici: } Baza podataka
+	\item \textbf{Preduvjet: } -
+	\item  \textbf{Opis osnovnog tijeka:}
+	
+	\item[] \begin{packed_enum}
+
+		\item Korisnik aplikacije unosi svoj e-mail i lozinku
+		\item Sustav provjerava postoji li račun s istim podacima
+		\item Ako su podaci ispravni, sustav preusmjerava korisnika na zaslon za odabir jezika (nastavak UC Pregledavanje i odabir jezika)
+
+	\end{packed_enum}
+	
+	\item  \textbf{Opis mogućih odstupanja:}
+	
+	\item[] \begin{packed_item}
+
+		\item[2.a] Neispravan e-mail ili lozinka
+		\item[] \begin{packed_enum}
 			
+			\item Sustav obavještava korisnika o grešci
 			
-				
-			\subsection{Obrasci uporabe}
-				
-				\textbf{\textit{dio 1. revizije}}
-				
-				\subsubsection{Opis obrazaca uporabe}
-					\textit{Funkcionalne zahtjeve razraditi u obliku obrazaca uporabe. Svaki obrazac je potrebno razraditi prema donjem predlošku. Ukoliko u nekom koraku može doći do odstupanja, potrebno je to odstupanje opisati i po mogućnosti ponuditi rješenje kojim bi se tijek obrasca vratio na osnovni tijek.}\\
+		\end{packed_enum}
+		
+	\end{packed_item}
+\end{packed_item}
+
+
+\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Pregledavanje i odabir jezika}}
+\begin{packed_item}
+
+	\item \textbf{Glavni sudionik: } Učenik ili administrator riječi
+	\item \textbf{Cilj: } Odabrati željeni jezik iz popisa dostupnih jezika
+	\item \textbf{Sudionici: } Baza podataka
+	\item \textbf{Preduvjet: } UC Prijava u sustav
+	\item  \textbf{Opis osnovnog tijeka:}
+	
+	\item[] \begin{packed_enum}
+
+		\item Sustav korisniku prikazuje popis dostupnih jezika
+		\item Korisnik odabire jezik
+		\item Sustav preusmjerava:
+		
+		\item[] \begin{packed_item}
+
+			\item učenika na zaslon za odabir rječnika (UC Pregledvanje i odabir rječnika)
+			\item administratora na zaslon za upravljanje riječima i rječnicima
+		
+		\end{packed_item}
+
+	\end{packed_enum}
+	
+\end{packed_item}
+
+\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Potvrda brisanja elementa}}
+\begin{packed_item}
+
+	\item \textbf{Glavni sudionik: } Učenik ili administrator
+	\item \textbf{Cilj: } Upozoriti korisnika i potvrditi brisanje bilo kojeg elementa sustava
+	\item \textbf{Sudionici: } Baza podataka
+	\item \textbf{Preduvjet: } Pohranjen je identifikator elementa kojeg želimo izbrisati	
+	\item  \textbf{Opis osnovnog tijeka:}
+	
+	\item[] \begin{packed_enum}
+
+		\item Sustav korisniku prikazuje popis dostupnih jezika
+		\item Korisnik odabire jezik
+		\item Sustav preusmjerava:
+		
+		\item[] \begin{packed_item}
+
+			\item Korisniku je prikazan dijaloški okvir s porukom upozorenja o posljedicama brisanja te gumbovima "Obriši" i "Odustani"
+			\item Korisnik potvrđuje brisanje klikom na gumb "Obriši"
+			\item Odabrani element briše se iz baze podataka
+		
+		\end{packed_item}
+
+	\end{packed_enum}
+
+	\item  \textbf{Opis mogućih odstupanja:}
+	
+	\item[] \begin{packed_item}
+
+		\item[2.a] Korisnik odustaje od brisanja
+		\item[] \begin{packed_enum}
+			
+			\item Odabrani element ne briše se iz baze podataka
+			
+		\end{packed_enum}
+		
+	\end{packed_item}
+	
+\end{packed_item}
+
+\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Stvaranje riječi}}
+\begin{packed_item}
+
+	\item \textbf{Glavni sudionik: } Admin riječi (nadalje Radmin)
+	\item \textbf{Cilj: } Mogućnost pregledavanja svih riječi za zadani jezik
+	\item \textbf{Sudionici: } Baza podataka
+	\item \textbf{Preduvjet: } Prijavljjivanje u Radmin račun, odabran jezik, Radmin se nalazi na stranici za pregled riječi (UC stvaranje riječi)	
+	\item  \textbf{Opis osnovnog tijeka:}
+	
+	\item[] \begin{packed_enum}
+		
+		\item Radmin odabire opciju dodavanja riječi u sustav
+		\item Dobiva ekran na kojem se nalaze prostori za unos teksta
+		\item Radmin unosi riječ, pri čemu pomaže API
+		\item Radmin unosi prijevod riječi, pri čemu pomaže API
+		\item Radmin unosi značenje riječi koju dobiva iz APIja
+		\item Radmin unosi pomoćnu frazu koju dobiva iz APIja
+		\item Radmin unosi zvučnu datoteku izgovora riječi na odabranom jeziku
+
+	\end{packed_enum}
+	
+\end{packed_item}
+
+
+\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Uređivanje riječi}}
+\begin{packed_item}
+
+	\item \textbf{Glavni sudionik: } Admin riječi (nadalje Radmin)
+	\item \textbf{Cilj: } Mogućnost pregledavanja svih riječi za zadani jezik
+	\item \textbf{Sudionici: } Baza podataka
+	\item \textbf{Preduvjet: } Prijavljivanje u Radmin račun, postojanje riječi u sustavu, odabran jezik
+	\item  \textbf{Opis osnovnog tijeka:}
+	
+	\item[] \begin{packed_enum}
+		
+		\item Radmin odabire opciju pregleda riječi
+		\item Na ekranu mu se prikazuje lista svih riječi u odabranom jeziku koje se nalaze u sustavu (bazi podataka)
+		\item Pored svake riječi postoji stavka "uredi"
+		\item Radmin bira opciju uređivanja riječi te ide na stranicu za uređivanje
+		\item Ima opciju promijeniti pisanje riječi, pomoćnu frazu ili audio zapis, značenje je fiksno (ako radmin želi promijeniti značenje, mora ili dodati novu riječ, ili obrisati postojeću. Opet, može se dogoditi da se značenje riječi promjeni u nešto što se već nalazi u bazi podataka, što bi softverski bilo teško provjeriti)
+		\item Nakon napravljenih željenih promjena, radmin potvrdi svoj rad i vraća se na pregled riječi
+
+	\end{packed_enum}
+	
+\end{packed_item}
+
+
+\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Pregledavanje riječi}}
+\begin{packed_item}
+
+	\item \textbf{Glavni sudionik: } Admin riječi (nadalje Radmin)
+	\item \textbf{Cilj: } Mogućnost pregledavanja svih riječi za zadani jezik
+	\item \textbf{Sudionici: } Baza podataka
+	\item \textbf{Preduvjet: } Prijavljjivanje u Radmin račun, postojanje riječi u sustavu, odabran jezik
+	\item  \textbf{Opis osnovnog tijeka:}
+	
+	\item[] \begin{packed_enum}
+		
+		\item Radmin odabire opciju pregleda riječi
+		\item Na ekranu mu se prikazuje lista svih riječi u odabranom jeziku koje se nalaze u sustavu (bazi podataka)
+
+	\end{packed_enum}
+	
+\end{packed_item}
 					
 
 					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Brisanje rječnika}}
