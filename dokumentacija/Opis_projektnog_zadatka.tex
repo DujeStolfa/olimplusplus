@@ -1,17 +1,39 @@
 \chapter{Opis projektnog zadatka}
 	
-	\textbf{\textit{dio 1. revizije}}\\
-	
-	\textit{Na osnovi projektnog zadatka detaljno opisati korisničke zahtjeve. Što jasnije opisati cilj projektnog zadatka, razraditi problematiku zadatka, dodati nove aspekte problema i potencijalnih rješenja. Očekuje se minimalno 3, a poželjno 4-5 stranica opisa.	Teme koje treba dodatno razraditi u ovom poglavlju su:}
-	\begin{packed_item}
-		\item \textit{potencijalna korist ovog projekta}
-		\item \textit{postojeća slična rješenja (istražiti i ukratko opisati razlike u odnosu na zadani zadatak). Dodajte slike koja predočavaju slična rješenja.}
-		\item \textit{skup korisnika koji bi mogao biti zainteresiran za ostvareno rješenje.}
-		\item \textit{mogućnost prilagodbe rješenja }
-		\item \textit{opseg projektnog zadatka}
-		\item \textit{moguće nadogradnje projektnog zadatka}
-	\end{packed_item}
-	
-	\textit{Za pomoć pogledati reference navedene u poglavlju „Popis literature“, a po potrebi konzultirati sadržaj na internetu koji nudi dobre smjernice u tom pogledu.}
+Cilj ovog projekta je razvoj aplikacije FlipMemo u svrhu učenja riječi na stranom jeziku. FlipMemo je namijenjen svima koji žele unaprijediti svoje znanje na interaktivan i efikasan način. Aplikacija omogućuje početnicima kao i naprednim korisnicima razvijanje svoje vještine razumijevanja, čitanja i pisanja stranog jezika. Učenje se oslanja na tehniku ponavljanja s rastućim vremenskim razmacima. Aplikaciju će moći koristiti bilo tko zainteresiran za učenje jezika, te sve što je potrebno je adresa elektroničke pošte.
 
-	\eject
+\section{Ponavljanje s rastućim vremenskim razmakom}
+
+SR (iz engleskog „spaced repetition”) tehnika je napravljena tako da iskoristi psihološki efekt prisjećanja. Naime, ljudi prirodno zaboravljaju informacije koje ne koriste često, jer ljudska memorija nije beskonačna, pa stvari koje nisu dio svakodnevice postaju dio zaborava. Ta činjenica još više vrijedi za nove informacije. Informacija koju ne koristimo ili ne vežemo s iskustvom se jednostavno ne smatra važnom, stoga se lako zaboravi. SR tehnika rješava ovaj problem tako što informacije koje želimo naučiti (u našem slučaju riječi jezika) pretvara u dio svakodnevice.
+
+\begin{figure}[H]
+	\includegraphics[scale=0.8]{slike/spaced_repetition.png} 
+	\centering
+	\caption{Ilustracija sustava za učenje s pet posuda}
+	\label{fig:spacedrepetition}
+\end{figure}
+
+Kako bismo lakše razumjeli ovaj način učenja, zamislimo nekoliko posuda, kao na slici \ref{fig:spacedrepetition}. U svakoj posudi se nalaze kartice s informacijama koje korisnik želi naučiti. Na karticama se nalazi pitanje i odgovor. Svaka posuda je označena sa svojim vremenskim intervalom. Svaka kartica na koju se da točan odgovor ide u sljedeću posudu. Svaka kartica na koju se da netočan odgovor, ide u prvu posudu. Ako se na karticu odgovori točno, a bila je izvađena iz zadnje posude, kartica izlazi iz sistema i ta informacija se smatra naučenom. Korisnik na početku sesije učenja vadi sve kartice iz prve posude, te odgovara na pitanja. One na koje odgovori točno, stavlja u posudu od dva dana, one na koje odgovori netočno, ostavlja u posudu od jednog dana. Kad završi sa svim pitanjima, sesija je za taj dan gotova. Ako korisnik odluči učiti odmah dan nakon, može vaditi kartice iz prve posude, ali ne iz druge. Tek nakon prolaska dva dana može opet uzeti kartice iz druge posude.
+
+Cilj je u tome da se informacije koje teže ili manje pamte, viđaju češće. Stvari koje korisnik zna ili razumije lakše, viđa manje, čime se može fokusirati na nedostatke u svom znanju.
+
+\eject
+\section{Opis aplikacije}
+
+Aplikacija je kolekcija rječnika iz kojih se mogu učiti riječi odabranog jezika. Rječnik je kolekcija međusobno značenjem povezanih riječi. Svaka riječ ima svoj prijevod na hrvatski, te prijevode na implementirane strane jezike, značenje tih riječi, pomoćne rečenice unutar kojih se ta riječ koristi i audiozapis izgovora riječi na svakom od njih. Riječi dodaju administratori riječi, čije ovlasti može dati jedan korijenski administrator. Korisnici imaju pristup svim rječnicima odabranog jezika za učenje, te četiri načina učenja.
+
+Riječi i rječnici su odgovornost administratora riječi. Pri dodavanju riječi u sustav, administrator je dužan pobrinuti se za točnost prijevoda i značenja, kao i pomoćne rečenice i audiozapisa izgovora riječi. U tom poslu mu pomaže API. Jednu riječ može dijeliti više rječnika. 
+
+\subsection{Načini učenja} 
+
+U aplikaciji su predviđena četiri načina učenja, kako bi savladavanje gradiva išlo što lakše i brže:
+\begin{description}
+	\item[Foreign promt --- native translation:] Korisniku je prikazana riječ stranog jezika. Ponuđeno mu je nekoliko riječi na hrvatskom jeziku od kojih on mora odabrati onu koja je najbolji prijevod strane riječi. Riječi koje se nude kao odgovori biraju se iz trenutno aktivnog rječnika, tj. rječnika iz kojeg se uči. 
+	\item[Native translation --- foreign promt:] Korisniku je prikazana riječ na hrvatskom jeziku, te mu je ponuđeno nekoliko riječi na stranom jeziku. Korisnik od njih mora odabrati onu koja je točan prijevod riječi na hrvatskom jeziku.
+	\item[Listen and translate:] Korisnik sluša audiozapis izgovora trenutne riječi na odabranom jeziku učenja. Korisnik treba napisati riječ koju je čuo. Time se provjerava razumije li korisnik razlike u izgovoru riječi kao i njihovo pisanje.
+	\item[Record your translation:] Korisnik dobiva riječ na jeziku koji uči i opciju za snimanje glasa. Potrebno je točno izgovoriti riječ prikazanu na ekranu. Ocjena izgovora može biti brojka od jedan do deset, čime korisnik dobiva povratnu informaciju o svom izgovoru.
+\end{description}
+
+Nakon svakog odgovorenog pitanja, korisnik dobiva povratnu informaciju o točnosti odgovora. Kad korisnik završi sa sesijom učenja i prođe sve riječi za taj dan aplikacija mu javlja da je za taj dan s tim rječnikom gotov. 
+
+\eject
