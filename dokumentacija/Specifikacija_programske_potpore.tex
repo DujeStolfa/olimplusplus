@@ -97,10 +97,28 @@
 					\end{packed_item}
 				
 					
-				\subsubsection{Dijagrami obrazaca uporabe}
+					\subsubsection{Dijagrami obrazaca uporabe}
 					
-					\textit{Prikazati odnos aktora i obrazaca uporabe odgovarajućim UML dijagramom. Nije nužno nacrtati sve na jednom dijagramu. Modelirati po razinama apstrakcije i skupovima srodnih funkcionalnosti.}
-				\eject		
+					\begin{figure}[H]
+						\includegraphics[scale=0.30]{dijagrami/dijagram1.jpg} 
+						\centering
+						\caption{Funkiconalnosti učenja i upravljanja riječima}
+						\label{fig:dijagram1}
+					\end{figure}
+					
+					\begin{figure}[H]
+						\includegraphics[scale=0.35]{dijagrami/dijagram2.jpg} 
+						\centering
+						\caption{Funkcionalnosti upravljanja računima}
+						\label{fig:dijagram2}
+					\end{figure}
+					
+					\begin{figure}[H]
+						\includegraphics[scale=0.34]{dijagrami/dijagram3.jpg} 
+						\centering
+						\caption{Funkcionalnosti upravljanja jezicima i rječnicima}
+						\label{fig:dijagram3}
+					\end{figure}	
 				
 			\subsection{Sekvencijski dijagrami}
 				
@@ -109,11 +127,18 @@
 				\textit{Nacrtati sekvencijske dijagrame koji modeliraju najvažnije dijelove sustava (max. 4 dijagrama). Ukoliko postoji nedoumica oko odabira, razjasniti s asistentom. Uz svaki dijagram napisati detaljni opis dijagrama.}
 				\eject
 	
-		\section{Ostali zahtjevi}
-		
-			\textbf{\textit{dio 1. revizije}}\\
-		 
-			 \textit{Nefunkcionalni zahtjevi i zahtjevi domene primjene dopunjuju funkcionalne zahtjeve. Oni opisuju \textbf{kako se sustav treba ponašati} i koja \textbf{ograničenja} treba poštivati (performanse, korisničko iskustvo, pouzdanost, standardi kvalitete, sigurnost...). Primjeri takvih zahtjeva u Vašem projektu mogu biti: podržani jezici korisničkog sučelja, vrijeme odziva, najveći mogući podržani broj korisnika, podržane web/mobilne platforme, razina zaštite (protokoli komunikacije, kriptiranje...)... Svaki takav zahtjev potrebno je navesti u jednoj ili dvije rečenice.}
+				\section{Ostali zahtjevi}
+
+				\begin{itemize}
+					\item sustav korisniku daje povratnu informaciju o točnosti njegova odgovora
+					\item sustav u razumnom vremenu prezentira riječi nakon odabira načina rada
+					\item sustav mora imati potporu hrvatskih dijakritičih znakova
+					\item sustavu iz javne mreže pristupamo protokolom HTTPS
+					\item sustav je dovoljno jednostavan i intuitivan za bilo koju dobnu skupinu korisnika 
+					\item za korištenje sustava korisniku je potrebno poznavanje hrvatskog jezika
+					\item rječnik mora imati barem 10 riječi
+					\item prijevodi rječi moraju biti ispravni
+				\end{itemize}
 			 
 			 
 			 
