@@ -487,6 +487,188 @@
 						\end{packed_item}
 					\end{packed_item}
 				
+					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Pregledavanje i odabir rječnika}}
+					\begin{packed_item}
+
+						\item \textbf{Glavni sudionik: } Učenik ili administrator riječi
+						\item \textbf{Cilj: } Odabrati rječnik iz popisa rječnika nekog jezika
+						\item \textbf{Sudionici: } Baza podataka
+						\item \textbf{Preduvjet: } UC Pregledavanje i odabir jezika, postoji barem jedan rječnik odabranog jezika
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Korisniku su prikazani svi rječnici u odabranom jeziku
+							\item Korisnik odabire jedan od njih
+							\item Sustav preusmjerava:
+							\item[] \begin{packed_item}
+							
+								\item učenika na zaslon za odabir načina učenja (UC Odabir načina učenja)
+								\item administratora na obrazac za uređivanje rječnika (UC Promjena naziva rječnika, UC Promjena sadržaja rječnika)
+								
+							\end{packed_item}
+
+						\end{packed_enum}
+
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+
+							\item[1.a] Ne postoji nijedan rječnik u odabranom jeziku
+							\item[] \begin{packed_enum}
+								
+								\item Korisniku je prikazana informativna poruka
+								\item Preskaču se koraci 2. i 3.
+								
+							\end{packed_enum}
+							\item[2.a] Administrator odabire opciju "Obriši rječnik" (vidljivo samo administratorima) pokraj jednog od rječnika
+							\item[] \begin{packed_enum}
+								
+								\item Administrator nastavlja s brisanjem rječnika (UC Brisanje rječnika)
+								\item Preskače se korak 3.
+								
+							\end{packed_enum}
+							\item[2.b] Administrator odabire opciju "Dodaj novi rječnik"
+							\item[] \begin{packed_enum}
+								
+								\item Administrator nastavlja sa stvaranjem rječnika (UC Stvaranje rječnika)
+								\item Preskače se korak 3.
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+						
+					\end{packed_item}
+
+
+					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Odabir načina učenja}}
+					\begin{packed_item}
+
+						\item \textbf{Glavni sudionik: } Korisnik
+						\item \textbf{Cilj: } Započeti dnevnu sesiju učenja u odabranom načinu
+						\item \textbf{Sudionici: } -
+						\item \textbf{Preduvjet: } Postojanje korisničkog računa, prijava u sustav s korisničkim računom, odabir jezika i riječnika (UC pregledavanje i odabir riječnika)
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Korisnik bira jedan od četiri gumba koji predstavljaju načine rada
+							\item Nakon odabira, korisnika se redirektira na stranicu tog specifičnog
+							načina rada te se otpočinje s učenjem
+
+						\end{packed_enum}
+
+						
+					\end{packed_item}
+
+
+					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Prijevod strane riječi}}
+					\begin{packed_item}
+
+						\item \textbf{Glavni sudionik: } Korisnik
+						\item \textbf{Cilj: } Korisnik je naučio prijevod strane riječi ili izraza na hrvatski
+						\item \textbf{Sudionici: } Baza podataka
+						\item \textbf{Preduvjet: } Učenik je prijavljen, učenik je prethodno odabrao koji će jezik učiti, iz kojeg će rječnika učiti te je odabrao način učenja Prijevod strane riječi (UC Odabir načina učenja)
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Korisniku je prikazana riječ na stranom jeziku s nekoliko ponuđenih prijevoda na hrvatski
+							\item Korisnik odabire jedan od ponuđenih prijevoda
+							\item Sustav korisnika obavještava je li odabrao ispravan prijevod
+							\item Sustav korisniku nudi nastavak učenja ili povratak na odabir načina učenja
+
+						\end{packed_enum}
+
+					\end{packed_item}
+
+
+					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Prijevod na strani jezik}}
+					\begin{packed_item}
+
+						\item \textbf{Glavni sudionik: } Korisnik
+						\item \textbf{Cilj: } Korisnik je naučio prijevod strane riječi ili izraza na hrvatski
+						\item \textbf{Sudionici: } Baza podataka
+						\item \textbf{Preduvjet: } Učenik je prijavljen, učenik je prethodno odabrao koji će jezik učiti, iz kojeg će rječnika učiti te je odabrao način učenja Prijevod na strani jezik (UC Odabir načina učenja)
+						\item  \textbf{Opis osnovnog tijeka:} 
+						
+						\item[] \begin{packed_enum}
+							
+							\item Korisniku je prikazana riječ na hrvatskom s nekoliko ponuđenih prijevoda na strani jezik
+							\item Korisnik odabire jedan od ponuđenih prijevoda
+							\item Sustav korisnika obavještava je li odabrao ispravan prijevod
+							\item Sustav korisniku nudi nastavak učenja ili povratak na odabir načina učenja
+
+						\end{packed_enum}
+
+					\end{packed_item}
+
+
+					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Prijevod zvučnog zapisa}}
+					\begin{packed_item}
+
+						\item \textbf{Glavni sudionik: } Korisnik
+						\item \textbf{Cilj: } Korisnik slušajući razumije strani jezik
+						\item \textbf{Sudionici: } Baza podataka
+						\item \textbf{Preduvjet: } Učenik je prijavljen, učenik je prethodno odabrao koji će jezik učiti, iz kojeg će rječnika učiti te je odabrao način učenja Prijevod zvučnog zapisa (UC odabir načina učenja)
+						\item  \textbf{Opis osnovnog tijeka:} 
+						
+						\item[] \begin{packed_enum}
+
+							\item Korisniku klikom na simbol zvučnika čuje riječ ili izraz na stranom jeziku
+							\item Korisnik odabire jedan od ponuđenih prijevoda 
+							\item Sustav korisnika obavještava je li odabrao ispravan prijevod
+							\item Sustav korisniku nudi nastavak učenja ili povratak na odabir načina učenja
+
+						\end{packed_enum}
+
+					\end{packed_item}
+
+
+					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Snimanje izgovora}}
+					\begin{packed_item}
+
+						\item \textbf{Glavni sudionik: } Korisnik
+						\item \textbf{Cilj: } Korisnik pravilno izgovara riječi na stranom jeziku
+						\item \textbf{Sudionici: } Baza podataka
+						\item \textbf{Preduvjet: } Učenik je prijavljen, učenik je prethodno odabrao koji će jezik učiti, iz kojeg će rječnika učiti te je odabrao način učenja Prijevod uz izgovor (UC odabir načina učenja)
+						\item  \textbf{Opis osnovnog tijeka:} 
+						
+						\item[] \begin{packed_enum}
+
+							\item Korisniku je ponuđena riječ na stranom jeziku
+							\item Korisnik pritiskom na simbol mikrofona započinje snimanje zvuka
+							\item Korisnik izgovara ponuđenu riječ na stranom jeziku
+							\item Korisnik pritiskom na simbol mikrofona završava snimanje zvuka
+							\item Sustav korisnika obavještava o kvaliteti njegova izgovora
+							\item Sustav korisniku nudi nastavak učenja ili povratak na odabir načina učenja
+
+						\end{packed_enum}
+
+					\end{packed_item}
+
+
+					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Brisanje korisničkog računa}}
+					\begin{packed_item}
+
+						\item \textbf{Glavni sudionik: } Učenik
+						\item \textbf{Cilj: } Iz sustavske baze podataka obrisati sve zapise o 
+						učeničkom računu i naučenim riječima
+						\item \textbf{Sudionici: } Baza podataka
+						\item \textbf{Preduvjet: } UC Prijava u sustav
+						\item  \textbf{Opis osnovnog tijeka:} 
+						
+						\item[] \begin{packed_enum}
+
+							\item Korisnik odabire opciju "obriši moj račun"
+							\item Korisniku se prikazuje dijaloški okvir brisanja računa gdje mu se opisuje koji podatci će biti izbrisani i obavještava ga se da sve riječi koje je naučio će također biti obrisane (nastavak UC Potvrda brisanja elementa)
+						
+						\end{packed_enum}
+
+					\end{packed_item}
+
+					\eject
+
 					
 					\subsubsection{Dijagrami obrazaca uporabe}
 					
