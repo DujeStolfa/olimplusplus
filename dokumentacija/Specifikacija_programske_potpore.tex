@@ -218,12 +218,135 @@
 	\end{packed_enum}
 	
 \end{packed_item}
+
+\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Stvaranje rječnika}}
+\begin{packed_item}
+
+	\item \textbf{Glavni sudionik: } Administrator riječi
+	\item \textbf{Cilj: } Dodati novi rječnik u odabrani jezik
+	\item \textbf{Sudionici: } Baza podataka
+	\item \textbf{Preduvjet: } UC Pregledavanje i odabir rječnika
+	\item  \textbf{Opis osnovnog tijeka:}
+	
+	\item[] \begin{packed_enum}
+		
+		\item Administratoru je prikazan obrazac za stvaranje rječnika
+		\item Administrator upisuje naziv rječnika i potvrđuje unos
+		\item Rječnik se dodaje u bazu podataka
+
+	\end{packed_enum}
+
+	\item  \textbf{Opis mogućih odstupanja:}
+	
+	\item[] \begin{packed_item}
+
+		\item[2.a] Administrator je upisao prazan naziv rječnika
+		\item[] \begin{packed_enum}
+			
+			\item Sustav javlja administratoru da naziv rječnika ne smije biti prazan
+			
+		\end{packed_enum}
+		
+	\end{packed_item}
+
+\end{packed_item}
+
+\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Promjena naziva rječnika}}
+\begin{packed_item}
+
+	\item \textbf{Glavni sudionik: } Administrator riječi
+	\item \textbf{Cilj: } Promijeniti naziv odabranog rječnika
+	\item \textbf{Sudionici: } Baza podataka
+	\item \textbf{Preduvjet: } UC Pregledavanje i odabir rječnika
+	\item  \textbf{Opis osnovnog tijeka:}
+	
+	\item[] \begin{packed_enum}
+		
+		\item Administrator u obrascu odabire opciju "Promijeni naziv"
+		\item Administrator upisuje novi naziv i potvrđuje promjene
+		\item Sutav sprema promjene u bazu
+
+	\end{packed_enum}
+
+	\item  \textbf{Opis mogućih odstupanja:}
+	
+	\item[] \begin{packed_item}
+
+		\item[2.a] Administrator pokušava spremiti prazan naziv rječnika
+		\item[] \begin{packed_enum}
+			
+			\item Sustav javlja administratoru da naziv rječnika ne smije biti prazan
+			
+		\end{packed_enum}
+
+		\item[2.b] Administrator odustaje od promjena
+		\item[] \begin{packed_enum}
+			
+			\item Promjene se ne spremaju u bazu
+			
+		\end{packed_enum}
+		
+	\end{packed_item}
+
+\end{packed_item}
+
+\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Promjena sadržaja rječnika}}
+\begin{packed_item}
+
+	\item \textbf{Glavni sudionik: } Administrator riječi
+	\item \textbf{Cilj: } Izmjena popisa riječi u rječniku
+	\item \textbf{Sudionici: } Baza podataka
+	\item \textbf{Preduvjet: } UC Pregledavanje i odabir rječnika
+	\item  \textbf{Opis osnovnog tijeka:}
+	
+	\item[] \begin{packed_enum}
+		
+		\item U obrascu je prikazan popis svih riječi u rječniku
+		\item Administrator odabire opciju "Dodaj riječi"
+		\item Administratoru je prikazan okvir s popisom svih riječi trenutnog jezika koje nisu u rječniku
+		\item Administrator odabire jednu ili više riječi
+		\item Administrator potvrđuje odabir
+		\item Odabrane riječi dodaju se u rječnik
+
+	\end{packed_enum}
+
+	\item  \textbf{Opis mogućih odstupanja:}
+	
+	\item[] \begin{packed_item}
+
+		\item[2.a] Administrator pokraj već dodane riječi odabire opciju "Ukloni riječ"
+		\item[] \begin{packed_enum}
+			
+			\item Prikazuje se okvir za potvrdu brisanja (nastavak UC Potvrda brisanja elementa)
+			\item Koraci 3.-6. se preskaču
+			
+		\end{packed_enum}
+
+		\item[3.a] Sve su riječi odabranog jezika u odabranom rječniku
+		\item[] \begin{packed_enum}
+			
+			\item Administratoru je prikazana informativna poruka umjesto popisa
+			\item Administrator odustaje od mijenjanja rječnika
+			\item Koraci 4.-6. se preskaču
+			
+		\end{packed_enum}
+
+		\item[5.a] Administrator odustaje od promjena
+		\item[] \begin{packed_enum}
+			
+			\item Promjene se ne spremaju u bazu
+			
+		\end{packed_enum}
+		
+	\end{packed_item}
+
+\end{packed_item}
 					
 
 					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Brisanje rječnika}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik:} Admininistrator riječi
+						\item \textbf{Glavni sudionik:} Administrator riječi
 						\item  \textbf{Cilj:} Brisanje rječnika iz sustava
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} UC Pregledavanje i odabir rječnika
