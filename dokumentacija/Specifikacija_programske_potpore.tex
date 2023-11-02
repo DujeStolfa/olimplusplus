@@ -8,8 +8,7 @@
 	
 	\item Vlasnik (naručitelj)
 	\item Učenici				
-	\item Korijenski administrator
-	\item Administrator riječi
+	\item Administratori
 	\item Razvojni tim
 	
 \end{packed_enum}
@@ -18,28 +17,20 @@
 			
 			
 \begin{packed_enum}
-	\item  \underbar{Administrator riječi (inicijator) može:}
+	\item  \underbar{Administrator može:}
 	
 	\begin{packed_enum}
 		
 		\item pregledati i odabrati jezik te unutar tog jezika
 		\begin{packed_enum}
 			
-			\item  stvoriti, urediti, brisati i pregledati riječi (riječ, opis, fraze, prijevod)
-			\item  stvoriti, urediti, brisati i pregledati rječnike (naziv, broj riječi)
+			\item stvoriti, urediti, brisati i pregledati riječi (riječ, opis, fraze, prijevod)
+			\item stvoriti, urediti, brisati i pregledati rječnike (naziv, broj riječi)
 			\item dodati ili ukloniti riječ/i iz jednog ili više rječnika
+			\item stvoriti administratore 
+			\item brisati administratore
 	
 		\end{packed_enum}
-		
-	\end{packed_enum}
-
-	\item  \underbar{Korijenski administrator (inicijator) može:}
-	
-	\begin{packed_enum}
-		
-		\item stvoriti administratore riječi
-		\item brisati administratore riječi
-		\item sve što može i administrator riječi
 		
 	\end{packed_enum}
 
@@ -124,7 +115,7 @@
 \noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Pregledavanje i odabir jezika}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Učenik ili administrator riječi
+	\item \textbf{Glavni sudionik: } Učenik ili administrator
 	\item \textbf{Cilj: } Odabrati željeni jezik iz popisa dostupnih jezika
 	\item \textbf{Sudionici: } Baza podataka
 	\item \textbf{Preduvjet: } UC Prijava u sustav
@@ -190,21 +181,21 @@
 \noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Stvaranje riječi}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Admin riječi (nadalje Radmin)
+	\item \textbf{Glavni sudionik: } Administrator (nadalje admin)
 	\item \textbf{Cilj: } Mogućnost pregledavanja svih riječi za zadani jezik
 	\item \textbf{Sudionici: } Baza podataka
-	\item \textbf{Preduvjet: } Prijavljivanje u Radmin račun, odabran jezik, Radmin se nalazi na stranici za pregled riječi (UC stvaranje riječi)	
+	\item \textbf{Preduvjet: } Prijavljivanje u administratorski račun, odabran jezik, admin se nalazi na stranici za pregled riječi (UC stvaranje riječi)	
 	\item  \textbf{Opis osnovnog tijeka:}
 	
 	\item[] \begin{packed_enum}
 		
-		\item Radmin odabire opciju dodavanja riječi u sustav
+		\item Admin odabire opciju dodavanja riječi u sustav
 		\item Dobiva ekran na kojem se nalaze prostori za unos teksta
-		\item Radmin unosi riječ, pri čemu pomaže API
-		\item Radmin unosi prijevod riječi, pri čemu pomaže API
-		\item Radmin unosi značenje riječi koju dobiva iz API-ja
-		\item Radmin unosi pomoćnu frazu koju dobiva iz API-ja
-		\item Radmin unosi zvučnu datoteku izgovora riječi na odabranom jeziku
+		\item Admin unosi riječ, pri čemu pomaže API
+		\item Admin unosi prijevod riječi, pri čemu pomaže API
+		\item Admin unosi značenje riječi koju dobiva iz API-ja
+		\item Admin unosi pomoćnu frazu koju dobiva iz API-ja
+		\item Admin unosi zvučnu datoteku izgovora riječi na odabranom jeziku
 
 	\end{packed_enum}
 	
@@ -214,20 +205,20 @@
 \noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Uređivanje riječi}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Admin riječi (nadalje Radmin)
+	\item \textbf{Glavni sudionik: } Administrator (nadalje admin)
 	\item \textbf{Cilj: } Mogućnost pregledavanja svih riječi za zadani jezik
 	\item \textbf{Sudionici: } Baza podataka
-	\item \textbf{Preduvjet: } Prijavljivanje u Radmin račun, postojanje riječi u sustavu, odabran jezik
+	\item \textbf{Preduvjet: } Prijavljivanje u administratorski račun, postojanje riječi u sustavu, odabran jezik
 	\item  \textbf{Opis osnovnog tijeka:}
 	
 	\item[] \begin{packed_enum}
 		
-		\item Radmin odabire opciju pregleda riječi
+		\item Admin odabire opciju pregleda riječi
 		\item Na ekranu mu se prikazuje lista svih riječi u odabranom jeziku koje se nalaze u sustavu (bazi podataka)
 		\item Pored svake riječi postoji stavka "uredi"
-		\item Radmin bira opciju uređivanja riječi te ide na stranicu za uređivanje
-		\item Ima opciju promijeniti pisanje riječi, pomoćnu frazu ili audio zapis, značenje je fiksno (ako radmin želi promijeniti značenje, mora ili dodati novu riječ, ili obrisati postojeću. Opet, može se dogoditi da se značenje riječi promjeni u nešto što se već nalazi u bazi podataka, što bi softverski bilo teško provjeriti)
-		\item Nakon napravljenih željenih promjena, radmin potvrdi svoj rad i vraća se na pregled riječi
+		\item Admin bira opciju uređivanja riječi te ide na stranicu za uređivanje
+		\item Ima opciju promijeniti pisanje riječi, pomoćnu frazu ili audio zapis, značenje je fiksno (ako admin želi promijeniti značenje, mora ili dodati novu riječ, ili obrisati postojeću. Opet, može se dogoditi da se značenje riječi promjeni u nešto što se već nalazi u bazi podataka, što bi softverski bilo teško provjeriti)
+		\item Nakon napravljenih željenih promjena, admin potvrdi svoj rad i vraća se na pregled riječi
 
 	\end{packed_enum}
 	
@@ -237,15 +228,15 @@
 \noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Pregledavanje riječi}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Admin riječi (nadalje Radmin)
+	\item \textbf{Glavni sudionik: } Administrator (nadalje admin)
 	\item \textbf{Cilj: } Mogućnost pregledavanja svih riječi za zadani jezik
 	\item \textbf{Sudionici: } Baza podataka
-	\item \textbf{Preduvjet: } Prijavljivanje u Radmin račun, postojanje riječi u sustavu, odabran jezik
+	\item \textbf{Preduvjet: } Prijavljivanje u administratorski račun, postojanje riječi u sustavu, odabran jezik
 	\item  \textbf{Opis osnovnog tijeka:}
 	
 	\item[] \begin{packed_enum}
 		
-		\item Radmin odabire opciju pregleda riječi
+		\item Admin odabire opciju pregleda riječi
 		\item Na ekranu mu se prikazuje lista svih riječi u odabranom jeziku koje se nalaze u sustavu (bazi podataka)
 
 	\end{packed_enum}
@@ -255,7 +246,7 @@
 \noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Stvaranje rječnika}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Administrator riječi
+	\item \textbf{Glavni sudionik: } Administrator (nadalje admin)
 	\item \textbf{Cilj: } Dodati novi rječnik u odabrani jezik
 	\item \textbf{Sudionici: } Baza podataka
 	\item \textbf{Preduvjet: } UC Pregledavanje i odabir rječnika
@@ -263,8 +254,8 @@
 	
 	\item[] \begin{packed_enum}
 		
-		\item Administratoru je prikazan obrazac za stvaranje rječnika
-		\item Administrator upisuje naziv rječnika i potvrđuje unos
+		\item Admin je prikazan obrazac za stvaranje rječnika
+		\item Admin upisuje naziv rječnika i potvrđuje unos
 		\item Rječnik se dodaje u bazu podataka
 
 	\end{packed_enum}
@@ -273,7 +264,7 @@
 	
 	\item[] \begin{packed_item}
 
-		\item[2.a] Administrator je upisao prazan naziv rječnika
+		\item[2.a] Admin je upisao prazan naziv rječnika
 		\item[] \begin{packed_enum}
 			
 			\item Sustav javlja administratoru da naziv rječnika ne smije biti prazan
@@ -287,7 +278,7 @@
 \noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Promjena naziva rječnika}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Administrator riječi
+	\item \textbf{Glavni sudionik: } Administrator (nadlje admin)
 	\item \textbf{Cilj: } Promijeniti naziv odabranog rječnika
 	\item \textbf{Sudionici: } Baza podataka
 	\item \textbf{Preduvjet: } UC Pregledavanje i odabir rječnika
@@ -295,8 +286,8 @@
 	
 	\item[] \begin{packed_enum}
 		
-		\item Administrator u obrascu odabire opciju "Promijeni naziv"
-		\item Administrator upisuje novi naziv i potvrđuje promjene
+		\item Admin u obrascu odabire opciju "Promijeni naziv"
+		\item Admin upisuje novi naziv i potvrđuje promjene
 		\item Sustav sprema promjene u bazu
 
 	\end{packed_enum}
@@ -305,7 +296,7 @@
 	
 	\item[] \begin{packed_item}
 
-		\item[2.a] Administrator pokušava spremiti prazan naziv rječnika
+		\item[2.a] Admin pokušava spremiti prazan naziv rječnika
 		\item[] \begin{packed_enum}
 			
 			\item Sustav javlja administratoru da naziv rječnika ne smije biti prazan
@@ -326,7 +317,7 @@
 \noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Promjena sadržaja rječnika}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Administrator riječi
+	\item \textbf{Glavni sudionik: } Administrator (nadalje admin)
 	\item \textbf{Cilj: } Izmjena popisa riječi u rječniku
 	\item \textbf{Sudionici: } Baza podataka
 	\item \textbf{Preduvjet: } UC Pregledavanje i odabir rječnika
@@ -335,10 +326,10 @@
 	\item[] \begin{packed_enum}
 		
 		\item U obrascu je prikazan popis svih riječi u rječniku
-		\item Administrator odabire opciju "Dodaj riječi"
-		\item Administratoru je prikazan okvir s popisom svih riječi trenutnog jezika koje nisu u rječniku
-		\item Administrator odabire jednu ili više riječi
-		\item Administrator potvrđuje odabir
+		\item Admin odabire opciju "Dodaj riječi"
+		\item Adminu je prikazan okvir s popisom svih riječi trenutnog jezika koje nisu u rječniku
+		\item Admin odabire jednu ili više riječi
+		\item Admin potvrđuje odabir
 		\item Odabrane riječi dodaju se u rječnik
 
 	\end{packed_enum}
@@ -347,7 +338,7 @@
 	
 	\item[] \begin{packed_item}
 
-		\item[2.a] Administrator pokraj već dodane riječi odabire opciju "Ukloni riječ"
+		\item[2.a] Admin pokraj već dodane riječi odabire opciju "Ukloni riječ"
 		\item[] \begin{packed_enum}
 			
 			\item Prikazuje se okvir za potvrdu brisanja (nastavak UC Potvrda brisanja elementa)
@@ -358,13 +349,13 @@
 		\item[3.a] Sve su riječi odabranog jezika u odabranom rječniku
 		\item[] \begin{packed_enum}
 			
-			\item Administratoru je prikazana informativna poruka umjesto popisa
-			\item Administrator odustaje od mijenjanja rječnika
+			\item Adminu je prikazana informativna poruka umjesto popisa
+			\item Admin odustaje od mijenjanja rječnika
 			\item Koraci 4.-6. se preskaču
 			
 		\end{packed_enum}
 
-		\item[5.a] Administrator odustaje od promjena
+		\item[5.a] Admin odustaje od promjena
 		\item[] \begin{packed_enum}
 			
 			\item Promjene se ne spremaju u bazu
@@ -379,7 +370,7 @@
 					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Brisanje rječnika}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik:} Administrator riječi
+						\item \textbf{Glavni sudionik:} Administrator (nadalje admin)
 						\item  \textbf{Cilj:} Brisanje rječnika iz sustava
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} UC Pregledavanje i odabir rječnika
@@ -387,7 +378,7 @@
 						
 						\item[] \begin{packed_enum}
 	
-							\item Administrator potvrđuje brisanje rječnika $($UC Potvrda brisanja elementa$)$
+							\item Admin potvrđuje brisanje rječnika $($UC Potvrda brisanja elementa$)$
 							\item Sustav iz baze briše odabrani rječnik
 						\end{packed_enum}
 					
@@ -396,17 +387,17 @@
 					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Stvaranje administratora riječi}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik:} korijenski administrator
-						\item  \textbf{Cilj:} Stvaranje admina riječi
+						\item \textbf{Glavni sudionik:} Administrator (admin)
+						\item  \textbf{Cilj:} Stvaranje administratora
 						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Prijava korijenskog administratora u sustav $($UC Prijava u sustav$)$
+						\item  \textbf{Preduvjet:} Prijava administratora u sustav $($UC Prijava u sustav$)$
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item Korijenski administrator $($nadalje kAdmin$)$ odabire opciju ”stvori admina riječi”
-							\item kAdmin dolazi na stranicu u kojoj mora upisati email adresu i lozinku novog admina riječi $($nadalje rAdmin$)$
-							\item kAdmin potvrđuje stvaranje novog rAdmina
+							\item Administrator odabire opciju ”stvori administratora "
+							\item Admin dolazi na stranicu u kojoj mora upisati email adresu i lozinku novog admina riječi $($nadalje Admin$)$
+							\item Admin potvrđuje stvaranje novog Admina
 							\item Podaci se spremaju u bazu podataka
 						\end{packed_enum}
 						
@@ -414,16 +405,16 @@
 						
 						\item[] \begin{packed_item}
 	
-							\item[2.a] kAdmin može upisati email adresu već postojećeg rAdmina
+							\item[2.a] Admin može upisati email adresu već postojećeg admina
 							\item[] \begin{packed_enum}
 								
-								\item Sustav ga upozorava da već postoji rAdmin s upisanom email adresom							
+								\item Sustav ga upozorava da već postoji admin s upisanom email adresom							
 							\end{packed_enum}
 
-							\item[2.b] kAdmin unosi email korisnika
+							\item[2.b] Admin unosi email korisnika
 							\item[] \begin{packed_enum}
 								
-								\item Sustav ga upozorava da korisnička adresa ne može bit iskorištena pri stvaranju rAdmina								
+								\item Sustav ga upozorava da korisnička adresa ne može bit iskorištena pri stvaranju admina								
 							\end{packed_enum}
 							
 						\end{packed_item}
@@ -432,17 +423,17 @@
 					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Brisanje administratora riječi}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }korijenski administrator
-						\item  \textbf{Cilj:} Uklanjanje Admina riječi iz sustava
+						\item \textbf{Glavni sudionik: } Administrator (nadalje admin)
+						\item  \textbf{Cilj:} Uklanjanje admina riječi iz sustava
 						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} Prijavljen kAdmin u sustav $($UC Prijava u sustav$)$, postojanje
-						rAdmina kojeg se želi izbrisati
+						\item  \textbf{Preduvjet:} Prijavljen admin u sustav $($UC Prijava u sustav$)$, postojanje
+						admina kojeg se želi izbrisati
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item kAdmin odabire opciju ”pregled rAdmina” i prikazuje mu se popis rAdmina
-							\item kAdmin za specifičnog rAdmina odabire opcije ”obriši rAdmina”
+							\item Admin odabire opciju ”pregled administratora” i prikazuje mu se popis admina
+							\item Admin za specifičnog admina odabire opcije ”obriši admina”
 							\item Odabirom te opcije mu se nudi prozorčić za potvrdu $($nastavak UC Potvrda brisanja elementa$)$
 						\end{packed_enum}
 						
