@@ -1,13 +1,28 @@
 \chapter{Arhitektura i dizajn sustava}
 		
-		\textbf{\textit{dio 1. revizije}}\\
+Naš sustav se može podijeliti na pet glavnih podsustava koji međusobno komuniciraju:
+\begin{description}
+	\item[Web preglednik:] Lokalno instalirani program koji omogućuje prikaz sadržaja sa interneta. 
+	Pomoću tog programa korisnik može poslati zahtjeve za 
+	resursima ili poslati neke podatke web poslužitelju. Web preglednik, 
+	nakon što dobije zatražene informacije od web poslužitelja, korisniku prikazuje ssadržaj.
 
-		\textit{ Potrebno je opisati stil arhitekture te identificirati: podsustave, preslikavanje na radnu platformu, spremišta podataka, mrežne protokole, globalni upravljački tok i sklopovsko-programske zahtjeve. Po točkama razraditi i popratiti odgovarajućim skicama:}
-	\begin{itemize}
-		\item 	\textit{izbor arhitekture temeljem principa oblikovanja pokazanih na predavanjima (objasniti zašto ste baš odabrali takvu arhitekturu)}
-		\item 	\textit{organizaciju sustava s najviše razine apstrakcije (npr. klijent-poslužitelj, baza podataka, datotečni sustav, grafičko sučelje)}
-		\item 	\textit{organizaciju aplikacije (npr. slojevi frontend i backend, MVC arhitektura) }		
-	\end{itemize}
+	\item[Web poslužitelj:] Centralni podsustav aplikacije koji obrađuje višestruke zahtjeve korisnika. To 
+	može biti zasebno računalo ili samo softver. Komunikaciju s klijentima ostvaruje preko
+	HTTP protokola. Web poslužitelj može, na korisnički zahtjev, poslati datoteke ili primiti
+	neke podatke koje može spremiti u bazu podataka.
+
+	\item[Baza podataka:] Koristi se za pohranjivanje podataka web apliakcije. Sastavljena je od tablica koje
+	predstavljaju entitete s određenim atributima koji su međusobno povezani definiranim
+	odnosima. Web aplikacija često komunicira s bazom, povlačeći i davajući podatke bazi.
+
+	\item[Servis za obradu izgovora:] Vanjski servis pomoću kojeg ocjenjujemo izgovor stranih riječi korisnika. Web
+	aplikacija komunicira sa servisom preko aplikacijskog sučelja (API).
+
+	\item[Servis za riječi:] Vanjski servis pomoću kojeg administratori lakše stvaraju rječi i, samim time,
+	rječnike. Servispreko aplikacijskog sučelja (API) pruža značenja riječi i 
+	popratne pomoćne fraze koje olakšavaju proces učenja.
+\end{description}
 
 	
 		
