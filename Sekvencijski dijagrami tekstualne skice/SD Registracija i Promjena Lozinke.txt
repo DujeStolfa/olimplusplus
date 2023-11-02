@@ -1,0 +1,15 @@
+3.1.2 Registracija i promjena lozinke
+
+Registracija
+- Dvije životne linije, jedna je korisnik, jedna je server
+- Prvo ide registracija koja se događa jednom, kada je korisnik neregistriran
+- Da bi se korisnik registrirao, šalje zahtjev, server mu vraća odgovor i traži 
+	email s kojim će ga registrirati
+- Korisnik daje email adresu i dobiva privremenu šifru, ide na login skreen
+
+Promjena Lozinke
+- korisnik šalje zahtjev za promjenom lozinke
+- dobiva odgovor od servera koji čeka novu lozinku
+- server provjerava jel nova lozinka različita od stare
+- ako jeste, mijenja lozinku i upisuje je u bazu
+- ako nije, javlja korisniku da nova lozinka ne može biti jednaka staroj

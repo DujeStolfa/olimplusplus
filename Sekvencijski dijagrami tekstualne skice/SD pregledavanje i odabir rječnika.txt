@@ -1,0 +1,7 @@
+3.1.2 Sekvencijski dijagrami - pregledavanje i odabir rječnika (samo za admine)
+
+2 životne linije, jedna za admine, jedna za server
+
+- Prvo se administrator mora ulogirati sa admin adresom, šalje request, server odgovaraa i ulogira ga
+- Admin šalje zahtjev za neki jezik, server odgovara sa stranicom za odabir rječnika
+- Admin odabire rječnik, tj šalje zahtjev, server odgovara
