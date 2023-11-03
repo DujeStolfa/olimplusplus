@@ -172,17 +172,9 @@
 	
 	\item[] \begin{packed_enum}
 
-		\item Sustav korisniku prikazuje popis dostupnih jezika
-		\item Korisnik odabire jezik
-		\item Sustav preusmjerava:
-		
-		\item[] \begin{packed_item}
-
-			\item Korisniku je prikazan dijaloški okvir s porukom upozorenja o posljedicama brisanja te gumbovima "Obriši" i "Odustani"
-			\item Korisnik potvrđuje brisanje klikom na gumb "Obriši"
-			\item Odabrani element briše se iz baze podataka
-		
-		\end{packed_item}
+		\item Korisniku je prikazan dijaloški okvir s porukom upozorenja o posljedicama brisanja te gumbovima "Obriši" i "Odustani"
+		\item Korisnik potvrđuje brisanje klikom na gumb "Obriši"
+		\item Odabrani element briše se iz baze podataka
 
 	\end{packed_enum}
 
@@ -193,7 +185,7 @@
 		\item[2.a] Korisnik odustaje od brisanja
 		\item[] \begin{packed_enum}
 			
-			\item Odabrani element ne briše se iz baze podataka
+			\item Odabrani se element ne briše iz baze podataka
 			
 		\end{packed_enum}
 		
@@ -204,7 +196,7 @@
 \noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Stvaranje riječi}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Administrator (nadalje admin)
+	\item \textbf{Glavni sudionik: } Administrator
 	\item \textbf{Cilj: } Mogućnost pregledavanja svih riječi za zadani jezik
 	\item \textbf{Sudionici: } Baza podataka
 	\item \textbf{Preduvjet: } Prijavljivanje u administratorski račun, odabran jezik, admin se nalazi na stranici za pregled riječi (UC stvaranje riječi)	
@@ -228,7 +220,7 @@
 \noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Uređivanje riječi}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Administrator (nadalje admin)
+	\item \textbf{Glavni sudionik: } Administrator
 	\item \textbf{Cilj: } Mogućnost pregledavanja svih riječi za zadani jezik
 	\item \textbf{Sudionici: } Baza podataka
 	\item \textbf{Preduvjet: } Prijavljivanje u administratorski račun, postojanje riječi u sustavu, odabran jezik
@@ -251,7 +243,7 @@
 \noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Pregledavanje riječi}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Administrator (nadalje admin)
+	\item \textbf{Glavni sudionik: } Administrator
 	\item \textbf{Cilj: } Mogućnost pregledavanja svih riječi za zadani jezik
 	\item \textbf{Sudionici: } Baza podataka
 	\item \textbf{Preduvjet: } Prijavljivanje u administratorski račun, postojanje riječi u sustavu, odabran jezik
@@ -269,7 +261,7 @@
 \noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Stvaranje rječnika}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Administrator (nadalje admin)
+	\item \textbf{Glavni sudionik: } Administrator
 	\item \textbf{Cilj: } Dodati novi rječnik u odabrani jezik
 	\item \textbf{Sudionici: } Baza podataka
 	\item \textbf{Preduvjet: } UC Pregledavanje i odabir rječnika
@@ -340,7 +332,7 @@
 \noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Promjena sadržaja rječnika}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Administrator (nadalje admin)
+	\item \textbf{Glavni sudionik: } Administrator
 	\item \textbf{Cilj: } Izmjena popisa riječi u rječniku
 	\item \textbf{Sudionici: } Baza podataka
 	\item \textbf{Preduvjet: } UC Pregledavanje i odabir rječnika
@@ -393,7 +385,7 @@
 \noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Brisanje rječnika}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik:} Administrator (nadalje admin)
+	\item \textbf{Glavni sudionik:} Administrator
 	\item  \textbf{Cilj:} Brisanje rječnika iz sustava
 	\item  \textbf{Sudionici:} Baza podataka
 	\item  \textbf{Preduvjet:} UC Pregledavanje i odabir rječnika
@@ -419,7 +411,7 @@
 	\item[] \begin{packed_enum}
 
 		\item Administrator odabire opciju ”stvori administratora "
-		\item Admin dolazi na stranicu u kojoj mora upisati email adresu i lozinku novog admina riječi $($nadalje Admin$)$
+		\item Admin dolazi na stranicu u kojoj mora upisati email adresu i lozinku novog admina riječi
 		\item Admin potvrđuje stvaranje novog Admina
 		\item Podaci se spremaju u bazu podataka
 	\end{packed_enum}
@@ -446,7 +438,7 @@
 \noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Brisanje administratora }}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Administrator (nadalje admin)
+	\item \textbf{Glavni sudionik: } Administrator
 	\item  \textbf{Cilj:} Uklanjanje admina iz sustava
 	\item  \textbf{Sudionici:} Baza podataka
 	\item  \textbf{Preduvjet:} Prijavljen admin u sustav $($UC Prijava u sustav$)$, postojanje
@@ -475,6 +467,7 @@
 
 		\item Učenik odabire opciju ”Registracija”
 		\item Učenik unosi ime, prezime, e-mail i potvrđuje prijavu
+		\item Učenik na svoj e-mail dobiva privremenu generiranu lozinku
 		\item Učenik se prijavljuje u sustav s generiranom lozinkom (UC Prijava u sustav)							
 		\item Sustav učeniku prikazuje obrazac za promjenu inicijalne lozinke (nastavak UC Promjena lozinke)
 	\end{packed_enum}
