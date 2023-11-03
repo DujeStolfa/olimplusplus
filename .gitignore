@@ -13,3 +13,6 @@ dokumentacija/*.pdf
 
 # VS Code
 .vscode/*
+
+# Other files
+*.DS_store
