@@ -741,10 +741,17 @@
 
 \subsection{Sekvencijski dijagrami}
 
-\textbf{\textit{dio 1. revizije}}\\
+\textbf{{Obrazac uporabe Registracija učenika}}\
 
-\textit{Nacrtati sekvencijske dijagrame koji modeliraju najvažnije dijelove sustava (max. 4 dijagrama). Ukoliko postoji nedoumica oko odabira, razjasniti s asistentom. Uz svaki dijagram napisati detaljni opis dijagrama.}
-\eject
+
+Učenik započinje registraciju odabirom opcije "Registracija" na korisničkom sučelju. Nakon što je opcija odabrana, poslužitelj šalje zahtjev učeniku da unese svoje osobne podatke, uključujući ime, prezime i e-mail adresu. Učenik unosi tražene podatke i nakon toga potvrđuje svoju registraciju putem korisničkog sučelja. Poslužitelj započinje proces provjere unesenih podataka. Prvo, provjerava dostupnost e-mail adrese u bazi podataka kako bi utvrdio postoje li odstupanja. U slučaju da e-mail adresa već postoji u bazi podataka ili nije ispravna, poslužitelj obavještava učenika o nemogućnosti registracije i sprječava daljnji napredak u procesu. Ukoliko su svi uneseni podaci ispravni, poslužitelj generira privremenu lozinku za učenika, koja se šalje na njegovu e-mail adresu. Nakon što učenik primi privremenu lozinku putem e-maila, on se prijavljuje u sustav koristeći svoje korisničko ime (e-mail adresu) i privremenu lozinku. Odmah nakon uspješne prijave, učeniku se prikazuje obrazac za promjenu inicijalne lozinke. Učenik unosi novu lozinku koju želi koristiti za pristup sustavu i poslužitelj ažurira podatke u bazi.
+
+\begin{figure}[H]
+	\includegraphics[scale=0.20]{SekvencijskiDijg_slike/RegistracijaUcenika.jpeg} 
+	\centering
+	\caption{Sekvencijski dijagram, UC Registracija učenika}
+	
+\end{figure}
 
 \section{Ostali zahtjevi}
 
