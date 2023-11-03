@@ -741,38 +741,40 @@
 
 \subsection{Sekvencijski dijagrami}
 
-\textbf{{Obrazac uporabe Registracija učenika}}\
+\textbf{{Obrazac uporabe Registracija učenika}}
 
 
 Učenik započinje registraciju odabirom opcije "Registracija" na korisničkom sučelju. Nakon što je opcija odabrana, poslužitelj šalje zahtjev učeniku da unese svoje osobne podatke, uključujući ime, prezime i e-mail adresu. Učenik unosi tražene podatke i nakon toga potvrđuje svoju registraciju putem korisničkog sučelja. Poslužitelj započinje proces provjere unesenih podataka. Prvo, provjerava dostupnost e-mail adrese u bazi podataka kako bi utvrdio postoje li odstupanja. U slučaju da e-mail adresa već postoji u bazi podataka ili nije ispravna, poslužitelj obavještava učenika o nemogućnosti registracije i sprječava daljnji napredak u procesu. Ukoliko su svi uneseni podaci ispravni, poslužitelj generira privremenu lozinku za učenika, koja se šalje na njegovu e-mail adresu. Nakon što učenik primi privremenu lozinku putem e-maila, on se prijavljuje u sustav koristeći svoje korisničko ime (e-mail adresu) i privremenu lozinku. Odmah nakon uspješne prijave, učeniku se prikazuje obrazac za promjenu inicijalne lozinke. Učenik unosi novu lozinku koju želi koristiti za pristup sustavu i poslužitelj ažurira podatke u bazi.
 
 \begin{figure}[H]
-	\includegraphics[scale=0.20]{SekvencijskiDijg_slike/RegistracijaUcenika.jpeg} 
+	\includegraphics[scale=0.20]{dijagrami/RegistracijaUcenika.jpeg} 
 	\centering
 	\caption{Sekvencijski dijagram, UC Registracija učenika}
 	\label{fig:uc-registracija}
-	
 \end{figure}
 
-\textbf{{Promjena sadržaja rječnika}}\
+
+\textbf{{Obrazac uporabe Pregledavanje i odabir rječnika}}
+
+\begin{figure}[p]
+	\includegraphics[scale=0.5]{dijagrami/UC - Pregledavanje i odabir rjecnika.png} 
+	\centering
+	\caption{Sekvencijski dijagram, UC Pregledavanje i odabir rječnika}
+	\label{fig:uc-odabir-rjecnika}
+\end{figure}
 
 
-Administrator šalje zahtjev web aplikaciji za popis svih riječi u rječniku. Web aplikacija 
-dohvaća popis riječi iz baze podataka te ga prikazuje korisniku. Ako administrator 
-odabere opciju "ukloni" pored određene riječi, tada šalje zahtjev za uklanjanje aplikaciji, 
-a aplikacija šalje zahtjev za brisanje riječi u bazi podataka i potvrđuje brisanje 
-administratoru. U slučaju da administrator odabere opciju "dodaj riječ", aplikacija 
-dohvaća riječi koje se ne nalaze u rječniku iz baze podataka i prikazuje ih 
-administratoru. Ako nema dostupnih riječi, aplikacija šalje informativnu poruku 
-administratoru umjesto popisa. U suprotnom, administrator odabire jednu ili više riječi, 
-potvrđuje odabir, i riječi se pohranjuju u bazu podataka putem aplikacije.
+\textbf{{Obrazac uporabe Promjena sadržaja rječnika}}
 
-\begin{figure}[H] 
+Administrator šalje zahtjev web aplikaciji za popis svih riječi u rječniku. Web aplikacija dohvaća popis riječi iz baze podataka te ga prikazuje korisniku. Ako administrator odabere opciju "ukloni" pored određene riječi, tada šalje zahtjev za uklanjanje aplikaciji, a aplikacija šalje zahtjev za brisanje riječi u bazi podataka i potvrđuje brisanje administratoru. U slučaju da administrator odabere opciju "dodaj riječ", aplikacija dohvaća riječi koje se ne nalaze u rječniku iz baze podataka i prikazuje ih administratoru. Ako nema dostupnih riječi, aplikacija šalje informativnu poruku administratoru umjesto popisa. U suprotnom, administrator odabire jednu ili više riječi, potvrđuje odabir, i riječi se pohranjuju u bazu podataka putem aplikacije.
+
+\begin{figure}[p]
+	\includegraphics[scale=0.55]{dijagrami/UC - Promjena sadrzaja rjecnika.png} 
 	\centering
 	\caption{Sekvencijski dijagram, UC Promjena sadržaja rječnika}
-	\label{fig:uc-promjena sadržaja rječnika}
-	
+	\label{fig:uc-promjena-rjecnika}
 \end{figure}
+
 
 \section{Ostali zahtjevi}
 
