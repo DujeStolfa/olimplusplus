@@ -754,6 +754,26 @@ Učenik započinje registraciju odabirom opcije "Registracija" na korisničkom s
 	
 \end{figure}
 
+\textbf{{Promjena sadržaja rječnika}}\
+
+
+Administrator šalje zahtjev web aplikaciji za popis svih riječi u rječniku. Web aplikacija 
+dohvaća popis riječi iz baze podataka te ga prikazuje korisniku. Ako administrator 
+odabere opciju "ukloni" pored određene riječi, tada šalje zahtjev za uklanjanje aplikaciji, 
+a aplikacija šalje zahtjev za brisanje riječi u bazi podataka i potvrđuje brisanje 
+administratoru. U slučaju da administrator odabere opciju "dodaj riječ", aplikacija 
+dohvaća riječi koje se ne nalaze u rječniku iz baze podataka i prikazuje ih 
+administratoru. Ako nema dostupnih riječi, aplikacija šalje informativnu poruku 
+administratoru umjesto popisa. U suprotnom, administrator odabire jednu ili više riječi, 
+potvrđuje odabir, i riječi se pohranjuju u bazu podataka putem aplikacije.
+
+\begin{figure}[H] 
+	\centering
+	\caption{Sekvencijski dijagram, UC Promjena sadržaja rječnika}
+	\label{fig:uc-promjena sadržaja rječnika}
+	
+\end{figure}
+
 \section{Ostali zahtjevi}
 
 \begin{itemize}
