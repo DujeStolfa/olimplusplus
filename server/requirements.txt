@@ -1,0 +1,9 @@
+Flask
+Flask-SQLAlchemy
+marshmallow
+Flask-Migrate
+psycopg2
+bcrypt
+flask-login
+flask-cors
+python-dotenv
