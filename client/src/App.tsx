@@ -1,9 +1,8 @@
 import React from 'react';
-import Login from './screens/Login';
 import { Provider } from 'react-redux';
-import store from './redux/store';
 import { RouterProvider } from 'react-router-dom';
 import appRouter from './screens/Router';
+import store from './redux/store';
 
 function App() {
   return (

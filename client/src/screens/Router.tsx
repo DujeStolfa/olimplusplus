@@ -5,6 +5,7 @@ const appRouter = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/">
             <Route path="/login" element={<Login />} />
+            <Route path="/redirect" element={<>ulogiran si</>} />
         </Route>
     )
 );
