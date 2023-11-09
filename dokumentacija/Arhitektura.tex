@@ -25,24 +25,45 @@ Naš sustav se može podijeliti na pet glavnih podsustava koji međusobno komuni
 \end{description}
 
 
-\begin{figure}[ht]
+\begin{figure}[h!]
 	\includegraphics[scale=0.1]{dijagrami/Web Preglednik.png} 
 	\centering
 	\caption{Shema arhitekture aplikacije}
 	\label{fig:mvc-arhitektura}
 \end{figure}
 
+\pagebreak
+
+	U izradi aplikaciji koristili smo MVC obrazac dizajna softvera. Elementi tipičnog MVC koncepta su:
+
+	\begin{description}
+		\item[\textbf{Model}:] Struktura odgovorna za obradu i upravljanje podacima. 
+		\item[\textbf{View}:] Sloj odgovoran za prikazivanje podataka korisnicima.
+		\item[\textbf{Controller}:] Sloj koji upravlja logikom aplikacije te surađuje s modelom i pogledom.
+	\end{description}
+
+
+	Backend aplikacije izrađen je u Pythonu korištenjem Flask radnog okvira, dok je za bazu podataka korišten PostgreSQL. Frontend je izrađen u React-u. Također su za funkcionalnost apliakcije korišteni servisi za obradu izgovora i jezičnu provjeru. 
 	
 		
 
 		
 
-				
+		\pagebreak		
 		\section{Baza podataka}
+
+		Naš sustav koristi bazu podataka koja se temelji na relacijskom modelu podataka i koristi tablice (relacije) za organizaciju i pohranu podataka. Entiteti naše baze su: 
+		\begin{itemize}
+			\item Jezik
+			\item Rječnik
+			\item Riječ
+			\item Korisnik
+			\item Fraza
+			\item Posuda
+		\end{itemize}
+
 			
-			\textbf{\textit{dio 1. revizije}}\\
 			
-		\textit{Potrebno je opisati koju vrstu i implementaciju baze podataka ste odabrali, glavne komponente od kojih se sastoji i slično.}
 		
 			\subsection{Opis tablica}
 			
