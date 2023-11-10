@@ -68,7 +68,7 @@ Naš sustav se može podijeliti na pet glavnih podsustava koji međusobno komuni
 			\subsection{Opis tablica}
 			
 
-				\textit{Svaku tablicu je potrebno opisati po zadanom predlošku. Lijevo se nalazi točno ime varijable u bazi podataka, u sredini se nalazi tip podataka, a desno se nalazi opis varijable. Svjetlozelenom bojom označite primarni ključ. Svjetlo plavom označite strani ključ}
+				\textbf{Korisnik} Entitet Korisnik sadrži sve informacije o korisniku. Atributi korisnika su: userId(primarni ključ), ime, prezime, email, lozinka, korisnikStvorenNa, uloga i promijenioLozinku. Korisnik je u \textit{Many-To-One} vezi s tablicom StanjeRiječi.
 				
 				
 				\begin{longtblr}[
@@ -76,27 +76,182 @@ Naš sustav se može podijeliti na pet glavnih podsustava koji međusobno komuni
 					entry=none
 					]{
 						width = \textwidth,
-						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						colspec={|X[15,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \SetCell[c=3]{c}{\textbf{korisnik - ime tablice}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}IDKorisnik & INT	&  	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  	\\ \hline
-					korisnickoIme	& VARCHAR &   	\\ \hline 
-					email & VARCHAR &   \\ \hline 
-					ime & VARCHAR	&  		\\ \hline 
-					\SetCell{LightBlue} primjer	& VARCHAR &   	\\ \hline 
+					\hline \SetCell[c=3]{c}{\textbf{Korisnik}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}userId & INT & Identifikacijski ključ korisnika
+					  	\\ \hline
+					ime	& VARCHAR & Korisnikovo ime  	\\ \hline 
+					prezime & VARCHAR & Korisnikovo prezime \\ \hline
+					email & VARCHAR & Korisnikov\\ \hline 
+					lozinka & VARCHAR & Korisnikova lozinka \\ \hline
+					korisnikStvorenNa & DATETIME & Datum stvaranja računa \\ \hline
+					uloga & VARCHAR & Korisnikova uloga (učenik ili admin) \\ \hline
+					promijenioLozinku & BOOLEAN & Oznaka je li korisnik promijenio lozinku \\ \hline
+					
 				\end{longtblr}
 				
-				
+				\textbf{Rječnik} Entitet Rječnik sadrži sve informacije o rječniku. Njegovi atributi su su: rječnikId(primarni ključ), nazivRječnik, rječnikStvorenNa i jezikId. Rječnik je u \textit{Many-To-One} vezi s tablicom RječnikRiječi te je u \textit{Many-To-One} vezi s entitetom Jezik.
+
+
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[15,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{Rječnik}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}rječnikId & INT & Identifikacijski ključ rječnika
+					  	\\ \hline
+					nazivRječnik	& VARCHAR & Naziv rječnika  	\\ \hline 
+					rječnikStvorenNa & DATE & Datum stvaranja rječnika \\ \hline
+					\SetCell{LightBlue}
+					jezikId & INT & Identifikacijski ključ jezika rječnika\\ \hline 
+					
+				\end{longtblr}
+
+				\textbf{Riječ} Entitet Riječ sadrži sve informacije o riječi u sustavu. Njeni atributi su su: riječId(primarni ključ), hrvNaziv, straniNaziv, audioPath i jezikId. Entitet Riječ je u \textit{Many-To-One} vezi s entitetom Jezik, u \textit{Many-To-One} vezi s tablicom RiječRječnik, u \textit{One-To-Many} vezi s entitetom Fraza te u \textit{Many-To-One} vezi s tablicom StanjeRiječi.
+
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[15,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{Riječ}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}riječId & INT & Identifikacijski ključ riječi
+					  	\\ \hline
+					hrvNaziv & VARCHAR & Naziv riječi na hrvatskom \\ \hline
+					straniNaziv	& VARCHAR & Naziv rječi na stranom jeziku 	\\ \hline 
+					audioPath	& VARCHAR & Put do audio datoteke s izgovorom riječi  	\\ \hline 
+					\SetCell{LightBlue}
+					jezikId & INT & Identifikacijski ključ jezika rječnika\\ \hline 
+					
+				\end{longtblr}
+
+				\textbf{Jezik} Entitet Jezik sadrži sve informacije o nekom jeziku u sustavu. Njegovi atributi su su: jezikId(primarni ključ), nazivJezik i isoOznaka. Entitet Jezik je u \textit{One-To-Many} vezi s entitetom Rječnik te u \textit{One-To-Many} vezi s entitetom Riječ.
+
+
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[15,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{Jezik}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}jezikId & INT & Identifikacijski ključ jezika
+					  	\\ \hline
+					nazivJezik & VARCHAR & Naziv jezika \\ \hline
+					isoOznaka	& CHAR(2) & ISO oznaka jezika 	\\ \hline 
+					 
+					
+				\end{longtblr}
+
+				\textbf{Fraza} Entitet Fraza sadrži sve informacije o nekoj frazi u sustavu. Njeni atributi su su: frazaId(primarni ključ), fraza i riječId. Entitet Fraza je u \textit{Many-To-One} vezi s entitetom Riječ.
+
+
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[15,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{Fraza}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}frazaId & INT & Identifikacijski ključ fraze
+					  	\\ \hline
+					fraza & VARCHAR & Puna fraza \\ \hline
+					\SetCell{LightBlue}riječId & INT & Identifikacijski ključ riječi iz fraze
+					  	\\ \hline
+					 
+					
+				\end{longtblr}
+
+				\textbf{RiječRječnik} Tablica RiječRječnik povezuje sve riječi s pripadnim rječnikom. Njeni atributi su su: riječId(primarni ključ) te rječnikId(primarni ključ). Tablica RiječRječnik je u \textit{One-To-Many} vezi s entitetom Riječ i u \textit{One-To-Many} vezi s entitetom Rječnik.
+
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[15,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{RiječRječnik}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}riječId & INT & Identifikacijski ključ riječi
+					  	\\ \hline
+					\SetCell{LightGreen}rječnikId & INT &Identifikacijski ključ rječnika
+					\\ \hline
+					 
+					
+				\end{longtblr}
+
+
+				\textbf{StanjeRiječi} Tablica StanjeRiječi povezuje korisnika s riječima i njima pripadnim "posudama". Njeni atributi su su: userId(primarniKljuč), riječId(primarniKljuč) i posudaId. Tablica StanjeRiječi je u \textit{One-To-Many} vezi s entitetom Riječ, u \textit{One-To-Many} vezi s entitetom Korisnik te u \textit{One-To-One} vezi s entitetom Posuda.
+
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[15,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{StanjeRiječi}}	 \\ \hline[3pt]
+					\\ \hline[3pt]
+					\SetCell{LightGreen}userId & INT & Identifikacijski ključ korisnika
+					  	\\ \hline
+					\SetCell{LightGreen}riječId & INT & Identifikacijski ključ riječi
+					  	\\ \hline
+					\SetCell{LightBlue}posudaId & INT & Identifikacijski ključ posude
+					  	\\ \hline 
+					
+				\end{longtblr}
+
+				\textbf{Posuda} Entitet Posuda predstavlja sve posude i njihove intervale. Njeni atributi su su: posudaId(primarni ključ) i interval. Tablica Posuda je u \textit{One-To-One} vezi s tablicom StanjeRiječi.
+
+
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[15,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \SetCell[c=3]{c}{\textbf{Posuda}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}posudaId & INT & Identifikacijski ključ posude
+					  	\\ \hline
+					interval & INT & Interval čekanja do ponovnog pojavljivanja riječi \\ \hline
+					
+					 
+					
+				\end{longtblr}
+
+
 			
 			\subsection{Dijagram baze podataka}
-				\textit{ U ovom potpoglavlju potrebno je umetnuti dijagram baze podataka. Primarni i strani ključevi moraju biti označeni, a tablice povezane. Bazu podataka je potrebno normalizirati. Podsjetite se kolegija "Baze podataka".}
 
 				\begin{figure}[H]
 					\includegraphics[scale=0.5]{dijagrami/ER_model_BP_3.png}
 					\centering
 					\caption{ER model baze podataka}
 					\label{fig:dijagram_ER-BP}
+				\end{figure}
+
+				\begin{figure}[H]
+					\includegraphics[scale=0.5]{dijagrami/relacijski_model.png}
+					\centering
+					\caption{Relacijska shema baze podataka}
+					\label{fig:dijagram_REL-SH_BP}
 				\end{figure}
 			
 			\eject
