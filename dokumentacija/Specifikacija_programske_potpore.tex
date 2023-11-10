@@ -18,7 +18,7 @@
 			
 			
 \begin{packed_enum}
-	\item  \underbar{Administrator može:}
+	\item  \underbar{Administrator (inicijator) može:}
 	
 	\begin{packed_enum}
 		
@@ -79,7 +79,7 @@
 
 	\end{packed_enum}
 
-	\item	\underbar{Servis za ocjenu izgovora može:}
+	\item	\underbar{Servis za ocjenu izgovora (sudionik) može:}
 	
 	\begin{packed_enum}
 		
@@ -87,7 +87,7 @@
 
 	\end{packed_enum}
 
-	\item	\underbar{Davatelj e-pošte može:}
+	\item	\underbar{Davatelj e-pošte (sudionik) može:}
 	
 	\begin{packed_enum}
 		
@@ -234,6 +234,26 @@
 		\item Admin bira opciju uređivanja riječi te ide na stranicu za uređivanje
 		\item Ima opciju promijeniti pisanje riječi, pomoćnu frazu ili audio zapis, značenje je fiksno (ako admin želi promijeniti značenje, mora ili dodati novu riječ, ili obrisati postojeću. Opet, može se dogoditi da se značenje riječi promjeni u nešto što se već nalazi u bazi podataka, što bi softverski bilo teško provjeriti)
 		\item Nakon napravljenih željenih promjena, admin potvrdi svoj rad i vraća se na pregled riječi
+
+	\end{packed_enum}
+	
+\end{packed_item}
+
+\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Brisanje riječi}}
+\begin{packed_item}
+
+	\item \textbf{Glavni sudionik: } Administrator
+	\item \textbf{Cilj: } Brisanje riječi iz odabranog jezika
+	\item \textbf{Sudionici: } Baza podataka
+	\item \textbf{Preduvjet: } Prijavljivanje u administratorski račun, postojanje riječi u sustavu, odabran jezik
+	\item  \textbf{Opis osnovnog tijeka:}
+	
+	\item[] \begin{packed_enum}
+		
+		\item Admin odabire opciju pregleda riječi
+		\item Na ekranu mu se prikazuje lista svih riječi u odabranom jeziku koje se nalaze u sustavu (bazi podataka)
+		\item Pored svake riječi se nalazi gumb za brisanje riječi
+		\item Klikom na gumb administratoru se prikazuje okvir za potvrdu brisanja riječi (UC - Potvrda brisanja elementa)
 
 	\end{packed_enum}
 	
