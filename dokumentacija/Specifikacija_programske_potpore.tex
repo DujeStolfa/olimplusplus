@@ -552,7 +552,7 @@
 	\item \textbf{Glavni sudionik: } Učenik ili administrator riječi
 	\item \textbf{Cilj: } Odabrati rječnik iz popisa rječnika nekog jezika
 	\item \textbf{Sudionici: } Baza podataka
-	\item \textbf{Preduvjet: } UC Pregledavanje i odabir jezika, postoji barem jedan rječnik odabranog jezika
+	\item \textbf{Preduvjet: } UC Pregledavanje i odabir jezika
 	\item  \textbf{Opis osnovnog tijeka:}
 	
 	\item[] \begin{packed_enum}
@@ -754,20 +754,23 @@
 
 \subsection{Sekvencijski dijagrami}
 
-\textbf{{Obrazac uporabe Registracija učenika}}
+\subsubsection{{Obrazac uporabe Registracija učenika}}
 
 
 Učenik započinje registraciju odabirom opcije "Registracija" na korisničkom sučelju. Nakon što je opcija odabrana, poslužitelj šalje zahtjev učeniku da unese svoje osobne podatke, uključujući ime, prezime i e-mail adresu. Učenik unosi tražene podatke i nakon toga potvrđuje svoju registraciju putem korisničkog sučelja. Poslužitelj započinje proces provjere unesenih podataka. Prvo, provjerava dostupnost e-mail adrese u bazi podataka kako bi utvrdio postoje li odstupanja. U slučaju da e-mail adresa već postoji u bazi podataka ili nije ispravna, poslužitelj obavještava učenika o nemogućnosti registracije i sprječava daljnji napredak u procesu. Ukoliko su svi uneseni podaci ispravni, poslužitelj generira privremenu lozinku za učenika, koja se šalje na njegovu e-mail adresu. Nakon što učenik primi privremenu lozinku putem e-maila, on se prijavljuje u sustav koristeći svoje korisničko ime (e-mail adresu) i privremenu lozinku. Odmah nakon uspješne prijave, učeniku se prikazuje obrazac za promjenu inicijalne lozinke. Učenik unosi novu lozinku koju želi koristiti za pristup sustavu i poslužitelj ažurira podatke u bazi.
 
-\begin{figure}[H]
-	\includegraphics[scale=0.20]{dijagrami/RegistracijaUcenika.jpeg} 
+\begin{figure}[htp]
+	\includegraphics[scale=0.45]{dijagrami/UC - Registracija ucenika.png} 
 	\centering
 	\caption{Sekvencijski dijagram, UC Registracija učenika}
 	\label{fig:uc-registracija}
 \end{figure}
 
+\subsubsection{{Obrazac uporabe Pregledavanje i odabir rječnika}}
 
-\textbf{{Obrazac uporabe Pregledavanje i odabir rječnika}}
+Nakon što je odabrao jezik, korisniku se treba prikazati popis svih dostupnih rječnika za taj jezik, a web aplikacija te podatke dohvaća slanjem upita na bazu podataka. Prije prikazivanja podataka korisniku, web aplikacija provjerava koliko je rječnika vratila baza. U slučaju da baza nije vratila nijedan rječnik, korisniku se prikazuje poruka da za odabrani jezik trenutno ne postoji nijedan rječnik. Inače se korisniku prikazuje popis rječnika.
+
+I administratori i učenici mogu pristupati odabiru rječnika. Odabirom rječnika web aplikacija preusmjerava učenika na zaslon za odabir načina učenja, dok administratora preusmjerava na zaslon sa detaljnijim sadržajem rječnika (popisom riječi u rječniku, nazivom rječnika). U slučaju da administrator ne odabere rječnik, već zatraži brisanje rječnika, web aplikacija mu prikazuje okvir za potvrdu brisanja rječnika preko kojeg može izbrisati rječnik iz sustava. Administrator također može odabrati opciju za stvaranje novog rječnika, nakon čega ga web aplikacija preusmjerava na zaslon s obrascem za stvaranje rječnika.
 
 \begin{figure}[p]
 	\includegraphics[scale=0.5]{dijagrami/UC - Pregledavanje i odabir rjecnika.png} 
@@ -777,7 +780,7 @@ Učenik započinje registraciju odabirom opcije "Registracija" na korisničkom s
 \end{figure}
 
 
-\textbf{{Obrazac uporabe Promjena sadržaja rječnika}}
+\subsubsection{{Obrazac uporabe Promjena sadržaja rječnika}}
 
 Administrator šalje zahtjev web aplikaciji za popis svih riječi u rječniku. Web aplikacija dohvaća popis riječi iz baze podataka te ga prikazuje korisniku. Ako administrator odabere opciju "ukloni" pored određene riječi, tada šalje zahtjev za uklanjanje aplikaciji, a aplikacija šalje zahtjev za brisanje riječi u bazi podataka i potvrđuje brisanje administratoru. U slučaju da administrator odabere opciju "dodaj riječ", aplikacija dohvaća riječi koje se ne nalaze u rječniku iz baze podataka i prikazuje ih administratoru. Ako nema dostupnih riječi, aplikacija šalje informativnu poruku administratoru umjesto popisa. U suprotnom, administrator odabire jednu ili više riječi, potvrđuje odabir, i riječi se pohranjuju u bazu podataka putem aplikacije.
 
