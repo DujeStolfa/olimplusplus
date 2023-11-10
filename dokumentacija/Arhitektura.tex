@@ -1,55 +1,30 @@
 \chapter{Arhitektura i dizajn sustava}
-		
-Naš sustav se može podijeliti na pet glavnih podsustava koji međusobno komuniciraju:
+
+\noindent
+Naš se sustav može podijeliti na tri podsustava:
 \begin{description}
 	\item[Web preglednik:] Lokalno instalirani program koji omogućuje prikaz sadržaja sa interneta. 
 	Pomoću tog programa korisnik može poslati zahtjeve za 
 	resursima ili poslati neke podatke web poslužitelju. Web preglednik, 
 	nakon što dobije zatražene informacije od web poslužitelja, korisniku prikazuje ssadržaj.
 
-	\item[Web poslužitelj:] Centralni podsustav aplikacije koji obrađuje višestruke zahtjeve korisnika. To 
-	može biti zasebno računalo ili samo softver. Komunikaciju s klijentima ostvaruje preko
+	\item[Web poslužitelj:] Centralni podsustav aplikacije koji obrađuje višestruke zahtjeve korisnika. Komunikaciju s klijentima ostvaruje preko
 	HTTP protokola. Web poslužitelj može, na korisnički zahtjev, poslati datoteke ili primiti
 	neke podatke koje može spremiti u bazu podataka.
 
 	\item[Baza podataka:] Koristi se za pohranjivanje podataka web apliakcije. Sastavljena je od tablica koje
 	predstavljaju entitete s određenim atributima koji su međusobno povezani definiranim
 	odnosima. Web aplikacija često komunicira s bazom, povlačeći i davajući podatke bazi.
-
-	\item[Servis za obradu izgovora:] Vanjski servis pomoću kojeg ocjenjujemo izgovor stranih riječi korisnika. Web
-	aplikacija komunicira sa servisom preko aplikacijskog sučelja (API).
-
-	\item[Servis za riječi:] Vanjski servis pomoću kojeg administratori lakše stvaraju rječi i, samim time,
-	rječnike. Servispreko aplikacijskog sučelja (API) pruža značenja riječi i 
-	popratne pomoćne fraze koje olakšavaju proces učenja.
 \end{description}
 
+Klijent-server arhitektura uobičajen je način organizacije web aplikacija. U takvoj je arhitekturi sustav organiziran kao skup jednog ili više servisa koji mrežom komuniciraju s odgovarajućim klijentima. Glavna prednost ove arhitekture je to što distribuiranjem odgovornosti na više manjih servisa gradimo modularni sustav koji olakšava razvoj i otporniji je na greške; promjenom ili dodavanjem određenog servisa ne utječemo na ostatak sustava. Iako u našoj implementaciji ne iskorištavamo sve prednosti ove arhitekture jer nam je potreban samo jedan server (servis za pristup bazi podataka, backend) i jedan programski klijent (sustav za prikazivanje podataka u web pregledniku, frontend), odvajanje odgovornosti znatno nam je olakšalo razvoj aplikacije.
 
-\begin{figure}[h!]
-	\includegraphics[scale=0.1]{dijagrami/Web Preglednik.png} 
-	\centering
-	\caption{Shema arhitekture aplikacije}
-	\label{fig:mvc-arhitektura}
-\end{figure}
+Servis za pristup bazi podataka razvijen je u Pythonu, koristeći programski mikrookvir Flask. U svojoj osnovi Flask je znatno manji od sličnih okvira (Django, FastAPI) te pruža lakši i brži razvoj uz sve potrebne funkcionalnosti za razvoj HTTP programskog sučelja. Od dostupnih ORM-ova, Flask se najbolje može integrirati sa SqlAlchemyjem pa je on korišten za spajanje na PostgreSQL bazu podataka, stvaranje i izvršavanje upita te upravljanje preslikavanjem relacija iz baze u Python objekte. Za serijalizaciju objekata iz baze (posebice prilikom oblikovanja HTTP odgovora) korišten je Marshmallow kao vrlo malena i učinkovita biblioteka.
 
-\pagebreak
+Web sučelje aplikacije razvijeno je u okruženju React, a pokreće ga Node.js. Razvijen u Meti, React je Javascript biblioteka za izgradnju korisničkih sučelja kompozicijom komponenti pomoću kojih se optimizira proces prikazivanja i osvježavanja sučelja. S velikom zajednicom koja ga koristi i razvija te iznimno kvalitetnom podrškom React je bio najpouzdaniji odabir za tehnologiju za razvoj frontenda. U razvoju smo koristili Typescript kao pouzdaniju inačicu Javascripta u smislu izbjegavanja logičkih pogreški prilikom razvoja strogom i statičkom provjerom tipova podataka.
 
-	U izradi aplikaciji koristili smo MVC obrazac dizajna softvera. Elementi tipičnog MVC koncepta su:
+Kako bismo centralizirali pohranjivanje stanja aplikacije i odvojili logiku upravljanja tim stanjem od logike izgradnje komponenti, uz React koristili smo i Redux. Uvođenjem Reduxa, MVC arhitektura nametnula se kao intuitivan način za organizaciju logike prikazivanja podataka korisniku. Naime, iako se određene funkcionalnosti Reacta mogu koristiti za pohranjivanje stanja aplikacije i upravljanje njime, korištenjem samo Reacta otežali smo razvoj i skaliranje aplikacije. Tako se u našoj implementaciji stanje aplikacije pohranjuje u Reduxovom storeu (model), prikazuje se korisniku preko sučelja napravljenog u Reactu (view), a osvježavanje ili mijenjanje prikazanih podataka odgovornost je Reduxovih reducera (controller).
 
-	\begin{description}
-		\item[\textbf{Model}:] Struktura odgovorna za obradu i upravljanje podacima. 
-		\item[\textbf{View}:] Sloj odgovoran za prikazivanje podataka korisnicima.
-		\item[\textbf{Controller}:] Sloj koji upravlja logikom aplikacije te surađuje s modelom i pogledom.
-	\end{description}
-
-
-	Backend aplikacije izrađen je u Pythonu korištenjem Flask radnog okvira, dok je za bazu podataka korišten PostgreSQL. Frontend je izrađen u React-u. Također su za funkcionalnost apliakcije korišteni servisi za obradu izgovora i jezičnu provjeru. 
-	
-		
-
-		
-
-		\pagebreak		
 		\section{Baza podataka}
 
 		Naš sustav koristi bazu podataka koja se temelji na relacijskom modelu podataka i koristi tablice (relacije) za organizaciju i pohranu podataka. Entiteti naše baze su: 
@@ -61,9 +36,6 @@ Naš sustav se može podijeliti na pet glavnih podsustava koji međusobno komuni
 			\item Fraza
 			\item Posuda
 		\end{itemize}
-
-			
-			
 		
 			\subsection{Opis tablica}
 			
