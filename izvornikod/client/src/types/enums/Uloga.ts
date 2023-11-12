@@ -1,6 +1,6 @@
-enum Uloga {
+enum ULOGA {
   Ucenik = "ucenik",
   Admin = "admin"
 }
 
-export default Uloga;
+export default ULOGA;

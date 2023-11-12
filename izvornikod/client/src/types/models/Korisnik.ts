@@ -1,11 +1,11 @@
-import Uloga from "../enums/Role";
+import ULOGA from "../enums/Uloga";
 
 interface Korisnik {
   korisnikid: number;
   ime: string;
   prezime: string;
   email: string;
-  uloga: Uloga;
+  uloga: ULOGA;
   promijeniolozinku: boolean;
 }
 
