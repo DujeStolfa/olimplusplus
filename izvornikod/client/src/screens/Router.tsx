@@ -4,6 +4,7 @@ import Login from "./Login";
 import AdminInfo from "./AdminInfo";
 import StudentInfo from "./StudentInfo";
 import Error from "./Error";
+import Register from "./Register";
 
 import route from "../constants/route";
 import ProtectedRoute from "../components/common/ProtectedRoute";
@@ -20,6 +21,7 @@ const appRouter = createBrowserRouter(
                 <Route path={`${route.studentInfo}`} element={<StudentInfo />} />
             </Route>
             <Route path={`${route.login}`} element={<Login />} />
+            <Route path={`${route.register}`} element={<Register />} />
             <Route path="*" element={<Error errorText="Stranica ne postoji." />} />
         </>
     )

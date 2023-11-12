@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { redirect, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { Box, Button, Container, TextField, Typography, Alert } from "@mui/material";
@@ -26,12 +26,12 @@ const Login = () => {
   useEffect(() => {
     if (korisnik !== undefined) {
       if (location.state) {
-        navigate(location.state.from);
+        navigate(`/${location.state.from}`);
       } else {
         if (korisnik.uloga === ULOGA.Admin) {
-          navigate(route.adminInfo);
+          navigate(`/${route.adminInfo}`);
         } else if (korisnik.uloga === ULOGA.Ucenik) {
-          navigate(route.studentInfo);
+          navigate(`/${route.studentInfo}`);
         }
       }
     }
@@ -74,8 +74,11 @@ const Login = () => {
                 fullWidth
               />
             </Box>
-            <Button type="submit" size="large" variant="contained" fullWidth>
+            <Button sx={{ marginBottom: "5px" }} type="submit" size="large" variant="contained" fullWidth>
               Prijavi se
+            </Button>
+            <Button variant="text" fullWidth onClick={() => navigate(`/${route.register}`)}>
+              Registriraj se
             </Button>
           </Box>
         </FormWrapper>
