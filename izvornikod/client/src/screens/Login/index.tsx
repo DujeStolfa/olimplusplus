@@ -26,7 +26,7 @@ const Login = () => {
   useEffect(() => {
     if (korisnik !== undefined) {
       if (location.state) {
-        navigate(`/${location.state.from}`);
+        navigate(`${location.state.from.pathname}`);
       } else {
         if (korisnik.uloga === ULOGA.Admin) {
           navigate(`/${route.adminInfo}`);
