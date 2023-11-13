@@ -6,6 +6,7 @@ import { Box, Button, Container, TextField, Typography, Alert } from "@mui/mater
 import route from "../../constants/route";
 import RegisterInput from "../../types/inputs/korisnik/RegisterInput";
 import { useAppDispatch } from "../../redux/store";
+import { registerStudent } from "../../redux/slices/authSlice";
 import { FormTitleWrapper, FormWrapper, ScreenWrapper } from "./index.styled";
 
 
@@ -15,7 +16,7 @@ const Register = () => {
   const { register, handleSubmit } = useForm<RegisterInput>();
 
   const onSubmit = (data: RegisterInput) => {
-    console.log(data);
+    dispatch(registerStudent(data))
     navigate(`/${route.login}`);
   };
 

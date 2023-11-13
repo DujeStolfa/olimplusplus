@@ -1,8 +1,10 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import authService from "../../services/api/routes/auth";
+import usersService from "../../services/api/routes/users";
 import Korisnik from "../../types/models/Korisnik";
 import LoginInput from "../../types/inputs/korisnik/LoginInput";
+import RegisterInput from "../../types/inputs/korisnik/RegisterInput";
 
 interface AuthState {
   korisnik: Korisnik | undefined;
@@ -34,6 +36,14 @@ const fetchCurrentUser = createAsyncThunk(
   'auth/checkCurrentUserStatus',
   async () => {
     const response = await authService.getUser();
+    return response.data;
+  }
+);
+
+const registerStudent = createAsyncThunk(
+  'auth/registerStudentStatus',
+  async (data: RegisterInput) => {
+    const response = await usersService.registerStudent(data);
     return response.data;
   }
 );
@@ -73,6 +83,7 @@ export {
   attemptLogin,
   attemptLogout,
   fetchCurrentUser,
+  registerStudent,
 };
 
 export default authSlice.reducer;
