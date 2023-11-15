@@ -231,11 +231,74 @@ Kako bismo centralizirali pohranjivanje stanja aplikacije i odvojili logiku upra
 			
 		\section{Dijagram razreda}
 		
-			\textit{Potrebno je priložiti dijagram razreda s pripadajućim opisom. Zbog preglednosti je moguće dijagram razlomiti na više njih, ali moraju biti grupirani prema sličnim razinama apstrakcije i srodnim funkcionalnostima.}\\
-			
-			\textbf{\textit{dio 1. revizije}}\\
-			
-			\textit{Prilikom prve predaje projekta, potrebno je priložiti potpuno razrađen dijagram razreda vezan uz \textbf{generičku funkcionalnost} sustava. Ostale funkcionalnosti trebaju biti idejno razrađene u dijagramu sa sljedećim komponentama: nazivi razreda, nazivi metoda i vrste pristupa metodama (npr. javni, zaštićeni), nazivi atributa razreda, veze i odnosi između razreda.}\\
+\subsection{Razredi na backendu}
+
+Ova se skupina razreda (Slika \ref{class-back}) izravno preslikava u bazu podataka tako da se za svaki razred stvara jedna tablica u bazi. Dakle, svi su razredi normalizirani i predstavljaju relacije u trećoj normalnoj formi pa ne mogu biti međusobno povezane.
+
+\subsubsection{db.Model}
+
+Razred koja dolazi iz SqlAlchemyja koji koristimo u pozadini za komunikaciju s 
+bazom podataka. Ovaj razred nasljeđuju svi razredi na backendu zato što on
+pruža funkcionalnosti potrebne za slanje i povlačenje podataka u bazu.
+(Ovdje dodati atribute i metode)
+
+
+\subsubsection{Razred Jezik}
+
+Služi za modeliranje jezika te je opisan atributima identifikatora,
+naziva jezika i iso oznake. Atributi su privatni, te ima javni konstruktor.
+
+\subsubsection{Razred Riječ}
+
+Služi za modeliranje riječi, najmanje jedinice učenja u aplikaciji.
+Razred sadrži atribute: identifikator riječi, hrvatski naziv, strani naziv (koji ovisi o jeziku),
+putanju na audio datoteku izgovora riječi na stranom jeziku i identifikator jezika
+na kojem su audio zapis i strani naziv. Atributi su privatni i ima javni konstruktor.
+
+\subsubsection{Razred Rječnik}
+
+Služi za modeliranje rječnika, tj kolekcije riječi. Razred je opisan atributima identifikatora, naziva rječnika, datuma njegovog stvorenja i jezika riječi koje sadrži. Atributi su privatni te ima javni konstruktor.
+
+\subsubsection{Razred StanjeRiječi}
+
+Služi kao razred koji prati stanje riječi, tj je li riječ naučena. Opisan je s atributima: identifikatora korisnika, identifikatora riječi i identifikatora posude. Atributi su privatni i ima javni konstruktor.
+
+\subsubsection{Razred Posuda}
+
+Služi za modeliranje posude, opisan sa identifikatorom posude i intervalom.
+Atributi su privatni i ima javni konstruktor.
+
+\subsubsection{Razred Fraza}
+
+Služi za modeliranje fraze koja prati riječ na stranom jeziku za lakše
+učenje konteksta. Razred je opisan s atributima identifikatora fraze, samom frazom i identifikatorom riječi uz koju je fraza povezana. Atributi su privatni i ima javni konstruktor.
+
+
+\subsubsection{Razred Korisnik}
+
+Služi za modeliranje korisnika. Baza podataka razlikuje administratore i učenike po njihovoj ulozi,
+ne smatra ih različitim entitetima. Razred opisuju atributi identifikatora korisnika, imena, prezimena,
+adrese elektroničke pošte, lozinke za račun, trenutka stvaranja korisnika, uloge i zastavice
+koja provjerava promjenu lozinke. Atributi su privatni i irazred ima javni konstruktor.
+
+\begin{figure}[H]
+	\includegraphics[scale=0.35]{dijagrami/class_back.jpeg}
+	\centering
+	\caption{Dijagram razreda za backend dio aplikacije}
+	\label{fig:class-back}
+\end{figure}
+
+\subsection{Razredi na frontendu}
+
+\begin{figure}[H]
+	\includegraphics[scale=0.35]{dijagrami/class_front.jpeg}
+	\centering
+	\caption{Dijagram razreda za frontend dio aplikacije}
+	\label{fig:class-front}
+\end{figure}
+
+
+
 			
 			\textbf{\textit{dio 2. revizije}}\\			
 			
