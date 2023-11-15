@@ -1,6 +1,6 @@
 import config from '../../config.json';
 
-const base = config.developmentBase;
+const base = config.productionBase;
 export const baseUrl = base;
 
 const authBase = `${base}/auth`;
