@@ -161,38 +161,6 @@
 	
 \end{packed_item}
 
-\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Potvrda brisanja elementa}}
-\begin{packed_item}
-
-	\item \textbf{Glavni sudionik: } Učenik ili administrator
-	\item \textbf{Cilj: } Upozoriti korisnika i potvrditi brisanje bilo kojeg elementa sustava
-	\item \textbf{Sudionici: } Baza podataka
-	\item \textbf{Preduvjet: } Pohranjen je identifikator elementa kojeg želimo izbrisati	
-	\item  \textbf{Opis osnovnog tijeka:}
-	
-	\item[] \begin{packed_enum}
-
-		\item Korisniku je prikazan dijaloški okvir s porukom upozorenja o posljedicama brisanja te gumbovima "Obriši" i "Odustani"
-		\item Korisnik potvrđuje brisanje klikom na gumb "Obriši"
-		\item Odabrani element briše se iz baze podataka
-
-	\end{packed_enum}
-
-	\item  \textbf{Opis mogućih odstupanja:}
-	
-	\item[] \begin{packed_item}
-
-		\item[2.a] Korisnik odustaje od brisanja
-		\item[] \begin{packed_enum}
-			
-			\item Odabrani se element ne briše iz baze podataka
-			
-		\end{packed_enum}
-		
-	\end{packed_item}
-	
-\end{packed_item}
-
 \noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Stvaranje riječi}}
 \begin{packed_item}
 
@@ -232,7 +200,7 @@
 		\item Na ekranu mu se prikazuje lista svih riječi u odabranom jeziku koje se nalaze u sustavu (bazi podataka)
 		\item Pored svake riječi postoji stavka "uredi"
 		\item Admin bira opciju uređivanja riječi te ide na stranicu za uređivanje
-		\item Ima opciju promijeniti pisanje riječi, pomoćnu frazu ili audio zapis, značenje je fiksno (ako admin želi promijeniti značenje, mora ili dodati novu riječ, ili obrisati postojeću. Opet, može se dogoditi da se značenje riječi promjeni u nešto što se već nalazi u bazi podataka, što bi softverski bilo teško provjeriti)
+		\item Ima opciju promijeniti pisanje riječi, pomoćnu frazu ili audio zapis
 		\item Nakon napravljenih željenih promjena, admin potvrdi svoj rad i vraća se na pregled riječi
 
 	\end{packed_enum}
@@ -253,9 +221,23 @@
 		\item Admin odabire opciju pregleda riječi
 		\item Na ekranu mu se prikazuje lista svih riječi u odabranom jeziku koje se nalaze u sustavu (bazi podataka)
 		\item Pored svake riječi se nalazi gumb za brisanje riječi
-		\item Klikom na gumb administratoru se prikazuje okvir za potvrdu brisanja riječi (UC - Potvrda brisanja elementa)
+		\item Klikom na gumb adminu se prikazuje dijaloški okvir s porukom upozorenja o posljedicama brisanja te gumbovima ”Obriši” i ”Odustani”
+		\item Admin potvrđuje brisanje klikom na gumb "Obriši"
 
 	\end{packed_enum}
+
+	\item  \textbf{Opis mogućih odstupanja:}
+	
+	\item[] \begin{packed_item}
+
+		\item[5.a] Admin odustaje od brisanja
+		\item[] \begin{packed_enum}
+			
+			\item Riječ ostaje neizbrisana
+			
+		\end{packed_enum}
+		
+	\end{packed_item}
 	
 \end{packed_item}
 
@@ -413,9 +395,25 @@
 	
 	\item[] \begin{packed_enum}
 
-		\item Admin potvrđuje brisanje rječnika $($UC Potvrda brisanja elementa$)$
+		\item Admin odabire opciju brisanje rječnika
+		\item Adminu se prikazuje dijaloški okvir s porukom upozorenja o posljedicama brisanja te gumbovima ”Obriši” i ”Odustani”
+		\item Admin potvrđuje brisanje klikom na gumb "Obriši"
 		\item Sustav iz baze briše odabrani rječnik
+		
 	\end{packed_enum}
+
+	\item  \textbf{Opis mogućih odstupanja:}
+	
+	\item[] \begin{packed_item}
+
+		\item[3.a] Admin odustaje od brisanja
+		\item[] \begin{packed_enum}
+			
+			\item Rječnik ostaje neizbrisan
+			
+		\end{packed_enum}
+		
+	\end{packed_item}
 
 \end{packed_item}
 
@@ -469,12 +467,26 @@
 
 		\item Admin odabire opciju ”pregled administratora” i prikazuje mu se popis admina
 		\item Admin za specifičnog admina odabire opcije ”obriši admina”
-		\item Odabirom te opcije mu se nudi prozorčić za potvrdu $($nastavak UC Potvrda brisanja elementa$)$
+		\item Adminu se prikazuje dijaloški okvir s porukom upozorenja o posljedicama brisanja te gumbovima ”Obriši” i ”Odustani”
+		\item Admin potvrđuje brisanje klikom na gumb "Obriši"
 	\end{packed_enum}
+
+	\item  \textbf{Opis mogućih odstupanja:}
+	
+	\item[] \begin{packed_item}
+
+		\item[4.a] Admin odustaje od brisanja
+		\item[] \begin{packed_enum}
+			
+			\item Admin ostaje neizbrisan
+			
+		\end{packed_enum}
+		
+	\end{packed_item}
 	
 \end{packed_item}
 
-\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Registracija učenika}}
+\noindent \underbar{\textbf{UC$<$broj obrasca$>$ - Registracija}}
 \begin{packed_item}
 
 	\item \textbf{Glavni sudionik:} Neregistrirani korisnik
@@ -720,9 +732,24 @@
 	\item[] \begin{packed_enum}
 
 		\item Korisnik odabire opciju "obriši moj račun"
-		\item Korisniku se prikazuje dijaloški okvir brisanja računa gdje mu se opisuje koji podatci će biti izbrisani i obavještava ga se da sve riječi koje je naučio će također biti obrisane (nastavak UC Potvrda brisanja elementa)
+		\item Korisniku se prikazuje dijaloški okvir brisanja računa gdje mu se opisuje koji podatci će biti izbrisani i obavještava ga se da sve riječi koje je naučio će također biti obrisane te mu se prikazuju
+		gumbovi "Obriši” i ”Odustani” 
+		\item Korisnik potvrđuje brisanje klikom na gumb "Obriši"
 	
 	\end{packed_enum}
+
+	\item  \textbf{Opis mogućih odstupanja:}
+	
+	\item[] \begin{packed_item}
+
+		\item[3.a] Korisnik odustaje od brisanja
+		\item[] \begin{packed_enum}
+			
+			\item Korisnički račun ostaje neizbrisan
+			
+		\end{packed_enum}
+		
+	\end{packed_item}
 
 \end{packed_item}
 
@@ -732,21 +759,21 @@
 \subsubsection{Dijagrami obrazaca uporabe}
 
 \begin{figure}[H]
-	\includegraphics[scale=0.30]{dijagrami/dijagram1.jpg} 
+	\includegraphics[scale=0.6]{dijagrami/upravljanje_rijecima.png} 
 	\centering
 	\caption{Funkcionalnosti učenja i upravljanja riječima}
 	\label{fig:dijagram1}
 \end{figure}
 
 \begin{figure}[H]
-	\includegraphics[scale=0.35]{dijagrami/dijagram2.jpg} 
+	\includegraphics[scale=0.6]{dijagrami/upravljanje_Racunima.png} 
 	\centering
 	\caption{Funkcionalnosti upravljanja računima}
 	\label{fig:dijagram2}
 \end{figure}
 
 \begin{figure}[H]
-	\includegraphics[scale=0.34]{dijagrami/dijagram3.jpg} 
+	\includegraphics[scale=0.6]{dijagrami/upravljanje_rjecnicima.png} 
 	\centering
 	\caption{Funkcionalnosti upravljanja jezicima i rječnicima}
 	\label{fig:dijagram3}
