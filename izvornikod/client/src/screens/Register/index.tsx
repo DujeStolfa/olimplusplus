@@ -1,14 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { Box, Button, Container, TextField, Typography, Alert } from "@mui/material";
+import { Box, Button, Container, TextField, Typography, Alert, Stack } from "@mui/material";
 
 import route from "../../constants/route";
 import RegisterInput from "../../types/inputs/korisnik/RegisterInput";
 import { useAppDispatch } from "../../redux/store";
 import { registerStudent } from "../../redux/slices/authSlice";
 import { FormTitleWrapper, FormWrapper, ScreenWrapper } from "./index.styled";
-
 
 const Register = () => {
   const dispatch = useAppDispatch();
@@ -29,9 +28,14 @@ const Register = () => {
           </FormTitleWrapper>
           <Box component="form" width="100%" onSubmit={handleSubmit(onSubmit)}>
             <Box marginBottom="20px">
-              <Alert severity="info">
-                Privremena lozinka bit će poslana na Vašu email adresu nakon registracije.
-              </Alert>
+              <Stack spacing={1}>
+                <Alert severity="info">
+                  <s>Privremena lozinka bit će poslana na Vašu email adresu nakon registracije.</s>
+                </Alert>
+                <Alert severity="error">
+                  Za potrebu generičkih funkcionalnosti ne šalju se mailovi s privremenom lozinkom, već su sve lozinke za nove učenike <b>progi123</b>
+                </Alert>
+              </Stack>
             </Box>
             <Box marginBottom="20px">
               <TextField

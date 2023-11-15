@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Box } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 
 export const InfoWrapper = styled(Box)`
   display: flex;  
@@ -8,4 +8,9 @@ export const InfoWrapper = styled(Box)`
   height: 100vh;
   justify-content: center;
   align-items: center;
+`;
+
+export const ActionsWrapper = styled(Stack)`
+  margin-top: 2em;
+  margin-bottom: 1em;
 `;
