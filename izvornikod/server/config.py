@@ -18,3 +18,14 @@ class DevConfig(Config):
     SESSION_COOKIE_SECURE = True
     SESSION_PROTECTION = "strong"
     PERMANENT_SESSION_LIFETIME = 3600
+
+
+class ProdConfig(Config):
+    SQLALCHEMY_DATABASE_URI = environ.get("SQLALCHEMY_DATABASE_URI_PROD")
+
+    # CORS & session
+    CORS_HEADERS = "Content-Type"
+    SESSION_COOKIE_SAMESITE = "None"
+    SESSION_COOKIE_SECURE = True
+    SESSION_PROTECTION = "strong"
+    PERMANENT_SESSION_LIFETIME = 3600
