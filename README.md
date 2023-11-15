@@ -1,11 +1,29 @@
-# olimplusplus
+olimplusplus
+=====
 
 Projektni zadatak na kolegiju Programsko inženjerstvo: **FlipMemo** (G17.4)
+
+**Prva revizija** aplikacije dostupna je na adresi https://olimplusplus-frontend.onrender.com/login
+
+Dostupne putanje su:
+- [/login](https://olimplusplus-frontend.onrender.com/login) i [/register](https://olimplusplus-frontend.onrender.com/register)
+- [/student-info](https://olimplusplus-frontend.onrender.com/student-info) - pristup dozvoljen samo učenicima
+- [/admin-info](https://olimplusplus-frontend.onrender.com/student-info) - pristup dozvoljen samo administratorima
+
+U aplikaciju se možete prijaviti sa sljedećim podacima:
+| Ime   | Prezime | Email              | Lozinka  | Uloga         |
+|-------|---------|--------------------|----------|---------------|
+| Nikša | Brala   | niksa.brala@fer.hr | niksa123 | Administrator |
+| Nina  | Bulić   | nina.bulic@fer.hr  | nina123  | Administrator |
+| Karlo | Kuzle   | karlo.kuzle@fer.hr | karlo123 | Učenik        |
+| Ivo   | Žilić   | ivo.zilic@fer.hr   | ivo123   | Učenik        |
+
+
 
 Dev - postavljanje razvojnog okruženja
 ======
 
-Za pokretanje aplikacije trebate imati instaliran:
+Za lokalno pokretanje aplikacije trebate imati instaliran:
 - Python 3
 - PostgreSQL
 - Node.js
@@ -15,13 +33,13 @@ Za pokretanje aplikacije trebate imati instaliran:
 Pri prvom pokretanju backenda potrebno je:
 1. Stvoriti novo [virtualno okruženje](https://docs.python.org/3/tutorial/venv.html) i aktivirati ga 
 ```console
-izvornikod/server> python -m venv venv
-izvornikod/server> venv\Scripts\activate
+izvornikod/server> python -m venv .venv
+izvornikod/server> .venv\Scripts\activate
 ```
 
 2. Instalirati vanjske pakete iz `requirements.txt` datoteke
 ```console
-(venv) izvornikod/server> pip install -r requirements.txt
+(.venv) izvornikod/server> pip install -r requirements.txt
 ```
 
 3. Stvoriti bazu podataka (PgAdmina ili ručno) i nazvati ju `flipmemo`
@@ -41,12 +59,12 @@ SQLALCHEMY_DATABASE_URI_DEV="postgresql://postgres:<VAŠA LOZINKA>@localhost:543
 	- Za upravljanje migracijama u bazi podataka koristimo [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/) koji nam služi kao sučelje za pristup Alembicu i olakšava nam njegovo korištenje
 	- Datoteke s migracijama uključuju se u _version control_ pa ih ne trebate ručno stvarati, trebate samo nadograditi bazu na najnoviju migraciju:
 ```console
-(venv) izvornikod/server> flask --app server.py db upgrade
+(.venv) izvornikod/server> flask --app server.py db upgrade
 ```
 
 Ako ste sve dobro postavili, trebali biste moći pokrenuti backend:
 ```console
-(venv) izvornikod/server> flask --app server.py run --debug
+(.venv) izvornikod/server> flask --app server.py run --debug
  * Serving Flask app '.\server.py'
  * Debug mode: on
 WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
