@@ -233,7 +233,7 @@ Kako bismo centralizirali pohranjivanje stanja aplikacije i odvojili logiku upra
 		
 \subsection{Razredi na backendu}
 
-Ova se skupina razreda (Slika \ref{fig:class-back}) izravno preslikava u bazu podataka tako da se za svaki razred stvara jedna tablica u bazi. Dakle, svi su razredi svedeni na treću normalnu formu i ni u kojem slučaju ne mogu biti povezani pridruživanjem (agregacijom ili asocijacijom).
+Ova se skupina razreda (Slika \ref{fig:class-back}) izravno preslikava u bazu podataka tako da se za svaki razred stvara jedna tablica u bazi. Dakle, svi su razredi svedeni na treću normalnu formu i ni u kojem slučaju ne mogu biti povezani pridruživanjem (agregacijom ili asocijacijom). U generičkim funkcionalnostima implementiran je razred Korisnik.
 
 \subsubsection{db.Model}
 
@@ -292,7 +292,7 @@ koja provjerava promjenu lozinke. Atributi su privatni i razred ima javni konstr
 Razredi na frontend dijelu aplikacije podijeljeni su u tri skupine.
 \begin{description}
 	\item[Modeli] su reprezentacije entiteta s backend dijela aplikacije. Backend modeli ne preslikavaju se izravno u odgovarajuće frontend modele, već se proširuju s dodatnim podacima iz povezanih tablica. Tako, primjerice, dok razredi Riječ i Fraza na backendu nisu povezani, razred Riječ na frontendu u sebi ima listu objekata razreda Fraza.
-	\item[Slice] razredi specifični su za implementiranu arhitekturu koja koristi Redux za upravljanje stanjem aplikacije. S ciljem odvajanja odgovornosti, stanje cijele aplikacije podijeljeno je na proizvoljan broj samostalnih cjelina (feta, \textit{slices}) koje upravljaju i pohranjuju podatke iz isključivo jedne domene. Stanje u određenom sliceu može se mijenjati samo preko njegovih metoda, a unutar njih se nerijetko pozivaju \textit{axios} metode za slanje HTTP zahtjeva backend dijelu aplikacije jer se rezultati tih poziva moraju spremati upravo u stanje aplikacije.
+	\item[Slice] razredi specifični su za implementiranu arhitekturu koja koristi Redux za upravljanje stanjem aplikacije. S ciljem odvajanja odgovornosti, stanje cijele aplikacije podijeljeno je na proizvoljan broj samostalnih cjelina (kriška, \textit{slice}) koje upravljaju i pohranjuju podatke iz isključivo jedne domene. Stanje u određenom sliceu može se mijenjati samo preko njegovih metoda, a unutar njih se nerijetko pozivaju \textit{axios} metode za slanje HTTP zahtjeva backend dijelu aplikacije jer se rezultati tih poziva moraju spremati upravo u stanje aplikacije.
 	\item[Input] razredi predstavljaju \textit{data transfer} objekte. Objekti tog razreda izravno se mogu pohraniti u tijelo HTTP zahtjeva i odgovaraju onoj strukturi u kojoj  pojedina pristupna točka na backendu očekuje primiti podatke.
 \end{description}
 
