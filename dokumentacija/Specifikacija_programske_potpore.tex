@@ -358,7 +358,7 @@
 		\item Sustav preusmjerava:
 		\item[] \begin{packed_item}
 		
-			\item učenika na zaslon za odabir načina učenja (UC21 Odabir načina učenja)
+			\item učenika na zaslon za odabir načina učenja (UC13 Odabir načina učenja)
 			\item administratora na obrazac za uređivanje rječnika (UC11 Promjena naziva rječnika, UC10 Promjena sadržaja rječnika)
 			
 		\end{packed_item}
@@ -554,16 +554,36 @@
 
 \end{packed_item}
 
+\noindent \underbar{\textbf{UC13 - Odabir načina učenja}}
+\begin{packed_item}
+
+	\item \textbf{Glavni sudionik: } Korisnik
+	\item \textbf{Cilj: } Započeti dnevnu sesiju učenja u odabranom načinu
+	\item \textbf{Sudionici: } -
+	\item \textbf{Preduvjet: } Postojanje korisničkog računa, prijava u sustav s korisničkim računom, odabir jezika i riječnika (UC8 pregledavanje i odabir rječnika)
+	\item  \textbf{Opis osnovnog tijeka:}
+	
+	\item[] \begin{packed_enum}
+		
+		\item Korisnik bira jedan od četiri gumba koji predstavljaju načine rada
+		\item Nakon odabira, korisnika se redirektira na stranicu tog specifičnog
+		načina rada te se otpočinje s učenjem
+
+	\end{packed_enum}
+
+	
+\end{packed_item}
 
 
 
-\noindent \underbar{\textbf{UC13 - Prijevod strane riječi}}
+
+\noindent \underbar{\textbf{UC14 - Prijevod strane riječi}}
 \begin{packed_item}
 
 	\item \textbf{Glavni sudionik: } Korisnik
 	\item \textbf{Cilj: } Korisnik je naučio prijevod strane riječi ili izraza na hrvatski
 	\item \textbf{Sudionici: } Baza podataka
-	\item \textbf{Preduvjet: } Učenik je prijavljen, učenik je prethodno odabrao koji će jezik učiti, iz kojeg će rječnika učiti te je odabrao način učenja Prijevod strane riječi (UC21 Odabir načina učenja)
+	\item \textbf{Preduvjet: } Učenik je prijavljen, učenik je prethodno odabrao koji će jezik učiti, iz kojeg će rječnika učiti te je odabrao način učenja Prijevod strane riječi (UC13 Odabir načina učenja)
 	\item  \textbf{Opis osnovnog tijeka:}
 	
 	\item[] \begin{packed_enum}
@@ -578,13 +598,13 @@
 \end{packed_item}
 
 
-\noindent \underbar{\textbf{UC14 - Prijevod na strani jezik}}
+\noindent \underbar{\textbf{UC15 - Prijevod na strani jezik}}
 \begin{packed_item}
 
 	\item \textbf{Glavni sudionik: } Korisnik
 	\item \textbf{Cilj: } Korisnik je naučio prijevod strane riječi ili izraza na hrvatski
 	\item \textbf{Sudionici: } Baza podataka
-	\item \textbf{Preduvjet: } Učenik je prijavljen, učenik je prethodno odabrao koji će jezik učiti, iz kojeg će rječnika učiti te je odabrao način učenja Prijevod na strani jezik (UC21 Odabir načina učenja)
+	\item \textbf{Preduvjet: } Učenik je prijavljen, učenik je prethodno odabrao koji će jezik učiti, iz kojeg će rječnika učiti te je odabrao način učenja Prijevod na strani jezik (UC13 Odabir načina učenja)
 	\item  \textbf{Opis osnovnog tijeka:} 
 	
 	\item[] \begin{packed_enum}
@@ -599,13 +619,13 @@
 \end{packed_item}
 
 
-\noindent \underbar{\textbf{UC15 - Prijevod zvučnog zapisa}}
+\noindent \underbar{\textbf{UC16 - Prijevod zvučnog zapisa}}
 \begin{packed_item}
 
 	\item \textbf{Glavni sudionik: } Korisnik
 	\item \textbf{Cilj: } Korisnik slušajući razumije strani jezik
 	\item \textbf{Sudionici: } Baza podataka
-	\item \textbf{Preduvjet: } Učenik je prijavljen, učenik je prethodno odabrao koji će jezik učiti, iz kojeg će rječnika učiti te je odabrao način učenja Prijevod zvučnog zapisa (UC21 Odabir načina učenja)
+	\item \textbf{Preduvjet: } Učenik je prijavljen, učenik je prethodno odabrao koji će jezik učiti, iz kojeg će rječnika učiti te je odabrao način učenja Prijevod zvučnog zapisa (UC13 Odabir načina učenja)
 	\item  \textbf{Opis osnovnog tijeka:} 
 	
 	\item[] \begin{packed_enum}
@@ -620,13 +640,13 @@
 \end{packed_item}
 
 
-\noindent \underbar{\textbf{UC16 - Snimanje izgovora riječi}}
+\noindent \underbar{\textbf{UC17 - Snimanje izgovora riječi}}
 \begin{packed_item}
 
 	\item \textbf{Glavni sudionik: } Korisnik
 	\item \textbf{Cilj: } Korisnik pravilno izgovara riječi na stranom jeziku
 	\item \textbf{Sudionici: } Baza podataka, Servis za ocjenu izgovora
-	\item \textbf{Preduvjet: } Učenik je prijavljen, učenik je prethodno odabrao koji će jezik učiti, iz kojeg će rječnika učiti te je odabrao način učenja Snimanje izgovora (UC21 Odabir načina učenja)
+	\item \textbf{Preduvjet: } Učenik je prijavljen, učenik je prethodno odabrao koji će jezik učiti, iz kojeg će rječnika učiti te je odabrao način učenja Snimanje izgovora (UC13 Odabir načina učenja)
 	\item  \textbf{Opis osnovnog tijeka:} 
 	
 	\item[] \begin{packed_enum}
@@ -646,13 +666,13 @@
 
 
 
-\noindent \underbar{\textbf{UC17 - Stvaranje riječi}}
+\noindent \underbar{\textbf{UC18 - Stvaranje riječi}}
 \begin{packed_item}
 
 	\item \textbf{Glavni sudionik: } Administrator
 	\item \textbf{Cilj: } Mogućnost pregledavanja svih riječi za zadani jezik
 	\item \textbf{Sudionici: } Baza podataka
-	\item \textbf{Preduvjet: } Prijavljivanje u administratorski račun, odabran jezik, admin se nalazi na stranici za pregled riječi (UC17 stvaranje riječi)	
+	\item \textbf{Preduvjet: } Prijavljivanje u administratorski račun, odabran jezik, admin se nalazi na stranici za pregled riječi	
 	\item  \textbf{Opis osnovnog tijeka:}
 	
 	\item[] \begin{packed_enum}
@@ -669,7 +689,7 @@
 	
 \end{packed_item}
 
-\noindent \underbar{\textbf{UC18 - Pregledavanje riječi}}
+\noindent \underbar{\textbf{UC19 - Pregledavanje riječi}}
 \begin{packed_item}
 
 	\item \textbf{Glavni sudionik: } Administrator
@@ -688,7 +708,7 @@
 \end{packed_item}
 
 
-\noindent \underbar{\textbf{UC19 - Brisanje riječi}}
+\noindent \underbar{\textbf{UC20 - Brisanje riječi}}
 \begin{packed_item}
 
 	\item \textbf{Glavni sudionik: } Administrator
@@ -724,7 +744,7 @@
 
 
 
-\noindent \underbar{\textbf{UC20 - Uređivanje riječi}}
+\noindent \underbar{\textbf{UC21 - Uređivanje riječi}}
 \begin{packed_item}
 
 	\item \textbf{Glavni sudionik: } Administrator
@@ -745,27 +765,6 @@
 	\end{packed_enum}
 	
 \end{packed_item}
-
-\noindent \underbar{\textbf{UC21 - Odabir načina učenja}}
-\begin{packed_item}
-
-	\item \textbf{Glavni sudionik: } Korisnik
-	\item \textbf{Cilj: } Započeti dnevnu sesiju učenja u odabranom načinu
-	\item \textbf{Sudionici: } -
-	\item \textbf{Preduvjet: } Postojanje korisničkog računa, prijava u sustav s korisničkim računom, odabir jezika i riječnika (UC8 pregledavanje i odabir rječnika)
-	\item  \textbf{Opis osnovnog tijeka:}
-	
-	\item[] \begin{packed_enum}
-		
-		\item Korisnik bira jedan od četiri gumba koji predstavljaju načine rada
-		\item Nakon odabira, korisnika se redirektira na stranicu tog specifičnog
-		načina rada te se otpočinje s učenjem
-
-	\end{packed_enum}
-
-	
-\end{packed_item}
-
 
 \eject
 
