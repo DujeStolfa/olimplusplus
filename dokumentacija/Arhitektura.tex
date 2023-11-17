@@ -6,13 +6,13 @@ Naš se sustav može podijeliti na tri podsustava:
 	\item[Web preglednik:] Lokalno instalirani program koji omogućuje prikaz sadržaja sa interneta. 
 	Pomoću tog programa korisnik može poslati zahtjeve za 
 	resursima ili poslati neke podatke web poslužitelju. Web preglednik, 
-	nakon što dobije zatražene informacije od web poslužitelja, korisniku prikazuje ssadržaj.
+	nakon što dobije zatražene informacije od web poslužitelja, korisniku prikazuje sadržaj.
 
 	\item[Web poslužitelj:] Centralni podsustav aplikacije koji obrađuje višestruke zahtjeve korisnika. Komunikaciju s klijentima ostvaruje preko
 	HTTP protokola. Web poslužitelj može, na korisnički zahtjev, poslati datoteke ili primiti
 	neke podatke koje može spremiti u bazu podataka.
 
-	\item[Baza podataka:] Koristi se za pohranjivanje podataka web apliakcije. Sastavljena je od tablica koje
+	\item[Baza podataka:] Koristi se za pohranjivanje podataka web aplikacije. Sastavljena je od relacija koje
 	predstavljaju entitete s određenim atributima koji su međusobno povezani definiranim
 	odnosima. Web aplikacija često komunicira s bazom, povlačeći i davajući podatke bazi.
 \end{description}
@@ -208,22 +208,22 @@ Kako bismo centralizirali pohranjivanje stanja aplikacije i odvojili logiku upra
 					
 				\end{longtblr}
 
-
+\eject
 			
-			\subsection{Dijagram baze podataka}
+			\subsection{Dijagram baze podataka}	
+			
+			\begin{figure}[htp]
+				\includegraphics[scale=0.5]{dijagrami/relacijski_model.png}
+				\centering
+				\caption{Relacijska shema baze podataka}
+				\label{fig:dijagram_REL-SH_BP}
+			\end{figure}
 
-				\begin{figure}[H]
+				\begin{figure}[htp]
 					\includegraphics[scale=0.5]{dijagrami/ER_model_BP_3.png}
 					\centering
 					\caption{ER model baze podataka}
 					\label{fig:dijagram_ER-BP}
-				\end{figure}
-
-				\begin{figure}[H]
-					\includegraphics[scale=0.5]{dijagrami/relacijski_model.png}
-					\centering
-					\caption{Relacijska shema baze podataka}
-					\label{fig:dijagram_REL-SH_BP}
 				\end{figure}
 			
 			\eject
@@ -233,14 +233,13 @@ Kako bismo centralizirali pohranjivanje stanja aplikacije i odvojili logiku upra
 		
 \subsection{Razredi na backendu}
 
-Ova se skupina razreda (Slika \ref{fig:class-back}) izravno preslikava u bazu podataka tako da se za svaki razred stvara jedna tablica u bazi. Dakle, svi su razredi normalizirani i predstavljaju relacije u trećoj normalnoj formi pa ne mogu biti međusobno povezane.
+Ova se skupina razreda (Slika \ref{fig:class-back}) izravno preslikava u bazu podataka tako da se za svaki razred stvara jedna tablica u bazi. Dakle, svi su razredi svedeni na treću normalnu formu i ni u kojem slučaju ne mogu biti povezani pridruživanjem (agregacijom ili asocijacijom).
 
 \subsubsection{db.Model}
 
-Razred koja dolazi iz SqlAlchemyja koji koristimo u pozadini za komunikaciju s 
-bazom podataka. Ovaj razred nasljeđuju svi razredi na backendu zato što on
-pruža funkcionalnosti potrebne za slanje i povlačenje podataka u bazu.
-(Ovdje dodati atribute i metode)
+Razred koj dolazi iz SqlAlchemyja koji koristimo u pozadini za komunikaciju s 
+bazom podataka. Ovaj razred nasljeđuju svi razredi u skupini modela na backendu zato što on
+pruža potrebne funkcionalnosti za slanje i povlačenje podataka u bazu.
 
 
 \subsubsection{Razred Jezik}
@@ -251,17 +250,17 @@ naziva jezika i iso oznake. Atributi su privatni, te ima javni konstruktor.
 \subsubsection{Razred Riječ}
 
 Služi za modeliranje riječi, najmanje jedinice učenja u aplikaciji.
-Razred sadrži atribute: identifikator riječi, hrvatski naziv, strani naziv (koji ovisi o jeziku),
-putanju na audio datoteku izgovora riječi na stranom jeziku i identifikator jezika
-na kojem su audio zapis i strani naziv. Atributi su privatni i ima javni konstruktor.
+Razred sadrži atribute: identifikator riječi, hrvatski naziv, strani naziv,
+putanju na audiodatoteku izgovora riječi na stranom jeziku i identifikator jezika
+na kojem su audiozapis i strani naziv. Atributi su privatni i ima javni konstruktor.
 
 \subsubsection{Razred Rječnik}
 
-Služi za modeliranje rječnika, tj kolekcije riječi. Razred je opisan atributima identifikatora, naziva rječnika, datuma njegovog stvorenja i jezika riječi koje sadrži. Atributi su privatni te ima javni konstruktor.
+Služi za modeliranje rječnika, tj. kolekcije riječi. Razred je opisan atributima identifikatora, naziva rječnika, datuma njegovog stvorenja i jezika riječi koje sadrži. Atributi su privatni te ima javni konstruktor.
 
 \subsubsection{Razred StanjeRiječi}
 
-Služi kao razred koji prati stanje riječi, tj je li riječ naučena. Opisan je s atributima: identifikatora korisnika, identifikatora riječi i identifikatora posude. Atributi su privatni i ima javni konstruktor.
+Služi kao razred koji prati stanje riječi, tj. je li riječ naučena. Opisan je s atributima: identifikatora korisnika, identifikatora riječi i identifikatora posude. Atributi su privatni i ima javni konstruktor.
 
 \subsubsection{Razred Posuda}
 
@@ -279,7 +278,7 @@ učenje konteksta. Razred je opisan s atributima identifikatora fraze, samom fra
 Služi za modeliranje korisnika. Baza podataka razlikuje administratore i učenike po njihovoj ulozi,
 ne smatra ih različitim entitetima. Razred opisuju atributi identifikatora korisnika, imena, prezimena,
 adrese elektroničke pošte, lozinke za račun, trenutka stvaranja korisnika, uloge i zastavice
-koja provjerava promjenu lozinke. Atributi su privatni i irazred ima javni konstruktor.
+koja provjerava promjenu lozinke. Atributi su privatni i razred ima javni konstruktor.
 
 \begin{figure}[H]
 	\includegraphics[scale=0.35]{dijagrami/class_back.jpeg}
@@ -290,19 +289,30 @@ koja provjerava promjenu lozinke. Atributi su privatni i irazred ima javni konst
 
 \subsection{Razredi na frontendu}
 
-\begin{figure}[H]
+Razredi na frontend dijelu aplikacije podijeljeni su u tri skupine.
+\begin{description}
+	\item[Modeli] su reprezentacije entiteta s backend dijela aplikacije. Backend modeli ne preslikavaju se izravno u odgovarajuće frontend modele, već se proširuju s dodatnim podacima iz povezanih tablica. Tako, primjerice, dok razredi Riječ i Fraza na backendu nisu povezani, razred Riječ na frontendu u sebi ima listu objekata razreda Fraza.
+	\item[Slice] razredi specifični su za implementiranu arhitekturu koja koristi Redux za upravljanje stanjem aplikacije. S ciljem odvajanja odgovornosti, stanje cijele aplikacije podijeljeno je na proizvoljan broj samostalnih cjelina (feta, \textit{slices}) koje upravljaju i pohranjuju podatke iz isključivo jedne domene. Stanje u određenom sliceu može se mijenjati samo preko njegovih metoda, a unutar njih se nerijetko pozivaju \textit{axios} metode za slanje HTTP zahtjeva backend dijelu aplikacije jer se rezultati tih poziva moraju spremati upravo u stanje aplikacije.
+	\item[Input] razredi predstavljaju \textit{data transfer} objekte. Objekti tog razreda izravno se mogu pohraniti u tijelo HTTP zahtjeva i odgovaraju onoj strukturi u kojoj  pojedina pristupna točka na backendu očekuje primiti podatke.
+\end{description}
+
+Za potrebu generičkih funkcionalnosti (Slika \ref{fig:class-front-implemented}) implementiran je AuthSlice razred sa svim povezanim razredima (Korisnik, LoginInput, RegisterInput). Na slici \ref{fig:class-front} prikazani su na konceptualnoj razini i razini modela domene sustava razredi s frontend dijela aplikacije koji ne pripadaju generičkim funkcionalnostima.
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.55]{dijagrami/class_front_implemented.png}
+	\centering
+	\caption{Dijagram razreda za generičke funkcionalnosti frontend dijela aplikacije}
+	\label{fig:class-front-implemented}
+\end{figure}
+
+\begin{figure}[htp]
 	\includegraphics[scale=0.5]{dijagrami/class_front.png}
 	\centering
-	\caption{Dijagram razreda za frontend dio aplikacije}
+	\caption{Ostale funkcionalnosti frontend dijela aplikacije}
 	\label{fig:class-front}
 \end{figure}
 
-\begin{figure}[H]
-	\includegraphics[scale=0.55]{dijagrami/class_front_implemented.png}
-	\centering
-	\caption{Dijagram razreda za frontend dio aplikacije}
-	\label{fig:class-front}
-\end{figure}
+\eject
 
 			
 			\textbf{\textit{dio 2. revizije}}\\			
