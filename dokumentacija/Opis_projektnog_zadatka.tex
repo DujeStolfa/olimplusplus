@@ -36,24 +36,28 @@ Cilj je u tome da se informacije koje teže ili manje pamte, viđaju češće. S
 \section{Opis aplikacije}
 
 Aplikacija je kolekcija rječnika iz kojih se mogu učiti riječi odabranog jezika. Rječnik je kolekcija međusobno značenjem povezanih riječi. 
-Svaka riječ ima svoj prijevod na hrvatski, te prijevode na implementirane strane jezike, značenje tih riječi, pomoćne rečenice unutar kojih se 
-ta riječ koristi i audiozapis izgovora riječi na svakom od njih. Riječi dodaju administratori riječi, čije ovlasti može dati jedan korijenski administrator. 
-Korisnici imaju pristup svim rječnicima odabranog jezika za učenje, te četiri načina učenja.
+Svaka riječ ima svoj prijevod na hrvatski jezik, definiciju, pomoćne rečenice unutar kojih se 
+ta riječ koristi i audiozapis izgovora riječi na svakom od njih.
+Korisnici imaju pristup svim rječnicima odabranog jezika za učenje, a učenje mogu provoditi na četiri načina.
 
-Riječi i rječnici su odgovornost administratora riječi. Pri dodavanju riječi u sustav, administrator je dužan pobrinuti se za točnost 
-prijevoda i značenja, kao i pomoćne rečenice i audiozapisa izgovora riječi. U tom poslu mu pomaže API. Jednu riječ može dijeliti više rječnika. 
+Riječi i rječnici su odgovornost administratora; on ih može stvarati, brisati i raspoređivati u rječnike. Pri dodavanju riječi u sustav, administrator je dužan pobrinuti se za točnost 
+prijevoda i definicije, kao i pomoćne rečenice i audiozapisa izgovora riječi. U tom poslu mu pomaže API. 
+
+Jednu riječ administrator može dodati u više rječnika. U tom se slučaju stanje "naučenosti" neke riječi prenosi među rječnicima. Primjerice, ako je učenik neku riječ u jednom rječniku naučio u toj mjeri da je ona u trećoj posudi, ona će u toj posudi biti i kada na nju naiđe u nekom drugom rječniku. 
+
+Kako se za svaku riječ bilježi u kojoj je posudi i točno vrijeme (datum, sat i minuta) kada je stavljena u tu posudu, riječi su međusobno neovisne i mogu postati dostupne u različitim vremenima iako se nalaze u istoj posudi. 
 
 Dizajn aplikacije je fokusiran na intuitivnost i jednostavnost. Cilj je napraviti proizvod koji ne pruža prilike
 za pogrešno korištenje, te korisnicima pruža sigurnu i efikasnu uslugu. Korisničko sučelje se razlikuje
 ovisno o vrsti prijavljenog korisnika. Administratorsko sučelje pruža isključivo funkcionalnosti izmjene i dorađivanja
 riječi i rječnika, dok učeničko sučelje ima samo pristup opcijama vezanima za učenje. Svi vizualni elementi se
-oslanjaju na minimalnost i responzivnost.
+oslanjaju na minimalnost.
 
 \subsection{Načini učenja} 
 
 U aplikaciji su predviđena četiri načina učenja, kako bi savladavanje gradiva išlo što lakše i brže:
 \begin{description}
-	\item[Foreign prompt --- native translation:] Korisniku je prikazana riječ stranog jezika. Ponuđeno mu je nekoliko riječi na hrvatskom jeziku od 
+	\item[Foreign prompt --- native translation:] Korisniku je prikazan detaljan opis riječi stranog jezika (riječ, definicija i sve fraze). Ponuđeno mu je nekoliko riječi na hrvatskom jeziku od 
 	kojih on mora odabrati onu koja je najbolji prijevod strane riječi. Riječi koje se nude kao odgovori biraju se iz trenutno aktivnog rječnika, tj. rječnika iz kojeg se uči. 
 
 	\item[Native translation --- foreign prompt:] Korisniku je prikazana riječ na hrvatskom jeziku, te mu je ponuđeno nekoliko riječi na stranom jeziku. 
@@ -62,12 +66,12 @@ U aplikaciji su predviđena četiri načina učenja, kako bi savladavanje gradiv
 	\item[Listen and translate:] Korisnik sluša audiozapis izgovora trenutne riječi na odabranom jeziku učenja. Korisnik treba napisati 
 	riječ koju je čuo. Time se provjerava razumije li korisnik razlike u izgovoru riječi kao i njihovo pisanje.
 
-	\item[Record your translation:] Korisnik dobiva riječ na jeziku koji uči i opciju za snimanje glasa. Potrebno je točno 
-	izgovoriti riječ prikazanu na ekranu. Ocjena izgovora može biti brojka od jedan do deset, čime korisnik dobiva povratnu informaciju o svom izgovoru.
+	\item[Record your translation:] Korisniku je prikazan detaljan opis riječi (riječ, definicija i sve fraze) na jeziku koji uči i opciju za snimanje glasa. Potrebno je točno 
+	izgovoriti riječ prikazanu na ekranu. Izgovor se ocjenjuje brojem od jedan do deset, čime korisnik dobiva povratnu informaciju o svom izgovoru.
 \end{description}
 
 Nakon svakog odgovorenog pitanja, korisnik dobiva povratnu informaciju o točnosti odgovora. Kad korisnik završi sa 
-sesijom učenja i prođe sve riječi za taj dan aplikacija mu javlja da je za taj dan s tim rječnikom gotov. 
+sesijom učenja i prođe sve trenutno dostupne riječi aplikacija mu javlja da je za taj dan s tim rječnikom gotov. 
 
 \eject
 
@@ -78,8 +82,8 @@ kao sredstvo za samostalni rad, ali mogu je i sami nastavnici preporučivati ili
 korisna predanim turistima koji se spremaju za putovanje u državu u kojoj ne poznaju jezik, ili čak poslovnim ljudima koji imaju čest dodir 
 sa stranim kulturama u svakodnevici. 
 
-Konkurenciju nam predstavlja Anki, aplikacija koja je agnostična na informacije koje se proučavaju. Korisnici mogu samostalno 
-napraviti kolekcije kartica za učenje i dijeliti ih međusobno. S jedne strane, to je dobra stvar, jer se može učiti bilo koja tema koja 
+S dugo razvijanim i vrlo složenim algoritmom za ponavljanje s odmakom, jedna od najznačajnijih aplikacija u \textit{spaced repetition} svijetu zasigurno je Anki. U Ankiju korisnici mogu samostalno 
+raditi kolekcije kartica za učenje (\textit{flashcards}) i dijeliti ih međusobno. S jedne strane, to je dobra stvar, jer se može učiti bilo koja tema koja 
 se poželi, no s druge strane, ako korisnik nije voljan ili nema vremena praviti kartice za učenje, a netko nije napravio kvalitetnu kolekciju i 
 ponudio ostalim korisnicima, taj korisnik ne može učiti. Specijalizacija naše aplikacije na jezike osigurava kvalitetu učenja i kvalitetu kartica.
 
