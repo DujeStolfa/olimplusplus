@@ -115,10 +115,10 @@
 	
 	\item[] \begin{packed_enum}
 
-		\item Učenik odabire opciju ”Registracija”
-		\item Učenik unosi ime, prezime, e-mail i potvrđuje prijavu
-		\item Učenik na svoj e-mail dobiva privremenu generiranu lozinku
-		\item Učenik se prijavljuje u sustav s generiranom lozinkom (UC3 Prijava u sustav)							
+		\item Korisnik odabire opciju ”Registracija”
+		\item Korisnik unosi ime, prezime, e-mail i potvrđuje prijavu
+		\item Korisnik na svoj e-mail dobiva privremenu generiranu lozinku
+		\item Korisnik se prijavljuje u sustav s generiranom lozinkom (UC3 Prijava u sustav)							
 		\item Sustav učeniku prikazuje obrazac za promjenu inicijalne lozinke (nastavak UC2 Promjena lozinke)
 	\end{packed_enum}
 	
@@ -126,13 +126,13 @@
 	
 	\item[] \begin{packed_item}
 
-		\item[2.a]Učenik se pokušava registrirati e-mail adresom na koju je već prijavljen račun
+		\item[2.a]Korisnik se pokušava registrirati e-mail adresom na koju je već prijavljen račun
 		\item[] \begin{packed_enum}
 			
 			\item Sustav upozorava korisnika i onemogućuje mu registraciju							
 		\end{packed_enum}
 
-\item[2.b] Učenik se pokušava registrirati nepostojećom e-mail adresom
+\item[2.b] Korisnik se pokušava registrirati nepostojećom e-mail adresom
 \item[] \begin{packed_enum}
 
 \item Sustav upozorava korisnika i onemogućuje mu registraciju 								
@@ -153,7 +153,7 @@
 	\item[] \begin{packed_enum}
 
 		\item Učenik u postavkama svog računa bira opciju "Promjena lozinke"
-		\item Učenik dobiva dijaločki prozorčić u kojem treba unjeti i potvrditi svoju novu lozinku
+		\item Učeniku se prikazuje dijaloški okvir u kojem treba unijeti i potvrditi svoju novu lozinku
 		\item Sustav preusmjerava korisnika na zaslon za odabir jezika (UC7 Pregledavanje i odabir jezika)
 	\end{packed_enum}
 	
@@ -256,8 +256,8 @@
 	\item[] \begin{packed_enum}
 
 		\item Administrator odabire opciju ”stvori administratora "
-		\item Admin dolazi na stranicu u kojoj mora upisati email adresu i lozinku novog admina riječi
-		\item Admin potvrđuje stvaranje novog Admina
+		\item Administrator dolazi na stranicu u kojoj mora upisati email adresu i lozinku novog administratora
+		\item Administrator potvrđuje stvaranje novog administratora
 		\item Podaci se spremaju u bazu podataka
 	\end{packed_enum}
 	
@@ -265,7 +265,7 @@
 	
 	\item[] \begin{packed_item}
 
-		\item[2.a] Admin može upisati email adresu već postojećeg admina
+		\item[2.a] Admin upisuje email adresu već postojećeg admina
 		\item[] \begin{packed_enum}
 			
 			\item Sustav ga upozorava da već postoji admin s upisanom email adresom							
@@ -284,7 +284,7 @@
 \begin{packed_item}
 
 	\item \textbf{Glavni sudionik: } Administrator
-	\item  \textbf{Cilj:} Uklanjanje admina iz sustava
+	\item  \textbf{Cilj:} Uklanjanje administratora iz sustava
 	\item  \textbf{Sudionici:} Baza podataka
 	\item  \textbf{Preduvjet:} Prijavljen admin u sustav $($UC3 Prijava u sustav$)$, postojanje
 	admina kojeg se želi izbrisati
@@ -292,10 +292,10 @@
 	
 	\item[] \begin{packed_enum}
 
-		\item Admin odabire opciju ”pregled administratora” i prikazuje mu se popis admina
-		\item Admin za specifičnog admina odabire opcije ”obriši admina”
-		\item Adminu se prikazuje dijaloški okvir s porukom upozorenja o posljedicama brisanja te gumbovima ”Obriši” i ”Odustani”
-		\item Admin potvrđuje brisanje klikom na gumb "Obriši"
+		\item Administrator odabire opciju ”pregled administratora” i prikazuje mu se popis admina
+		\item Administrator za specifičnog administratora odabire opciju ”Obriši”
+		\item Administratoru se prikazuje dijaloški okvir s porukom upozorenja o posljedicama brisanja te gumbovima ”Obriši” i ”Odustani”
+		\item Administrator potvrđuje brisanje klikom na gumb "Obriši"
 	\end{packed_enum}
 
 	\item  \textbf{Opis mogućih odstupanja:}
@@ -305,7 +305,7 @@
 		\item[4.a] Admin odustaje od brisanja
 		\item[] \begin{packed_enum}
 			
-			\item Admin ostaje neizbrisan
+			\item Račun se ne briše
 			
 		\end{packed_enum}
 		
@@ -345,7 +345,7 @@
 \noindent \underbar{\textbf{UC8 - Pregledavanje i odabir rječnika}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Učenik ili administrator riječi
+	\item \textbf{Glavni sudionik: } Učenik ili administrator
 	\item \textbf{Cilj: } Odabrati rječnik iz popisa rječnika nekog jezika
 	\item \textbf{Sudionici: } Baza podataka
 	\item \textbf{Preduvjet: } UC7 Pregledavanje i odabir jezika
@@ -376,7 +376,7 @@
 			\item Preskaču se koraci 2. i 3.
 			
 		\end{packed_enum}
-		\item[2.a] Administrator odabire opciju "Obriši rječnik" (vidljivo samo administratorima) pokraj jednog od rječnika
+		\item[2.a] Administrator odabire opciju "Obriši rječnik" pokraj jednog od rječnika
 		\item[] \begin{packed_enum}
 			
 			\item Administrator nastavlja s brisanjem rječnika (UC12 Brisanje rječnika)
@@ -406,8 +406,8 @@
 	
 	\item[] \begin{packed_enum}
 		
-		\item Admin je prikazan obrazac za stvaranje rječnika
-		\item Admin upisuje naziv rječnika i potvrđuje unos
+		\item Administrator je prikazan obrazac za stvaranje rječnika
+		\item Administrator upisuje naziv rječnika i potvrđuje unos
 		\item Rječnik se dodaje u bazu podataka
 
 	\end{packed_enum}
@@ -416,7 +416,7 @@
 	
 	\item[] \begin{packed_item}
 
-		\item[2.a] Admin je upisao prazan naziv rječnika
+		\item[2.a] Administrator je upisao prazan naziv rječnika
 		\item[] \begin{packed_enum}
 			
 			\item Sustav javlja administratoru da naziv rječnika ne smije biti prazan
@@ -440,10 +440,10 @@
 	\item[] \begin{packed_enum}
 		
 		\item U obrascu je prikazan popis svih riječi u rječniku
-		\item Admin odabire opciju "Dodaj riječi"
-		\item Adminu je prikazan okvir s popisom svih riječi trenutnog jezika koje nisu u rječniku
-		\item Admin odabire jednu ili više riječi
-		\item Admin potvrđuje odabir
+		\item Administrator odabire opciju "Dodaj riječ"
+		\item Administratoru je prikazan okvir s popisom svih riječi trenutnog jezika koje nisu u rječniku
+		\item Administrator odabire jednu ili više riječi
+		\item Administrator potvrđuje odabir
 		\item Odabrane riječi dodaju se u rječnik
 
 	\end{packed_enum}
@@ -460,16 +460,16 @@
 			
 		\end{packed_enum}
 
-		\item[3.a] Sve su riječi odabranog jezika u odabranom rječniku
+		\item[3.a] Sve su riječi odabranog jezika već u rječniku
 		\item[] \begin{packed_enum}
 			
-			\item Adminu je prikazana informativna poruka umjesto popisa
-			\item Admin odustaje od mijenjanja rječnika
+			\item Administratoru je prikazana informativna poruka umjesto popisa
+			\item Administrator odustaje od mijenjanja rječnika
 			\item Koraci 4.-6. se preskaču
 			
 		\end{packed_enum}
 
-		\item[5.a] Admin odustaje od promjena
+		\item[5.a] Administrator odustaje od promjena
 		\item[] \begin{packed_enum}
 			
 			\item Promjene se ne spremaju u bazu
@@ -484,7 +484,7 @@
 \noindent \underbar{\textbf{UC11 - Promjena naziva rječnika}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Administrator (nadlje admin)
+	\item \textbf{Glavni sudionik: } Administrator
 	\item \textbf{Cilj: } Promijeniti naziv odabranog rječnika
 	\item \textbf{Sudionici: } Baza podataka
 	\item \textbf{Preduvjet: } UC8 Pregledavanje i odabir rječnika
@@ -492,8 +492,8 @@
 	
 	\item[] \begin{packed_enum}
 		
-		\item Admin u obrascu odabire opciju "Promijeni naziv"
-		\item Admin upisuje novi naziv i potvrđuje promjene
+		\item Administrator u obrascu odabire opciju "Promijeni naziv"
+		\item Administrator upisuje novi naziv i potvrđuje promjene
 		\item Sustav sprema promjene u bazu
 
 	\end{packed_enum}
@@ -532,9 +532,9 @@
 	
 	\item[] \begin{packed_enum}
 
-		\item Admin odabire opciju brisanje rječnika
-		\item Adminu se prikazuje dijaloški okvir s porukom upozorenja o posljedicama brisanja te gumbovima ”Obriši” i ”Odustani”
-		\item Admin potvrđuje brisanje klikom na gumb "Obriši"
+		\item Administrator odabire opciju brisanje rječnika
+		\item Administratoru se prikazuje dijaloški okvir s porukom upozorenja o posljedicama brisanja te gumbovima ”Obriši” i ”Odustani”
+		\item Administrator potvrđuje brisanje klikom na gumb "Obriši"
 		\item Sustav iz baze briše odabrani rječnik
 		
 	\end{packed_enum}
@@ -560,17 +560,16 @@
 	\item \textbf{Glavni sudionik: } Korisnik
 	\item \textbf{Cilj: } Započeti dnevnu sesiju učenja u odabranom načinu
 	\item \textbf{Sudionici: } -
-	\item \textbf{Preduvjet: } Postojanje korisničkog računa, prijava u sustav s korisničkim računom, odabir jezika i riječnika (UC8 pregledavanje i odabir rječnika)
+	\item \textbf{Preduvjet: } Postojanje korisničkog računa, prijava u sustav s korisničkim računom, odabir jezika i rječnika (UC8 pregledavanje i odabir rječnika)
 	\item  \textbf{Opis osnovnog tijeka:}
 	
 	\item[] \begin{packed_enum}
 		
 		\item Korisnik bira jedan od četiri gumba koji predstavljaju načine rada
-		\item Nakon odabira, korisnika se redirektira na stranicu tog specifičnog
-		načina rada te se otpočinje s učenjem
+		\item Nakon odabira, korisnika se preusmjerava na stranicu tog specifičnog
+		načina rada i započinje učenje
 
 	\end{packed_enum}
-
 	
 \end{packed_item}
 
@@ -671,19 +670,19 @@
 
 	\item \textbf{Glavni sudionik: } Administrator
 	\item \textbf{Cilj: } Mogućnost pregledavanja svih riječi za zadani jezik
-	\item \textbf{Sudionici: } Baza podataka
-	\item \textbf{Preduvjet: } Prijavljivanje u administratorski račun, odabran jezik, admin se nalazi na stranici za pregled riječi	
+	\item \textbf{Sudionici: } Baza podataka, API za rječnike
+	\item \textbf{Preduvjet: } Prijavljivanje u administratorski račun, odabran jezik, administrator se nalazi na stranici za pregled riječi	
 	\item  \textbf{Opis osnovnog tijeka:}
 	
 	\item[] \begin{packed_enum}
 		
-		\item Admin odabire opciju dodavanja riječi u sustav
-		\item Dobiva ekran na kojem se nalaze prostori za unos teksta
-		\item Admin unosi riječ, pri čemu pomaže API
-		\item Admin unosi prijevod riječi, pri čemu pomaže API
-		\item Admin unosi značenje riječi koju dobiva iz API-ja
-		\item Admin unosi pomoćnu frazu koju dobiva iz API-ja
-		\item Admin unosi zvučnu datoteku izgovora riječi na odabranom jeziku
+		\item Administrator odabire opciju dodavanja riječi u sustav
+		\item Preusmjerava se na zaslon s obrascem za stvaranje riječi
+		\item Administrator unosi riječ
+		\item Administrator unosi prijevod riječi
+		\item Administrator unosi značenje riječi, pri čemu pomaže API
+		\item Administrator unosi pomoćne fraze, pri čemu pomaže API
+		\item Administrator unosi zvučnu datoteku izgovora riječi na odabranom jeziku
 
 	\end{packed_enum}
 	
@@ -700,7 +699,7 @@
 	
 	\item[] \begin{packed_enum}
 		
-		\item Admin odabire opciju pregleda riječi
+		\item Administrator odabire opciju pregleda riječi
 		\item Na ekranu mu se prikazuje lista svih riječi u odabranom jeziku koje se nalaze u sustavu (bazi podataka)
 
 	\end{packed_enum}
@@ -719,11 +718,11 @@
 	
 	\item[] \begin{packed_enum}
 		
-		\item Admin odabire opciju pregleda riječi
+		\item Administrator odabire opciju pregleda riječi
 		\item Na ekranu mu se prikazuje lista svih riječi u odabranom jeziku koje se nalaze u sustavu (bazi podataka)
 		\item Pored svake riječi se nalazi gumb za brisanje riječi
 		\item Klikom na gumb adminu se prikazuje dijaloški okvir s porukom upozorenja o posljedicama brisanja te gumbovima ”Obriši” i ”Odustani”
-		\item Admin potvrđuje brisanje klikom na gumb "Obriši"
+		\item Administrator potvrđuje brisanje klikom na gumb "Obriši"
 
 	\end{packed_enum}
 
@@ -755,12 +754,12 @@
 	
 	\item[] \begin{packed_enum}
 		
-		\item Admin odabire opciju pregleda riječi
+		\item Administrator odabire opciju pregleda riječi
 		\item Na ekranu mu se prikazuje lista svih riječi u odabranom jeziku koje se nalaze u sustavu (bazi podataka)
 		\item Pored svake riječi postoji stavka "uredi"
-		\item Admin bira opciju uređivanja riječi te ide na stranicu za uređivanje
+		\item Administrator bira opciju uređivanja riječi te ide na stranicu za uređivanje
 		\item Ima opciju promijeniti pisanje riječi, pomoćnu frazu ili audio zapis
-		\item Nakon napravljenih željenih promjena, admin potvrdi svoj rad i vraća se na pregled riječi
+		\item Nakon napravljenih željenih promjena, administrator potvrdi svoj rad i vraća se na pregled riječi
 
 	\end{packed_enum}
 	
@@ -794,43 +793,47 @@
 
 \subsection{Sekvencijski dijagrami}
 
-\subsubsection{{Obrazac uporabe Registracija učenika}}
+\subsubsection{{Obrazac uporabe 1: Registracija}}
 
 
-Učenik započinje registraciju odabirom opcije "Registracija" na korisničkom sučelju. Nakon što je opcija odabrana, poslužitelj šalje zahtjev učeniku da unese svoje osobne podatke, uključujući ime, prezime i e-mail adresu. Učenik unosi tražene podatke i nakon toga potvrđuje svoju registraciju putem korisničkog sučelja. Poslužitelj započinje proces provjere unesenih podataka. Prvo, provjerava dostupnost e-mail adrese u bazi podataka kako bi utvrdio postoje li odstupanja. U slučaju da e-mail adresa već postoji u bazi podataka ili nije ispravna, poslužitelj obavještava učenika o nemogućnosti registracije i sprječava daljnji napredak u procesu. Ukoliko su svi uneseni podaci ispravni, poslužitelj generira privremenu lozinku za učenika, koja se šalje na njegovu e-mail adresu. Nakon što učenik primi privremenu lozinku putem e-maila, on se prijavljuje u sustav koristeći svoje korisničko ime (e-mail adresu) i privremenu lozinku. Odmah nakon uspješne prijave, učeniku se prikazuje obrazac za promjenu inicijalne lozinke. Učenik unosi novu lozinku koju želi koristiti za pristup sustavu i poslužitelj ažurira podatke u bazi.
+Neregistrirani korisnik započinje registraciju odabirom opcije "Registracija" na korisničkom sučelju. Nakon što je opcija odabrana, poslužitelj šalje zahtjev korisniku da unese svoje osobne podatke, uključujući ime, prezime i e-mail adresu. Korisnik unosi tražene podatke i nakon toga potvrđuje svoju registraciju putem korisničkog sučelja. Poslužitelj započinje proces provjere unesenih podataka. Prvo, provjerava dostupnost e-mail adrese u bazi podataka kako bi utvrdio postoje li odstupanja. U slučaju da e-mail adresa već postoji u bazi podataka ili nije ispravna, poslužitelj obavještava korisnika o nemogućnosti registracije i sprječava daljnji napredak u procesu. Ukoliko su svi uneseni podaci ispravni, poslužitelj generira privremenu lozinku za korisnika, koja se šalje na njegovu e-mail adresu. Nakon što korisnik primi privremenu lozinku putem e-maila, on se prijavljuje u sustav koristeći svoje korisničko ime (e-mail adresu) i privremenu lozinku. Odmah nakon uspješne prijave, korisniku se prikazuje obrazac za promjenu inicijalne lozinke. Korisnik unosi novu lozinku koju želi koristiti za pristup sustavu i poslužitelj ažurira podatke u bazi.
 
 \begin{figure}[htp]
-	\includegraphics[scale=0.45]{dijagrami/UC - Registracija ucenika.png} 
+	\includegraphics[scale=0.45]{dijagrami/UC1 - Registracija.png}
 	\centering
-	\caption{Sekvencijski dijagram, UC Registracija učenika}
+	\caption{Sekvencijski dijagram, UC1 Registracija}
 	\label{fig:uc-registracija}
 \end{figure}
 
-\subsubsection{{Obrazac uporabe Pregledavanje i odabir rječnika}}
+\eject
+
+\subsubsection{{Obrazac uporabe 8 -- Pregledavanje i odabir rječnika}}
 
 Nakon što je odabrao jezik, korisniku se treba prikazati popis svih dostupnih rječnika za taj jezik, a web aplikacija te podatke dohvaća slanjem upita na bazu podataka. Prije prikazivanja podataka korisniku, web aplikacija provjerava koliko je rječnika vratila baza. U slučaju da baza nije vratila nijedan rječnik, korisniku se prikazuje poruka da za odabrani jezik trenutno ne postoji nijedan rječnik. Inače se korisniku prikazuje popis rječnika.
 
 I administratori i učenici mogu pristupati odabiru rječnika. Odabirom rječnika web aplikacija preusmjerava učenika na zaslon za odabir načina učenja, dok administratora preusmjerava na zaslon sa detaljnijim sadržajem rječnika (popisom riječi u rječniku, nazivom rječnika). U slučaju da administrator ne odabere rječnik, već zatraži brisanje rječnika, web aplikacija mu prikazuje okvir za potvrdu brisanja rječnika preko kojeg može izbrisati rječnik iz sustava. Administrator također može odabrati opciju za stvaranje novog rječnika, nakon čega ga web aplikacija preusmjerava na zaslon s obrascem za stvaranje rječnika.
 
 \begin{figure}[p]
-	\includegraphics[scale=0.5]{dijagrami/UC - Pregledavanje i odabir rjecnika.png} 
+	\includegraphics[scale=0.5]{dijagrami/UC8 - Pregledavanje i odabir rječnika.png}
 	\centering
-	\caption{Sekvencijski dijagram, UC Pregledavanje i odabir rječnika}
+	\caption{Sekvencijski dijagram, UC8 Pregledavanje i odabir rječnika}
 	\label{fig:uc-odabir-rjecnika}
 \end{figure}
 
+\eject
 
-\subsubsection{{Obrazac uporabe Promjena sadržaja rječnika}}
+\subsubsection{{Obrazac uporabe 10 - Promjena sadržaja rječnika}}
 
 Administrator šalje zahtjev web aplikaciji za popis svih riječi u rječniku. Web aplikacija dohvaća popis riječi iz baze podataka te ga prikazuje korisniku. Ako administrator odabere opciju "ukloni" pored određene riječi, tada šalje zahtjev za uklanjanje aplikaciji, a aplikacija šalje zahtjev za brisanje riječi u bazi podataka i potvrđuje brisanje administratoru. U slučaju da administrator odabere opciju "dodaj riječ", aplikacija dohvaća riječi koje se ne nalaze u rječniku iz baze podataka i prikazuje ih administratoru. Ako nema dostupnih riječi, aplikacija šalje informativnu poruku administratoru umjesto popisa. U suprotnom, administrator odabire jednu ili više riječi, potvrđuje odabir, i riječi se pohranjuju u bazu podataka putem aplikacije.
 
 \begin{figure}[p]
-	\includegraphics[scale=0.55]{dijagrami/UC - Promjena sadrzaja rjecnika.png} 
+	\includegraphics[scale=0.55]{dijagrami/UC10 - Promjena sadržaja rječinka.png}
 	\centering
-	\caption{Sekvencijski dijagram, UC Promjena sadržaja rječnika}
+	\caption{Sekvencijski dijagram, UC10 Promjena sadržaja rječnika}
 	\label{fig:uc-promjena-rjecnika}
 \end{figure}
 
+\eject
 
 \section{Ostali zahtjevi}
 
@@ -841,10 +844,5 @@ Administrator šalje zahtjev web aplikaciji za popis svih riječi u rječniku. W
 \item sustavu iz javne mreže pristupamo protokolom HTTPS
 \item sustav je dovoljno jednostavan i intuitivan za bilo koju dobnu skupinu korisnika 
 \item za korištenje sustava korisniku je potrebno poznavanje hrvatskog jezika
-\item rječnik mora imati barem 10 riječi
 \item prijevodi riječi moraju biti ispravni
 \end{itemize}
-			 
-			 
-			 
-	
