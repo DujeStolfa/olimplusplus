@@ -7,7 +7,7 @@
 
 2. sastanak
 • Datum: u ovom formatu: 25. listopada 2023.
-• Prisustvovali: N.Buli´c, D.Štolfa, I. Žilić
+• Prisustvovali: N.Bulić, D.Štolfa, I. Žilić
 • Teme sastanka:
 – popis obrazaca uporabe
 – razrada aktora, dionika i funkcijskih zahtjeva
