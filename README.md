@@ -76,8 +76,8 @@ Naš backend je [HTTP REST API](https://ferhr-my.sharepoint.com/:b:/g/personal/d
     "ime": "...", 
     "prezime": "...",
     "email": "...",
-	"lozinka": "...",
-	"uloga": "..."
+    "lozinka": "...",
+    "uloga": "..."
 }
 ```
 2. U pgAdminu provjerite je li korisnik uspješno dodan u bazu
