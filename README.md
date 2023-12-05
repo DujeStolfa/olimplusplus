@@ -13,6 +13,13 @@ Za pokretanje aplikacije trebate imati instaliran:
 U razvoju će vam dobro doći i:
 - Postman
 
+> **Napomena - VAŽNO**
+>
+> Prije nego što nastavite provjerite imate li pristup `pg_config` datoteci. 
+>
+> Dakle, otvorite terminal i upišite `pg_config`. Trebala bi se ispisati konfiguracija vašeg postgresa.
+> Ako izvršavanje te naredbe završi s `command not found` greškom, trebate dodati lokaciju te datoteke u PATH.
+
 ## Server
 
 Pri prvom pokretanju backenda potrebno je:
@@ -23,6 +30,7 @@ izvornikod/server> .venv\Scripts\activate
 ```
 
 2. Instalirati vanjske pakete iz `requirements.txt` datoteke
+	- Ako u ovom koraku ne budete mogli instalirati paket `psycopg2`, provjerite imate li pristup `pg_config` datoteci i dodajte je u PATH
 ```console
 (.venv) izvornikod/server> pip install -r requirements.txt
 ```
