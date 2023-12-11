@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { endpoints } from "../endpoints";
-import LoginInput from "../../../types/inputs/korisnik/LoginInput";
+import LoginInput from "../../../types/inputs/user/LoginInput";
 
 const { auth } = endpoints;
 

@@ -4,9 +4,9 @@ import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { Box, Button, Container, TextField, Typography, Alert } from "@mui/material";
 
-import ULOGA from "../../types/enums/Uloga";
+import ROLE from "../../types/enums/Role";
 import route from "../../constants/route";
-import LoginInput from "../../types/inputs/korisnik/LoginInput";
+import LoginInput from "../../types/inputs/user/LoginInput";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { attemptLogin } from "../../redux/slices/authSlice";
 import { FormTitleWrapper, FormWrapper, ScreenWrapper } from "./index.styled";
@@ -16,7 +16,7 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { korisnik, authenticated } = useSelector((state: RootState) => state.auth)
+  const { user, authenticated } = useSelector((state: RootState) => state.auth)
   const { register, handleSubmit } = useForm<LoginInput>();
 
   const onSubmit = (data: LoginInput) => {
@@ -24,18 +24,18 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (korisnik !== undefined) {
+    if (user !== undefined) {
       if (location.state) {
         navigate(`${location.state.from.pathname}`);
       } else {
-        if (korisnik.uloga === ULOGA.Admin) {
+        if (user.role === ROLE.Admin) {
           navigate(`/${route.adminInfo}`);
-        } else if (korisnik.uloga === ULOGA.Ucenik) {
+        } else if (user.role === ROLE.Student) {
           navigate(`/${route.studentInfo}`);
         }
       }
     }
-  }, [korisnik, location]);
+  }, [user, location]);
 
   return (
     <ScreenWrapper>
@@ -65,10 +65,10 @@ const Login = () => {
             </Box>
             <Box marginBottom="20px">
               <TextField
-                {...register("lozinka")}
+                {...register("password")}
                 label="Lozinka"
-                name="lozinka"
-                id="lozinka"
+                name="password"
+                id="password"
                 type="password"
                 required
                 fullWidth

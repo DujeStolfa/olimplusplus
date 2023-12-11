@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Box, Button, Container, TextField, Typography, Alert, Stack } from "@mui/material";
 
 import route from "../../constants/route";
-import RegisterInput from "../../types/inputs/korisnik/RegisterInput";
+import RegisterInput from "../../types/inputs/user/RegisterInput";
 import { useAppDispatch } from "../../redux/store";
 import { registerStudent } from "../../redux/slices/authSlice";
 import { FormTitleWrapper, FormWrapper, ScreenWrapper } from "./index.styled";
@@ -39,19 +39,19 @@ const Register = () => {
             </Box>
             <Box marginBottom="20px">
               <TextField
-                {...register("ime")}
+                {...register("firstname")}
                 label="Ime"
-                name="ime"
-                id="ime"
+                name="firstname"
+                id="firstname"
                 required
                 fullWidth
               />
             </Box><Box marginBottom="20px">
               <TextField
-                {...register("prezime")}
+                {...register("lastname")}
                 label="Prezime"
-                name="prezime"
-                id="prezime"
+                name="lastname"
+                id="lastname"
                 required
                 fullWidth
               />

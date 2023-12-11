@@ -1,7 +1,7 @@
 interface RegisterInput {
   email: string;
-  ime: string;
-  prezime: string;
+  firstname: string;
+  lastname: string;
 }
 
 export default RegisterInput;

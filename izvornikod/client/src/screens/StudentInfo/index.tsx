@@ -1,18 +1,18 @@
 import React from "react";
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { ActionsWrapper, InfoWrapper } from "../../components/common/styled";
+import { InfoWrapper } from "../../components/common/styled";
 import InfoActions from "../../components/common/InfoActions";
 
 const StudentInfo = () => {
-  const { korisnik } = useSelector((state: RootState) => state.auth)
+  const { user } = useSelector((state: RootState) => state.auth)
 
   return (
     <InfoWrapper>
-      <Typography variant="h2" sx={{ marginBottom: 2 }}>Bok, {korisnik?.ime}!</Typography>
+      <Typography variant="h2" sx={{ marginBottom: 2 }}>Bok, {user?.firstname}!</Typography>
       <Typography variant="h6">Prijavljeni ste kao učenik.</Typography>
-      <Typography variant="body1">Vaša email adresa je {korisnik?.email}</Typography>
+      <Typography variant="body1">Vaša email adresa je {user?.email}</Typography>
       <InfoActions />
     </InfoWrapper>
   );

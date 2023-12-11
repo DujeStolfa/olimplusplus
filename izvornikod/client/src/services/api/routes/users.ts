@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { endpoints } from "../endpoints";
-import RegisterInput from "../../../types/inputs/korisnik/RegisterInput";
+import RegisterInput from "../../../types/inputs/user/RegisterInput";
 
 const { users } = endpoints;
 

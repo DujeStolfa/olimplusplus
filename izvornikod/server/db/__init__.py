@@ -4,4 +4,4 @@ db = SQLAlchemy()
 
 from . import models, schemas
 
-korisnik_schema = schemas.KorisnikSchema()
+user_schema = schemas.UserSchema()

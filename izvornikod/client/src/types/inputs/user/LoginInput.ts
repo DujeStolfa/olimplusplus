@@ -1,6 +1,6 @@
 interface LoginInput {
   email: string;
-  lozinka: string;
+  password: string;
 }
 
 export default LoginInput;

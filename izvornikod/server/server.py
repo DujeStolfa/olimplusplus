@@ -24,7 +24,7 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
-    return models.Korisnik.query.get(int(user_id))
+    return models.User.query.get(int(user_id))
 
 
 from api import api as api_blueprint

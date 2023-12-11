@@ -1,21 +1,22 @@
 from flask import request
 
 from db import db
-from db.models import Korisnik
+from db.models import User
 from . import api
+
 
 @api.route("users/register-student", methods=["POST"])
 def register_student():
     user_data = request.json
 
-    lozinka = "progi123"
+    password = "progi123"
 
-    user = Korisnik(
-        user_data["ime"],
-        user_data["prezime"],
+    user = User(
+        user_data["firstname"],
+        user_data["lastname"],
         user_data["email"],
-        lozinka,
-        "ucenik",
+        password,
+        "student",
     )
     db.session.add(user)
     db.session.commit()

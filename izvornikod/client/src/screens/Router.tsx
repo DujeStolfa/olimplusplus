@@ -8,16 +8,16 @@ import Register from "./Register";
 
 import route from "../constants/route";
 import ProtectedRoute from "../components/common/ProtectedRoute";
-import ULOGA from "../types/enums/Uloga";
+import ROLE from "../types/enums/Role";
 
 
 const appRouter = createBrowserRouter(
     createRoutesFromElements(
         <>
-            <Route element={<ProtectedRoute uloge={[ULOGA.Admin]} />}>
+            <Route element={<ProtectedRoute uloge={[ROLE.Admin]} />}>
                 <Route path={`${route.adminInfo}`} element={<AdminInfo />} />
             </Route>
-            <Route element={<ProtectedRoute uloge={[ULOGA.Ucenik]} />}>
+            <Route element={<ProtectedRoute uloge={[ROLE.Student]} />}>
                 <Route path={`${route.studentInfo}`} element={<StudentInfo />} />
             </Route>
             <Route path={`${route.login}`} element={<Login />} />

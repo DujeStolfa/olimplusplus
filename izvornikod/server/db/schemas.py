@@ -1,10 +1,10 @@
 from marshmallow import Schema, fields
 
 
-class KorisnikSchema(Schema):
-    korisnikid = fields.Int()
-    ime = fields.Str()
-    prezime = fields.Str()
+class UserSchema(Schema):
+    userid = fields.Int()
+    firstname = fields.Str()
+    lastname = fields.Str()
     email = fields.Str()
-    uloga = fields.Str()
-    promijeniolozinku = fields.Bool()
+    role = fields.Str()
+    passwordchanged = fields.Bool()

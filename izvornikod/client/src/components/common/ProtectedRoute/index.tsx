@@ -2,27 +2,27 @@ import React, { useEffect } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import ULOGA from "../../../types/enums/Uloga";
+import ROLE from "../../../types/enums/Role";
 import Error from "../../../screens/Error";
 import { RootState, useAppDispatch } from "../../../redux/store";
 import { fetchCurrentUser } from "../../../redux/slices/authSlice";
 
 interface Props {
-  uloge: Array<ULOGA>,
+  uloge: Array<ROLE>,
 }
 
 const ProtectedRoute = ({ uloge }: Props) => {
-  const { korisnik, authenticated } = useSelector((state: RootState) => state.auth);
+  const { user, authenticated } = useSelector((state: RootState) => state.auth);
   const location = useLocation();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (korisnik === undefined) {
+    if (user === undefined) {
       dispatch(fetchCurrentUser());
     }
   }, []);
 
-  const userCanAccess = korisnik !== undefined && uloge.includes(korisnik.uloga);
+  const userCanAccess = user !== undefined && uloge.includes(user.role);
 
   if (!authenticated) {
     return <Navigate to="/login" state={{ from: location }} />;
