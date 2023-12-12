@@ -24,19 +24,9 @@ const Register = () => {
       <Container maxWidth="xs">
         <FormWrapper>
           <FormTitleWrapper>
-            <Typography component="h1" variant="h5">Registrirajte se!</Typography>
+            <Typography component="h1" variant="h5">Create admin</Typography>
           </FormTitleWrapper>
           <Box component="form" width="100%" onSubmit={handleSubmit(onSubmit)}>
-            <Box marginBottom="20px">
-              <Stack spacing={1}>
-                <Alert severity="info">
-                  <s>Privremena lozinka bit će poslana na Vašu email adresu nakon registracije.</s>
-                </Alert>
-                <Alert severity="error">
-                  Za potrebu generičkih funkcionalnosti ne šalju se mailovi s privremenom lozinkom, već su sve lozinke za nove učenike <b>progi123</b>
-                </Alert>
-              </Stack>
-            </Box>
             <Box marginBottom="20px">
               <TextField
                 {...register("firstname")}
@@ -67,11 +57,33 @@ const Register = () => {
                 fullWidth
               />
             </Box>
+            <Box marginBottom="20px">
+              <TextField
+                {...register("email")}
+                label="Inicijalna lozinka"
+                name="email"
+                type="email"
+                id="email"
+                required
+                fullWidth
+              />
+            </Box>
+            <Box marginBottom="20px">
+              <TextField
+                {...register("email")}
+                label="Inicijalna lozinka"
+                name="email"
+                type="email"
+                id="email"
+                required
+                fullWidth
+              />
+            </Box>
             <Button sx={{ marginBottom: "5px" }} type="submit" size="large" variant="contained" fullWidth >
-              Registriraj se
+              Potvrdi
             </Button>
             <Button type="button" variant="text" fullWidth onClick={() => navigate(`/${route.login}`)}>
-              Prijavi se
+              Odustani
             </Button>
           </Box>
         </FormWrapper>
