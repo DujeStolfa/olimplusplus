@@ -3,6 +3,7 @@ const route = Object.freeze({
   studentInfo: 'student-info',
   login: 'login',
   register: 'register',
+  createAdmin: 'createadmin'
 });
 
 export default route;
