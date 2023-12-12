@@ -3,6 +3,7 @@ const route = Object.freeze({
   studentInfo: 'student-info',
   login: 'login',
   register: 'register',
+  studyTypes: 'study-types'
 });
 
 export default route;
