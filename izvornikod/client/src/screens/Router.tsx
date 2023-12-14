@@ -10,6 +10,7 @@ import CreateAdmin from "./CreateAdmin";
 import route from "../constants/route";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import ROLE from "../types/enums/Role";
+import StudyTypes from "./StudyTypes";
 
 
 const appRouter = createBrowserRouter(
@@ -24,6 +25,7 @@ const appRouter = createBrowserRouter(
             <Route path={`${route.login}`} element={<Login />} />
             <Route path={`${route.register}`} element={<Register />} />
             <Route path={`${route.createAdmin}`} element={<CreateAdmin />} />
+            <Route path={`${route.studyTypes}`} element={<StudyTypes />} />     // Nece radi
             <Route path="*" element={<Error errorText="Stranica ne postoji." />} />
         </>
     )
