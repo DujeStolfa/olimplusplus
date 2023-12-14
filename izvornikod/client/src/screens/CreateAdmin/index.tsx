@@ -4,17 +4,17 @@ import { useForm } from "react-hook-form";
 import { Box, Button, Container, TextField, Typography, Alert, Stack } from "@mui/material";
 
 import route from "../../constants/route";
-import RegisterInput from "../../types/inputs/user/RegisterInput";
 import { useAppDispatch } from "../../redux/store";
 import { registerStudent } from "../../redux/slices/authSlice";
 import { FormTitleWrapper, FormWrapper, ScreenWrapper } from "./index.styled";
+import CreateAdminInput from "../../types/inputs/user/CreateAdminInput";
 
-const Register = () => {
+const CreateAdmin = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm<RegisterInput>();
+  const { register, handleSubmit } = useForm<CreateAdminInput>();
 
-  const onSubmit = (data: RegisterInput) => {
+  const onSubmit = (data: CreateAdminInput) => {
     dispatch(registerStudent(data))
     navigate(`/${route.login}`);
   };
@@ -59,22 +59,22 @@ const Register = () => {
             </Box>
             <Box marginBottom="20px">
               <TextField
-                {...register("email")}
+                {...register("password")}
                 label="Inicijalna lozinka"
-                name="email"
-                type="email"
-                id="email"
+                name="password"
+                type="password"
+                id="password"
                 required
                 fullWidth
               />
             </Box>
             <Box marginBottom="20px">
               <TextField
-                {...register("email")}
+                {...register("confirmPassword")}
                 label="Inicijalna lozinka"
-                name="email"
-                type="email"
-                id="email"
+                name="confirmPassword"
+                type="confirmPassword"
+                id="confirmPassword"
                 required
                 fullWidth
               />
@@ -82,7 +82,7 @@ const Register = () => {
             <Button sx={{ marginBottom: "5px" }} type="submit" size="large" variant="contained" fullWidth >
               Potvrdi
             </Button>
-            <Button type="button" variant="text" fullWidth onClick={() => navigate(`/${route.login}`)}>
+            <Button type="button" variant="text" fullWidth onClick={() => navigate(`/${route}`)}>
               Odustani
             </Button>
           </Box>
@@ -92,4 +92,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default CreateAdmin;
