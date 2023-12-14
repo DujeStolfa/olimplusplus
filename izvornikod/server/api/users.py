@@ -22,3 +22,19 @@ def register_student():
     db.session.commit()
 
     return "", 204
+
+@api.route("users/create-admin", methods=["POST"])
+def create_admin():
+    user_data = request.json
+
+    user = User(
+        user_data["firstname"],
+        user_data["lastname"],
+        user_data["email"],
+        user_data["password"],
+        "admin",
+    )
+    db.session.add(user)
+    db.session.commit()
+
+    return "", 204
