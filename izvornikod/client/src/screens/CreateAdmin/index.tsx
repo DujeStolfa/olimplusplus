@@ -6,6 +6,7 @@ import { Box, Button, Container, TextField, Typography, Alert, Stack } from "@mu
 import route from "../../constants/route";
 import { useAppDispatch } from "../../redux/store";
 import { registerStudent } from "../../redux/slices/authSlice";
+import { createAdmin } from "../../redux/slices/authSlice";
 import { FormTitleWrapper, FormWrapper, ScreenWrapper } from "./index.styled";
 import CreateAdminInput from "../../types/inputs/user/CreateAdminInput";
 
@@ -15,7 +16,7 @@ const CreateAdmin = () => {
   const { register, handleSubmit } = useForm<CreateAdminInput>();
 
   const onSubmit = (data: CreateAdminInput) => {
-    dispatch(registerStudent(data))
+    dispatch(createAdmin(data))
     navigate(`/${route.login}`);
   };
 

@@ -5,6 +5,7 @@ import usersService from "../../services/api/routes/users";
 import User from "../../types/models/User";
 import LoginInput from "../../types/inputs/user/LoginInput";
 import RegisterInput from "../../types/inputs/user/RegisterInput";
+import CreateAdminInput from "../../types/inputs/user/CreateAdminInput";
 
 interface AuthState {
   user: User | undefined;
@@ -48,6 +49,14 @@ const registerStudent = createAsyncThunk(
   }
 );
 
+const createAdmin = createAsyncThunk(
+  'auth/createAdminStatus',
+  async (data: CreateAdminInput) => {
+    const response = await usersService.createAdmin(data);
+    return response.data;
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -84,6 +93,7 @@ export {
   attemptLogout,
   fetchCurrentUser,
   registerStudent,
+  createAdmin
 };
 
 export default authSlice.reducer;
