@@ -1,4 +1,5 @@
-from flask import request
+from flask import abort, request
+import bcrypt
 
 from db import db
 from db.models import User
@@ -23,6 +24,7 @@ def register_student():
 
     return "", 204
 
+
 @api.route("users/create-admin", methods=["POST"])
 def create_admin():
     user_data = request.json
@@ -35,6 +37,30 @@ def create_admin():
         "admin",
     )
     db.session.add(user)
+    db.session.commit()
+
+    return "", 204
+
+
+@api.route("/users/edit-password", methods=["PUT"])
+def edit_password():
+    user_data = request.json
+
+    if "newPassword" not in user_data or "email" not in user_data:
+        return abort(400)
+
+    new_password = user_data["newPassword"]
+
+    user = db.session.execute(
+        db.select(User).where(User.email == user_data["email"])
+    ).scalar()
+
+    user.password = bcrypt.hashpw(
+        new_password.encode("utf-8"), bcrypt.gensalt()
+    ).decode()
+    db.session.commit()
+
+    user.passwordchanged = True
     db.session.commit()
 
     return "", 204

@@ -6,6 +6,7 @@ import User from "../../types/models/User";
 import LoginInput from "../../types/inputs/user/LoginInput";
 import RegisterInput from "../../types/inputs/user/RegisterInput";
 import CreateAdminInput from "../../types/inputs/user/CreateAdminInput";
+import EditPasswordInput from "../../types/inputs/user/EditPasswordInput";
 
 interface AuthState {
   user: User | undefined;
@@ -57,6 +58,14 @@ const createAdmin = createAsyncThunk(
   }
 );
 
+const editPassword = createAsyncThunk(
+  'auth/editPasswordStatus',
+  async (data: EditPasswordInput) => {
+    const response = await usersService.editPassword(data);
+    return response.data;
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -93,7 +102,8 @@ export {
   attemptLogout,
   fetchCurrentUser,
   registerStudent,
-  createAdmin
+  createAdmin,
+  editPassword,
 };
 
 export default authSlice.reducer;
