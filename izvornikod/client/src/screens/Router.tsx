@@ -12,6 +12,7 @@ import EditPassword from "./EditPassword";
 import route from "../constants/route";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import ROLE from "../types/enums/Role";
+import ForeignTranslation from "./ForeignTranslation";
 
 
 const appRouter = createBrowserRouter(
@@ -28,6 +29,7 @@ const appRouter = createBrowserRouter(
             <Route path={`${route.register}`} element={<Register />} />
             <Route path={`${route.createAdmin}`} element={<CreateAdmin />} />
             <Route path={`${route.studyTypes}`} element={<StudyTypes />} />
+            <Route path={`${route.foreignTranslation}`} element={<ForeignTranslation />} />
             <Route path="*" element={<Error errorText="Stranica ne postoji." />} />
         </>
     )

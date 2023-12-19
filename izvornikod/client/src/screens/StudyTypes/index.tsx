@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { redirect, useLocation, useNavigate } from "react-router-dom";
 import { Button, Container, Stack, Typography} from "@mui/material"; // Yoink Dujinog koda i importa iz Logina
 import { ScreenWrapper } from "../Login/index.styled";
-import { StyledButton } from "./index.styled";
+import route from "../../constants/route";
 
 
 const StudyTypes = () => {
@@ -16,7 +16,7 @@ const StudyTypes = () => {
                 <Typography component="h1" variant="h5">Pick a study method for this dictionary among the following: </Typography>
                 <br />
                 <Stack direction="column" spacing={2}>
-                    <StyledButton size="large">Foreign translation</StyledButton>
+                    <Button size="large" onClick={() => navigate(`/${route.foreignTranslation}`)}>Foreign translation</Button>
                     <Button size="large">Native translation</Button>
                     <Button size="large">Spelling exercise</Button>
                     <Button size="large">Listening exercise</Button>

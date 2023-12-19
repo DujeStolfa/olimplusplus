@@ -5,7 +5,8 @@ const route = Object.freeze({
   register: 'register',
   createAdmin: 'createadmin',
   studyTypes: 'study-types',
-  editPassword: 'edit-password'
+  editPassword: 'edit-password',
+  foreignTranslation: 'foreign-translation'
 });
 
 export default route;
