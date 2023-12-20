@@ -8,7 +8,7 @@ import Register from "./Register";
 import CreateAdmin from "./CreateAdmin";
 import StudyTypes from "./StudyTypes";
 import EditPassword from "./EditPassword";
-
+import CreateWord from "./CreateWord";
 import route from "../constants/route";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import ROLE from "../types/enums/Role";
@@ -28,6 +28,7 @@ const appRouter = createBrowserRouter(
             <Route path={`${route.register}`} element={<Register />} />
             <Route path={`${route.createAdmin}`} element={<CreateAdmin />} />
             <Route path={`${route.studyTypes}`} element={<StudyTypes />} />
+            <Route path={`${route.createWord}`} element={<CreateWord />} />
             <Route path="*" element={<Error errorText="Stranica ne postoji." />} />
         </>
     )

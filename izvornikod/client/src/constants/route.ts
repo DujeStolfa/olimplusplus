@@ -5,6 +5,7 @@ const route = Object.freeze({
   register: 'register',
   createAdmin: 'createadmin',
   studyTypes: 'study-types',
+  createWord: 'createword',
   editPassword: 'edit-password'
 });
 
