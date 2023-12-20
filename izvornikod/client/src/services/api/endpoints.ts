@@ -5,6 +5,7 @@ export const baseUrl = base;
 
 const authBase = `${base}/auth`;
 const usersBase = `${base}/users`;
+const dictionariesBase = `${base}/dictionaries`;
 
 export const endpoints = {
   auth: {
@@ -12,5 +13,8 @@ export const endpoints = {
   },
   users: {
     base: usersBase,
+  },
+  dictionaries: {
+    base: dictionariesBase,
   },
 };

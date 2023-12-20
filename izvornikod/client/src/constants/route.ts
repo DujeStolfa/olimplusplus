@@ -7,7 +7,8 @@ const route = Object.freeze({
   studyTypes: 'study-types',
   createWord: 'createword',
   editPassword: 'edit-password',
-  foreignTranslation: 'foreign-translation'
+  foreignTranslation: 'foreign-translation',
+  dictionaries: 'dictionaries',
 });
 
 export default route;

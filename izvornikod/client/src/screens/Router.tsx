@@ -1,5 +1,6 @@
 import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 
+// Screens and components
 import Login from "./Login";
 import AdminInfo from "./AdminInfo";
 import StudentInfo from "./StudentInfo";
@@ -9,10 +10,15 @@ import CreateAdmin from "./CreateAdmin";
 import StudyTypes from "./StudyTypes";
 import EditPassword from "./EditPassword";
 import CreateWord from "./CreateWord";
-import route from "../constants/route";
-import ProtectedRoute from "../components/common/ProtectedRoute";
-import ROLE from "../types/enums/Role";
 import ForeignTranslation from "./ForeignTranslation";
+import Dictionaries from "./Dictionaries";
+import ProtectedRoute from "../components/common/ProtectedRoute";
+
+// local imports
+import route from "../constants/route";
+import ROLE from "../types/enums/Role";
+import store from "../redux/store";
+import { fetchDictionaries } from "../redux/slices/dictionariesSlice";
 
 
 const appRouter = createBrowserRouter(
@@ -21,6 +27,15 @@ const appRouter = createBrowserRouter(
             <Route element={<ProtectedRoute uloge={[ROLE.Admin]} />}>
                 <Route path={`${route.adminInfo}`} element={<AdminInfo />} />
                 <Route path={`${route.editPassword}`} element={<EditPassword />} />
+                <Route
+                    path={`${route.dictionaries}`}
+                    element={<Dictionaries />}
+                    loader={() => {
+                        // hardkodiran languageid, prominit kad dodamo odabir jezika
+                        store.dispatch(fetchDictionaries(1))
+                        return true
+                    }}
+                />
             </Route>
             <Route element={<ProtectedRoute uloge={[ROLE.Student]} />}>
                 <Route path={`${route.studentInfo}`} element={<StudentInfo />} />
