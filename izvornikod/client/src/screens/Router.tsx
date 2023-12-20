@@ -24,13 +24,13 @@ const appRouter = createBrowserRouter(
             </Route>
             <Route element={<ProtectedRoute uloge={[ROLE.Student]} />}>
                 <Route path={`${route.studentInfo}`} element={<StudentInfo />} />
+                <Route path={`${route.foreignTranslation}`} element={<ForeignTranslation />} />
+                <Route path={`${route.studyTypes}`} element={<StudyTypes />} />
             </Route>
             <Route path={`${route.login}`} element={<Login />} />
             <Route path={`${route.register}`} element={<Register />} />
             <Route path={`${route.createAdmin}`} element={<CreateAdmin />} />
-            <Route path={`${route.studyTypes}`} element={<StudyTypes />} />
             <Route path={`${route.createWord}`} element={<CreateWord />} />
-            <Route path={`${route.foreignTranslation}`} element={<ForeignTranslation />} />
             <Route path="*" element={<Error errorText="Stranica ne postoji." />} />
         </>
     )
