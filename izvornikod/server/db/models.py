@@ -30,3 +30,26 @@ class User(db.Model, UserMixin):
 
     def get_id(self):
         return self.userid
+
+
+class Language(db.Model):
+    languageid = db.Column(db.Integer, primary_key=True)
+    languagename = db.Column(db.String(128), nullable=False)
+    isocode = db.Column(db.String(8), nullable=False, unique=True)
+
+    def __init__(self, languagename, isocode):
+        self.languagename = languagename
+        self.isocode = isocode
+
+
+class Dictionary(db.Model):
+    dictionaryid = db.Column(db.Integer, primary_key=True)
+    dictionaryname = db.Column(db.String(128), nullable=False)
+    dictionarycreatedat = db.Column(
+        db.TIMESTAMP, nullable=False, default=datetime.utcnow
+    )
+    languageid = db.Column(db.ForeignKey(Language.languageid), nullable=False)
+
+    def __init__(self, dictionaryname, languageid):
+        self.dictionaryname = dictionaryname
+        self.languageid = languageid
