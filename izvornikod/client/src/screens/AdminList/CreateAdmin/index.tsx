@@ -1,23 +1,25 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { Box, Button, Container, TextField, Typography, Alert, Stack } from "@mui/material";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
 
-import route from "../../constants/route";
-import { useAppDispatch } from "../../redux/store";
-import { registerStudent } from "../../redux/slices/authSlice";
-import { createAdmin } from "../../redux/slices/authSlice";
+import { useAppDispatch } from "../../../redux/store";
+import { createAdmin } from "../../../redux/slices/authSlice";
 import { FormTitleWrapper, FormWrapper, ScreenWrapper } from "./index.styled";
-import CreateAdminInput from "../../types/inputs/user/CreateAdminInput";
+import CreateAdminInput from "../../../types/inputs/user/CreateAdminInput";
 
-const CreateAdmin = () => {
+interface Props {
+  toggleDrawer: () => void;
+  refreshAdmins: () => void;
+}
+
+const CreateAdmin: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const { register, handleSubmit } = useForm<CreateAdminInput>();
 
-  const onSubmit = (data: CreateAdminInput) => {
-    dispatch(createAdmin(data))
-    navigate(`/${route.login}`);
+  const onSubmit = async (data: CreateAdminInput) => {
+    await dispatch(createAdmin(data));
+    props.toggleDrawer();
+    props.refreshAdmins();
   };
 
   return (
@@ -25,7 +27,9 @@ const CreateAdmin = () => {
       <Container maxWidth="xs">
         <FormWrapper>
           <FormTitleWrapper>
-            <Typography component="h1" variant="h5">Create admin</Typography>
+            <Typography component="h1" variant="h5">
+              Create admin
+            </Typography>
           </FormTitleWrapper>
           <Box component="form" width="100%" onSubmit={handleSubmit(onSubmit)}>
             <Box marginBottom="20px">
@@ -37,7 +41,8 @@ const CreateAdmin = () => {
                 required
                 fullWidth
               />
-            </Box><Box marginBottom="20px">
+            </Box>
+            <Box marginBottom="20px">
               <TextField
                 {...register("lastname")}
                 label="Prezime"
@@ -80,10 +85,21 @@ const CreateAdmin = () => {
                 fullWidth
               />
             </Box>
-            <Button sx={{ marginBottom: "5px" }} type="submit" size="large" variant="contained" fullWidth >
+            <Button
+              sx={{ marginBottom: "5px" }}
+              type="submit"
+              size="large"
+              variant="contained"
+              fullWidth
+            >
               Potvrdi
             </Button>
-            <Button type="button" variant="text" fullWidth onClick={() => navigate(`/${route}`)}>
+            <Button
+              type="button"
+              variant="text"
+              fullWidth
+              onClick={() => props.toggleDrawer()}
+            >
               Odustani
             </Button>
           </Box>

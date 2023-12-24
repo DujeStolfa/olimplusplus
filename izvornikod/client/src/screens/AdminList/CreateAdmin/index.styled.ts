@@ -13,7 +13,6 @@ export const FormWrapper = styled(Paper)`
   flex-direction: column;
   align-items: center;
   padding: 2.5em;
-  width:
 `;
 
 export const FormTitleWrapper = styled(Box)`

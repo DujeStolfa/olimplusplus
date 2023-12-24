@@ -1,7 +1,7 @@
-from flask import abort, request
+from flask import abort,jsonify, request, session
 import bcrypt
 
-from db import db
+from db import db, user_schema, users_schema
 from db.models import User
 from . import api
 
@@ -41,6 +41,51 @@ def create_admin():
 
     return "", 204
 
+@api.route("users/edit-admin/<int:userId>", methods=["POST"])
+def edit_admin(userId):
+    admin_data = request.json
+
+    admin = User.query.filter_by(userid=userId, role="admin").first()
+
+    if admin is None:
+        return jsonify({"error": "Admin not found"}), 404
+
+    admin.firstname = admin_data["firstname"]
+    admin.lastname = admin_data["lastname"]
+    admin.email = admin_data["email"]
+    admin.role = admin_data["role"]
+
+    db.session.commit()
+
+    return "", 204
+
+@api.route("users/get-admins", methods=["GET"])
+def get_admins():
+
+    users = db.session.execute(
+        db.select(User.userid,
+                  User.firstname,
+                  User.lastname,
+                  User.email,
+                  User.role,
+                  User.passwordchanged,
+                  User.usercreatedat,).where(User.role == "admin")
+    ).all()
+
+    return users_schema.dump(users)
+
+@api.route("users/delete-admin/<int:userId>", methods=["DELETE"])
+def delete_admin(userId):
+
+    admin = User.query.filter_by(userid=userId, role="admin").first()
+
+    if admin is None:
+        return jsonify({"error": "Admin not found"}), 404
+
+    db.session.delete(admin)
+    db.session.commit()
+
+    return "", 204
 
 @api.route("/users/edit-password", methods=["PUT"])
 def edit_password():

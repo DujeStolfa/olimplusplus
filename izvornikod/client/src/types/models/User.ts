@@ -7,6 +7,7 @@ interface User {
   email: string;
   role: ROLE;
   passwordchanged: boolean;
+  usercreatedat: string;
 }
 
 export default User;

@@ -8,6 +8,7 @@ class UserSchema(Schema):
     email = fields.Str()
     role = fields.Str()
     passwordchanged = fields.Bool()
+    usercreatedat = fields.DateTime()
 
 
 class DictionarySchema(Schema):
