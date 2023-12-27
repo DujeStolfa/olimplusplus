@@ -16,3 +16,11 @@ class DictionarySchema(Schema):
     dictionaryname = fields.Str()
     dictionarycreatedat = fields.DateTime()
     languageid = fields.Int(load_only=True)
+
+
+class WordSchema(Schema):
+    wordid = fields.Int()
+    croatianname = fields.Str()
+    foreignname = fields.Str()
+    audiopath = fields.Str()
+    languageid = fields.Int(load_only=True)

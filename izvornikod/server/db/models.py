@@ -53,3 +53,17 @@ class Dictionary(db.Model):
     def __init__(self, dictionaryname, languageid):
         self.dictionaryname = dictionaryname
         self.languageid = languageid
+
+
+class Word(db.Model):
+    wordid = db.Column(db.Integer, primary_key=True)
+    croatianname = db.Column(db.String(128), nullable=False)
+    foreignname = db.Column(db.String(128), nullable=False)
+    audiopath = db.Column(db.String(128), nullable=False)
+    languageid = db.Column(db.ForeignKey(Language.languageid), nullable=False)
+
+    def __init__(self, croatianname, foreignname, audiopath, languageid):
+        self.croatianname = croatianname
+        self.foreignname = foreignname
+        self.audiopath = audiopath
+        self.languageid = languageid
