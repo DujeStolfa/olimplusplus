@@ -17,6 +17,7 @@ import CreateWord from "./CreateWord";
 import ForeignTranslation from "./ForeignTranslation";
 import Dictionaries from "./Dictionaries";
 import ProtectedRoute from "../components/common/ProtectedRoute";
+import EditDictionary from "./EditDictionary";
 
 // local imports
 import route from "../constants/route";
@@ -30,6 +31,7 @@ const appRouter = createBrowserRouter(
       <Route element={<ProtectedRoute uloge={[ROLE.Admin]} />}>
         <Route path={`${route.adminInfo}`} element={<AdminInfo />} />
         <Route path={`${route.editPassword}`} element={<EditPassword />} />
+        <Route path={`${route.editDictionary}`} element={<EditDictionary />} />
         <Route
           path={`${route.dictionaries}`}
           element={<Dictionaries />}

@@ -11,6 +11,7 @@ const route = Object.freeze({
   editPassword: 'edit-password',
   foreignTranslation: 'foreign-translation',
   dictionaries: 'dictionaries',
+  editDictionary: 'edit-dictionary'
 });
 
 export default route;
