@@ -26,6 +26,7 @@ import ROLE from "../types/enums/Role";
 import store from "../redux/store";
 import { fetchDictionaries } from "../redux/slices/dictionariesSlice";
 import Words from "./Words";
+import { fetchWords } from "../redux/slices/wordsSlice";
 
 const appRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -44,10 +45,9 @@ const appRouter = createBrowserRouter(
           }}
         />
         <Route
-          path={`${route.words}`}
-          element={<Words />}
+          path={`${route.words}`} element={<Words />}
           loader={() => {
-            store.dispatch(fetchDictionaries(1));
+            store.dispatch(fetchWords(2));
             return true;
           }}
         />
