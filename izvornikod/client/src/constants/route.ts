@@ -12,7 +12,8 @@ const route = Object.freeze({
   foreignTranslation: 'foreign-translation',
   dictionaries: 'dictionaries',
   editDictionary: 'edit-dictionary',
-  selectLanguage: 'selectlanguage'
+  selectLanguage: 'selectlanguage',
+  words: 'words'
 });
 
 export default route;

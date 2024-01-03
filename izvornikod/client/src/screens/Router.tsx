@@ -25,6 +25,7 @@ import route from "../constants/route";
 import ROLE from "../types/enums/Role";
 import store from "../redux/store";
 import { fetchDictionaries } from "../redux/slices/dictionariesSlice";
+import Words from "./Words";
 
 const appRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -38,6 +39,14 @@ const appRouter = createBrowserRouter(
           element={<Dictionaries />}
           loader={() => {
             // hardkodiran languageid, prominit kad dodamo odabir jezika
+            store.dispatch(fetchDictionaries(1));
+            return true;
+          }}
+        />
+        <Route
+          path={`${route.words}`}
+          element={<Words />}
+          loader={() => {
             store.dispatch(fetchDictionaries(1));
             return true;
           }}
