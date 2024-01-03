@@ -18,6 +18,7 @@ import ForeignTranslation from "./ForeignTranslation";
 import Dictionaries from "./Dictionaries";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import EditDictionary from "./EditDictionary";
+import SelectLanguage from "./SelectLanguage";
 
 // local imports
 import route from "../constants/route";
@@ -54,6 +55,7 @@ const appRouter = createBrowserRouter(
       <Route path={`${route.register}`} element={<Register />} />
       <Route path={`${route.adminList}`} element={<AdminList />} />
       <Route path={`${route.createWord}`} element={<CreateWord />} />
+      <Route path={`${route.selectLanguage}`} element={<SelectLanguage />} />
       <Route path="*" element={<Error errorText="Stranica ne postoji." />} />
     </>
   )
