@@ -18,7 +18,6 @@ const WordsTableRow = ({ word }: Props) => {
     >
       <TableCell>{word.croatianname}</TableCell>
       <TableCell>{word.foreignname}</TableCell>
-      <TableCell>nije implementirano</TableCell>
       <TableCell align="right">
         <IconButton
           size="small"

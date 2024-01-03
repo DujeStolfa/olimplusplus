@@ -10,9 +10,8 @@ const WordsTable = () => {
   return <Table>
     <TableHead>
       <TableRow>
-        <TableCell width="45%">Hrvatski naziv</TableCell>
-        <TableCell>Strani naziv</TableCell>
-        <TableCell>Audio</TableCell>
+        <TableCell width="45%">Naziv</TableCell>
+        <TableCell>Prijevod</TableCell>
         <TableCell width="10%"></TableCell>
       </TableRow>
     </TableHead>
