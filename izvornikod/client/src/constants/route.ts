@@ -13,7 +13,8 @@ const route = Object.freeze({
   dictionaries: 'dictionaries',
   editDictionary: 'edit-dictionary',
   selectLanguage: 'selectlanguage',
-  words: 'words'
+  words: 'words',
+  selectDictionary: 'select-dictionary',
 });
 
 export default route;

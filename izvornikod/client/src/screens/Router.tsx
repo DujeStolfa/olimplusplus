@@ -19,13 +19,14 @@ import Dictionaries from "./Dictionaries";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import EditDictionary from "./EditDictionary";
 import SelectLanguage from "./SelectLanguage";
+import StudentDictionaries from "./StudentDictionaries";
+import Words from "./Words";
 
 // local imports
 import route from "../constants/route";
 import ROLE from "../types/enums/Role";
 import store from "../redux/store";
 import { fetchDictionaries } from "../redux/slices/dictionariesSlice";
-import Words from "./Words";
 import { fetchWords } from "../redux/slices/wordsSlice";
 
 const appRouter = createBrowserRouter(
@@ -53,6 +54,7 @@ const appRouter = createBrowserRouter(
         />
       </Route>
       <Route element={<ProtectedRoute uloge={[ROLE.Student]} />}>
+        <Route path={`${route.selectDictionary}`} element={<StudentDictionaries />} />
         <Route path={`${route.studentInfo}`} element={<StudentInfo />} />
         <Route
           path={`${route.foreignTranslation}`}
