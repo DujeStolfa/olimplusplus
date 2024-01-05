@@ -1,6 +1,7 @@
 import bcrypt
-from flask_login import UserMixin
 from datetime import datetime
+from flask_login import UserMixin
+from sqlalchemy.dialects.postgresql import INTERVAL
 
 from . import db
 
@@ -67,3 +68,45 @@ class Word(db.Model):
         self.foreignname = foreignname
         self.audiopath = audiopath
         self.languageid = languageid
+
+
+class Phrase(db.Model):
+    phraseid = db.Column(db.Integer, primary_key=True)
+    phrase = db.Column(db.String(256), nullable=False)
+    wordid = db.Column(db.ForeignKey(Word.wordid), nullable=False)
+
+    def __init__(self, phrase, wordid):
+        self.phrase = phrase
+        self.wordid = wordid
+
+
+class WordDictionary(db.Model):
+    wordid = db.Column(db.ForeignKey(Word.wordid))
+    dictionaryid = db.Column(db.ForeignKey(Dictionary.dictionaryid))
+
+    __table_args__ = (db.PrimaryKeyConstraint(wordid, dictionaryid),)
+
+    def __init__(self, wordid, dictionaryid):
+        self.wordid = wordid
+        self.dictionaryid = dictionaryid
+
+
+class Bowl(db.Model):
+    bowlid = db.Column(db.Integer, primary_key=True)
+    interval = db.Column(INTERVAL, nullable=False)
+
+    def __init__(self, interval):
+        self.interval = interval
+
+
+class WordState(db.Model):
+    userid = db.Column(db.ForeignKey(User.userid))
+    wordid = db.Column(db.ForeignKey(Word.wordid))
+    bowlid = db.Column(db.ForeignKey(Bowl.bowlid), nullable=True)
+
+    __table_args__ = (db.PrimaryKeyConstraint(userid, wordid),)
+
+    def __init__(self, userid, wordid, bowlid=None):
+        self.userid = userid
+        self.wordid = wordid
+        self.bowlid = bowlid
