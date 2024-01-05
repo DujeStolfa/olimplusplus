@@ -7,24 +7,6 @@ from db.models import User
 from . import api
 
 
-@api.route("/auth/users", methods=["POST"])
-def add_user():
-    """Privremena metoda za stvaranje Usera"""
-    user_data = request.json
-
-    user = User(
-        user_data["firstname"],
-        user_data["lastname"],
-        user_data["email"],
-        user_data["password"],
-        user_data["role"],
-    )
-    db.session.add(user)
-    db.session.commit()
-
-    return jsonify(user.userid), 200
-
-
 @api.route("/auth/login", methods=["POST"])
 def login():
     login_data = request.json

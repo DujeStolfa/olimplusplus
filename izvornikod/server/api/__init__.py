@@ -2,4 +2,4 @@ from flask import Blueprint
 
 api = Blueprint("api", __name__)
 
-from . import auth, users, languages, dictionaries, words
+from . import auth, users, dictionaries, words, dev

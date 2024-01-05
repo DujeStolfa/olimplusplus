@@ -18,6 +18,14 @@ class DictionarySchema(Schema):
     languageid = fields.Int(load_only=True)
 
 
+class DictionaryWordStateSchema(Schema):
+    dictionaryid = fields.Int()
+    dictionaryname = fields.Str()
+    total_word_count = fields.Int()
+    unfinished_word_count = fields.Int()
+    available_word_count = fields.Int()
+
+
 class WordSchema(Schema):
     wordid = fields.Int()
     croatianname = fields.Str()

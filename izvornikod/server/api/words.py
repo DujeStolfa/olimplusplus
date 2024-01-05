@@ -2,7 +2,7 @@ from flask import request
 from flask_login import login_required
 
 from db import db, word_schema, words_schema
-from db.models import Word
+from db.models import Word, User, Bowl, WordState
 from . import api
 
 
@@ -18,6 +18,26 @@ def create_word(languageid):
     )
 
     db.session.add(new_word)
+    db.session.commit()
+
+    # Pri stvaranju riječi obavezno stvoriti zapise u WORD_STATE tablici
+
+    students = db.session.execute(
+        db.select(User.userid).where(User.role == "student")
+    ).all()
+
+    first_bowl_id = (
+        db.session.execute(db.select(Bowl.bowlid).order_by(Bowl.interval))
+        .first()
+        .bowlid
+    )
+
+    word_states = [
+        WordState(student.userid, new_word.wordid, first_bowl_id)
+        for student in students
+    ]
+
+    db.session.bulk_save_objects(word_states)
     db.session.commit()
 
     return word_schema.dump(new_word)

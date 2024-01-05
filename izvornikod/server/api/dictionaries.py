@@ -1,8 +1,10 @@
+from datetime import datetime
 from flask import abort, request
 from flask_login import login_required
+from sqlalchemy import distinct, func
 
-from db import db, dictionary_schema, dictionaries_schema
-from db.models import Dictionary
+from db import db, dictionary_schema, dictionaries_schema, dictionary_word_states_schema
+from db.models import Dictionary, Language, WordDictionary, Word, WordState
 from . import api
 
 
@@ -33,3 +35,55 @@ def get_dictionaries(languageid):
     ).all()
 
     return dictionaries_schema.dump(dictionaries)
+
+
+@api.route("dictionaries/add-word", methods=["POST"])
+@login_required
+def add_word_to_dictionary():
+    # Ovo triba pretvorit u add words, triba primat vise rici odjednon
+    word_dict_data = request.json
+
+    word_dict = WordDictionary(word_dict_data["wordid"], word_dict_data["dictionaryid"])
+    db.session.add(word_dict)
+    db.session.commit()
+
+    return "", 204
+
+
+@api.route("dictionaries/<int:languageid>/student/<int:studentid>")
+@login_required
+def get_student_dictionaries(languageid, studentid):
+    dictionaries = db.session.execute(
+        db.select(
+            Dictionary.dictionaryid,
+            Dictionary.dictionaryname,
+            (
+                db.select(func.count(distinct(Word.wordid)))
+                .join(WordState)
+                .join(WordDictionary)
+                .where(WordDictionary.dictionaryid == Dictionary.dictionaryid)
+                .where(WordState.userid == studentid)
+            ).label("total_word_count"),
+            (
+                db.select(func.count(distinct(Word.wordid)))
+                .join(WordState)
+                .join(WordDictionary)
+                .where(WordDictionary.dictionaryid == Dictionary.dictionaryid)
+                .where(WordState.userid == studentid)
+                .where(WordState.bowlid != None)
+            ).label("unfinished_word_count"),
+            (
+                db.select(func.count(distinct(Word.wordid)))
+                .join(WordState)
+                .join(WordDictionary)
+                .where(WordDictionary.dictionaryid == Dictionary.dictionaryid)
+                .where(WordState.userid == studentid)
+                .where(WordState.bowlid != None)
+                .where(WordState.available_at <= datetime.utcnow())
+            ).label("available_word_count"),
+        )
+        .join(Language)
+        .where(Language.languageid == languageid)
+    ).all()
+
+    return dictionary_word_states_schema.dump(dictionaries)
