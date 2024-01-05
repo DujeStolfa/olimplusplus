@@ -103,10 +103,11 @@ class WordState(db.Model):
     userid = db.Column(db.ForeignKey(User.userid))
     wordid = db.Column(db.ForeignKey(Word.wordid))
     bowlid = db.Column(db.ForeignKey(Bowl.bowlid), nullable=True)
+    available_at = db.Column(db.TIMESTAMP, nullable=False, default=datetime.utcnow)
 
     __table_args__ = (db.PrimaryKeyConstraint(userid, wordid),)
 
-    def __init__(self, userid, wordid, bowlid=None):
+    def __init__(self, userid, wordid, bowlid):
         self.userid = userid
         self.wordid = wordid
         self.bowlid = bowlid
