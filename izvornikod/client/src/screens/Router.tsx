@@ -28,6 +28,7 @@ import ROLE from "../types/enums/Role";
 import store from "../redux/store";
 import { fetchDictionaries } from "../redux/slices/dictionariesSlice";
 import { fetchWords } from "../redux/slices/wordsSlice";
+import { fetchStudentDictionaries } from "../redux/slices/studentDictionariesSlice";
 
 const appRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -54,7 +55,20 @@ const appRouter = createBrowserRouter(
         />
       </Route>
       <Route element={<ProtectedRoute uloge={[ROLE.Student]} />}>
-        <Route path={`${route.selectDictionary}`} element={<StudentDictionaries />} />
+        <Route
+          path={`${route.selectDictionary}`}
+          element={<StudentDictionaries />}
+          loader={() => {
+            const { auth } = store.getState();
+
+            if (auth.user === undefined) {
+              return false;
+            }
+
+            store.dispatch(fetchStudentDictionaries({ languageid: 1, studentid: auth.user.userid }));
+            return true;
+          }}
+        />
         <Route path={`${route.studentInfo}`} element={<StudentInfo />} />
         <Route
           path={`${route.foreignTranslation}`}

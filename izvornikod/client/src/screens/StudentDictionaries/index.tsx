@@ -1,17 +1,22 @@
 import React from "react";
-import { Container } from "@mui/material";
+import { Container, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
+
 import { TableHeading } from "../../components/common/styled";
 import { DictionaryGridWrapper } from "./index.styled";
+import { RootState } from "../../redux/store";
 import DictionaryCard from "./DictionaryCard";
 
 const StudentDictionaries = () => {
-  const testData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+  const { dictionaries } = useSelector((state: RootState) => state.studentDictionaries);
   return (
     <Container>
       <TableHeading variant="h2">Rječnici</TableHeading>
 
       <DictionaryGridWrapper>
-        {testData.map(el => <DictionaryCard />)}
+        {dictionaries.length !== 0 ?
+          dictionaries.map(el => <DictionaryCard dictionary={el} />)
+          : <Typography variant="h6" color="gray"> Nema dostupnih rječnika </Typography>}
       </DictionaryGridWrapper>
     </Container>
   );

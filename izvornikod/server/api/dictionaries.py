@@ -63,7 +63,7 @@ def get_student_dictionaries(languageid, studentid):
                 .join(WordDictionary)
                 .where(WordDictionary.dictionaryid == Dictionary.dictionaryid)
                 .where(WordState.userid == studentid)
-            ).label("total_word_count"),
+            ).label("totalwordcount"),
             (
                 db.select(func.count(distinct(Word.wordid)))
                 .join(WordState)
@@ -71,7 +71,7 @@ def get_student_dictionaries(languageid, studentid):
                 .where(WordDictionary.dictionaryid == Dictionary.dictionaryid)
                 .where(WordState.userid == studentid)
                 .where(WordState.bowlid != None)
-            ).label("unfinished_word_count"),
+            ).label("unfinishedwordcount"),
             (
                 db.select(func.count(distinct(Word.wordid)))
                 .join(WordState)
@@ -80,7 +80,7 @@ def get_student_dictionaries(languageid, studentid):
                 .where(WordState.userid == studentid)
                 .where(WordState.bowlid != None)
                 .where(WordState.available_at <= datetime.utcnow())
-            ).label("available_word_count"),
+            ).label("availablewordcount"),
         )
         .join(Language)
         .where(Language.languageid == languageid)

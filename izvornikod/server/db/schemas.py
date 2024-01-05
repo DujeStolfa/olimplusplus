@@ -21,9 +21,9 @@ class DictionarySchema(Schema):
 class DictionaryWordStateSchema(Schema):
     dictionaryid = fields.Int()
     dictionaryname = fields.Str()
-    total_word_count = fields.Int()
-    unfinished_word_count = fields.Int()
-    available_word_count = fields.Int()
+    totalwordcount = fields.Int()
+    unfinishedwordcount = fields.Int()
+    availablewordcount = fields.Int()
 
 
 class WordSchema(Schema):
