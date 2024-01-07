@@ -8,6 +8,7 @@ const route = Object.freeze({
   editAdmin: 'edit-admin',
   studyTypes: 'study-types',
   createWord: 'createword',
+  addWords: 'add-words',
   editPassword: 'edit-password',
   foreignTranslation: 'foreign-translation',
   dictionaries: 'dictionaries',

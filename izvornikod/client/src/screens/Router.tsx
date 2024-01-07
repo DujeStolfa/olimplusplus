@@ -21,6 +21,7 @@ import EditDictionary from "./EditDictionary";
 import SelectLanguage from "./SelectLanguage";
 import StudentDictionaries from "./StudentDictionaries";
 import Words from "./Words";
+import AddWords from "./AddWords";
 
 // local imports
 import route from "../constants/route";
@@ -53,6 +54,7 @@ const appRouter = createBrowserRouter(
             return true;
           }}
         />
+        <Route path={`${route.addWords}`} element={<AddWords />} />
       </Route>
       <Route element={<ProtectedRoute uloge={[ROLE.Student]} />}>
         <Route
