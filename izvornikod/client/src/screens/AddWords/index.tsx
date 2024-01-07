@@ -17,7 +17,7 @@ const AddWords = () => {
                     flexDirection="row"
                     justifyContent={"space-between"}
                     width="100%"
-                    bgcolor={"red"}
+                    marginTop={"2em"}
                 >
                     <Button variant="contained" sx={{ width: "48%", justifyContent: "flex-end"}}>Cancel</Button>
                     <Button variant="contained" sx={{ width: "48%", justifyContent: "flex-end" }}>Add them words</Button>

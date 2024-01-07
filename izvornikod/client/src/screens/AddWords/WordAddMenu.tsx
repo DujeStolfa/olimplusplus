@@ -16,23 +16,23 @@ const WordAddMenu = () => {
 
     return (
         <Box marginTop={"1em"} marginBottom={"1em"}>
-            <Typography>Word 1</Typography>
             <Accordion>
                 <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
-                sx = {{ display: "flex"}}
                 >
-                <Box
-                    display={"flex"}
-                    flexDirection="row"
-                    justifyContent={"space-between"}
-                    width="100%"
-                    >
-                    <TextField id="outlined-basic" label="Word" variant="outlined" sx={{ width: "48%" }}/>
-                    <TextField id="outlined-basic" label="Translation" variant="outlined" sx={{ width: "48%" }}/>
-                </Box>
-                 </AccordionSummary>
+                <Typography>Word 1</Typography>
+                </AccordionSummary>
                 <AccordionDetails>
+                    <Box
+                        display={"flex"}
+                        flexDirection="row"
+                        justifyContent={"space-between"}
+                        width="100%"
+                        marginBottom={"1em"}
+                        >
+                        <TextField id="outlined-basic" label="Word" variant="outlined" sx={{ width: "48%" }}/>
+                        <TextField id="outlined-basic" label="Translation" variant="outlined" sx={{ width: "48%" }}/>
+                    </Box>
                     <TextField id="outlined-basic" label="Phrase" variant="outlined" sx={{ width: "100%", marginBottom: "1em"}}/>
                     <Button variant="contained" startIcon={<VolumeUpIcon />}>Upload Audio</Button>
                 </AccordionDetails>
