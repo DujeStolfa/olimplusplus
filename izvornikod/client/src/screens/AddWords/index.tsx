@@ -10,7 +10,8 @@ const AddWords = () => {
             <Box margin={"auto"} bgcolor={"rgb(188, 232, 218)"} maxHeight="md" padding={"5em"} marginTop="3em">
                 <Typography component="h1" variant="h5">We gon be ading words with this one boys! </Typography>
 
-                <WordAddMenu / >
+                <WordAddMenu wordNum = {1} ></WordAddMenu>
+                <WordAddMenu wordNum = {2} ></WordAddMenu>
 
                 <Box
                     display={"flex"}
