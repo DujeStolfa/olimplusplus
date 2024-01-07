@@ -4,7 +4,6 @@ const route = Object.freeze({
   login: 'login',
   register: 'register',
   adminList: 'admin-list',
-  editAdmin: 'edit-admin',
   studyTypes: 'study-types',
   createWord: 'createword',
   addWords: 'add-words',
