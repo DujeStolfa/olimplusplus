@@ -1,7 +1,8 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
+import CreateWordInput from "../../types/inputs/user/CreateWordInput";
 import wordService from "../../services/api/routes/words";
 import Word from "../../types/models/Word";
+import { words } from "lodash";
 
 interface WordsState {
     words: Word[];
@@ -16,6 +17,16 @@ const fetchWords = createAsyncThunk(
     async (languageid: number) => {
         const response = await wordService.getAll(languageid);
         return response.data;
+    }
+);
+
+const createWord = createAsyncThunk(
+    'auth/createWordStatus',
+    async (data: CreateWordInput) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const languageId = Number(urlParams.get('languageId'));
+    const response = await wordService.createWord(data, languageId);
+    return response.data;
     }
 );
 
@@ -37,16 +48,4 @@ export {
 export default wordSlice.reducer;
 
 
-/**
-import CreateWordInput from "../../types/inputs/user/CreateWordInput"; 
 
-const createWord = createAsyncThunk(
-    'auth/createWordStatus',
-    async (data: CreateWordInput) => {
-    const response = await usersService.createWord(data, data.languageId);
-    return response.data;
-    }
-);
-
- */
-export { }

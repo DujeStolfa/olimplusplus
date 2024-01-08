@@ -1,4 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { remove } from "lodash";
 
 import dictionaryService from "../../services/api/routes/dictionaries";
 import Dictionary from "../../types/models/Dictionary";
@@ -19,6 +20,14 @@ const fetchDictionaries = createAsyncThunk(
   }
 );
 
+const deleteDictionary = createAsyncThunk(
+  'dictionaries/delete',
+  async (dictionaryid: number) => {
+    const response = await dictionaryService.delete(dictionaryid);
+    return dictionaryid;
+  }
+);
+
 const dictionarySlice = createSlice({
   name: "dictionaries",
   initialState,
@@ -27,11 +36,16 @@ const dictionarySlice = createSlice({
     builder.addCase(fetchDictionaries.fulfilled, (state, action: PayloadAction<Dictionary[]>) => {
       state.dictionaries = action.payload;
     });
+
+    builder.addCase(deleteDictionary.fulfilled, (state, action: PayloadAction<number>) => {
+      remove(state.dictionaries, el => el.dictionaryid === action.payload);
+    });
   }
 });
 
 export {
   fetchDictionaries,
+  deleteDictionary,
 }
 
 export default dictionarySlice.reducer;
