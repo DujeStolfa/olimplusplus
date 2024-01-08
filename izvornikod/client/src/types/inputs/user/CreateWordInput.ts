@@ -1,8 +1,8 @@
 interface CreateWordInput{
-    word: string;
-    translation: string;
+    croatianname: string;
+    foreignname: string;
     phrases: string[];
-    audio: string;
+    audiopath: string;
 }
 
 export default CreateWordInput;

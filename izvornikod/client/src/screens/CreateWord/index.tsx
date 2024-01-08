@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { RootState, useAppDispatch } from "../../redux/store";
-// import { createWord } from "../../redux/slices/wordsSlice";
+import React, { useState } from "react";
+import { useAppDispatch } from "../../redux/store";
+import { createWord } from "../../redux/slices/wordsSlice";
 import route from "../../constants/route";
 import CreateWordInput from "../../types/inputs/user/CreateWordInput";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -15,14 +14,15 @@ import {
   Grid,
 } from "@mui/material";
 
-
-
 const CreateWord = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state: RootState) => state.auth);
-  const { register, handleSubmit, setValue } = useForm<CreateWordInput>();
+  const { register, handleSubmit} = useForm<CreateWordInput>({
+    defaultValues: {
+      audiopath: 'audio',
+    },
+  });
 
   const [phrases, setPhrases] = useState<string[]>([]);
   const [audioFileName, setAudioFileName] = useState<string>("");
@@ -51,26 +51,10 @@ const CreateWord = () => {
   };
 
 
-  useEffect(() => {
-    setValue('phrases', phrases);
-  }, [phrases, setValue]);
-  
-
-  /**
-  
-
- const onSubmit = (data: CreateWordInput) => {
-        if (word !== undefined) {
-            dispatch(createWord({ ...data}));
-            navigate(`/${route.edit-dictionary}`);
-
-
-            
-        }
+ const onSubmit = async (data: CreateWordInput) => {
+    await dispatch(createWord(data));
+    navigate(`/${route.editDictionary}`);
     };
-
-
- */
 
   return (
     <Container maxWidth="sm">
@@ -79,11 +63,11 @@ const CreateWord = () => {
           Create/edit riječ
         </Typography>
       </Box>
-      <form>
+      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
-              {...register("word")}
+              {...register("croatianname")}
               required
               fullWidth
               id="word"
@@ -93,7 +77,7 @@ const CreateWord = () => {
           </Grid>
           <Grid item xs={12}>
             <TextField
-              {...register("translation")}
+              {...register("foreignname")}
               required
               fullWidth
               id="translation"
@@ -106,6 +90,7 @@ const CreateWord = () => {
             <Grid container spacing={1} alignItems="center">
               <Grid item xs>
                 <TextField
+                  
                   fullWidth
                   id="phrases"
                   label="Fraze"
@@ -149,10 +134,10 @@ const CreateWord = () => {
             <Grid container spacing={1} alignItems="center">
               <Grid item xs>
                 <TextField
-                  {...register('audio')}
+                  {...register('audiopath')}
                   fullWidth
                   id="audio"
-                  label={audioFileName || "Audio"}
+                  label="Audio"
                   variant="outlined"
                   disabled
                 />
@@ -186,9 +171,9 @@ const CreateWord = () => {
           </Grid>
         </Grid>
 
-        <input {...register('phrases')} type="hidden" />
         
-      </form>
+        
+      </Box>
     </Container>
   );
 };

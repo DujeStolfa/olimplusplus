@@ -42,7 +42,7 @@ const wordSlice = createSlice({
 });
 
 export {
-    fetchWords,
+    fetchWords,createWord,
 }
 
 export default wordSlice.reducer;
