@@ -2,6 +2,7 @@ import bcrypt
 from datetime import datetime
 from flask_login import UserMixin
 from sqlalchemy.dialects.postgresql import INTERVAL
+from sqlalchemy.orm import backref
 
 from . import db
 
@@ -49,7 +50,13 @@ class Dictionary(db.Model):
     dictionarycreatedat = db.Column(
         db.TIMESTAMP, nullable=False, default=datetime.utcnow
     )
-    languageid = db.Column(db.ForeignKey(Language.languageid), nullable=False)
+    languageid = db.Column(
+        db.ForeignKey(Language.languageid, ondelete="CASCADE"), nullable=False
+    )
+
+    language = db.relationship(
+        "Language", backref=backref("parent_dictionary", passive_deletes=True)
+    )
 
     def __init__(self, dictionaryname, languageid):
         self.dictionaryname = dictionaryname
@@ -61,7 +68,13 @@ class Word(db.Model):
     croatianname = db.Column(db.String(128), nullable=False)
     foreignname = db.Column(db.String(128), nullable=False)
     audiopath = db.Column(db.String(128), nullable=False)
-    languageid = db.Column(db.ForeignKey(Language.languageid), nullable=False)
+    languageid = db.Column(
+        db.ForeignKey(Language.languageid, ondelete="CASCADE"), nullable=False
+    )
+
+    language = db.relationship(
+        "Language", backref=backref("parent_word", passive_deletes=True)
+    )
 
     def __init__(self, croatianname, foreignname, audiopath, languageid):
         self.croatianname = croatianname
@@ -73,7 +86,11 @@ class Word(db.Model):
 class Phrase(db.Model):
     phraseid = db.Column(db.Integer, primary_key=True)
     phrase = db.Column(db.String(256), nullable=False)
-    wordid = db.Column(db.ForeignKey(Word.wordid), nullable=False)
+    wordid = db.Column(db.ForeignKey(Word.wordid, ondelete="CASCADE"), nullable=False)
+
+    word = db.relationship(
+        "Word", backref=backref("parent_phrase", passive_deletes=True)
+    )
 
     def __init__(self, phrase, wordid):
         self.phrase = phrase
@@ -81,8 +98,15 @@ class Phrase(db.Model):
 
 
 class WordDictionary(db.Model):
-    wordid = db.Column(db.ForeignKey(Word.wordid))
-    dictionaryid = db.Column(db.ForeignKey(Dictionary.dictionaryid))
+    wordid = db.Column(db.ForeignKey(Word.wordid, ondelete="CASCADE"))
+    dictionaryid = db.Column(db.ForeignKey(Dictionary.dictionaryid, ondelete="CASCADE"))
+
+    word = db.relationship(
+        "Word", backref=backref("parent_word_dictionary", passive_deletes=True)
+    )
+    dictionary = db.relationship(
+        "Dictionary", backref=backref("parent_word_dictionary", passive_deletes=True)
+    )
 
     __table_args__ = (db.PrimaryKeyConstraint(wordid, dictionaryid),)
 
@@ -100,10 +124,20 @@ class Bowl(db.Model):
 
 
 class WordState(db.Model):
-    userid = db.Column(db.ForeignKey(User.userid))
-    wordid = db.Column(db.ForeignKey(Word.wordid))
-    bowlid = db.Column(db.ForeignKey(Bowl.bowlid), nullable=True)
+    userid = db.Column(db.ForeignKey(User.userid, ondelete="CASCADE"))
+    wordid = db.Column(db.ForeignKey(Word.wordid, ondelete="CASCADE"))
+    bowlid = db.Column(db.ForeignKey(Bowl.bowlid, ondelete="CASCADE"), nullable=True)
     available_at = db.Column(db.TIMESTAMP, nullable=False, default=datetime.utcnow)
+
+    word = db.relationship(
+        "Word", backref=backref("parent_word_state", passive_deletes=True)
+    )
+    user = db.relationship(
+        "User", backref=backref("parent_word_state", passive_deletes=True)
+    )
+    bowl = db.relationship(
+        "Bowl", backref=backref("parent_word_state", passive_deletes=True)
+    )
 
     __table_args__ = (db.PrimaryKeyConstraint(userid, wordid),)
 
