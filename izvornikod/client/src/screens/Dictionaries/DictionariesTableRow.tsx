@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { IconButton, TableCell, TableRow } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -6,9 +6,10 @@ import Dictionary from "../../types/models/Dictionary";
 
 interface Props {
   dictionary: Dictionary;
+  setSelectedDictionary: Dispatch<SetStateAction<Dictionary | undefined>>;
 }
 
-const DictionariesTableRow = ({ dictionary }: Props) => {
+const DictionariesTableRow = ({ setSelectedDictionary, dictionary }: Props) => {
   return (
     <TableRow
       hover
@@ -41,6 +42,7 @@ const DictionariesTableRow = ({ dictionary }: Props) => {
           size="small"
           onClick={(event) => {
             console.log(`Delete ${dictionary.dictionaryid}`);
+            setSelectedDictionary(dictionary);
             event.stopPropagation();
           }}
         >

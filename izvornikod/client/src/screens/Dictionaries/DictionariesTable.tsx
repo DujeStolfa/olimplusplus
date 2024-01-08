@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import DictionariesTableRow from "./DictionariesTableRow";
+import Dictionary from "../../types/models/Dictionary";
+import ApproveDialog from "../../components/common/AprooveDialog";
 
 const DictionariesTable = () => {
   const { dictionaries } = useSelector((state: RootState) => state.dictionaries);
+
+  const [openDialog, setOpenDialog] = React.useState<boolean>(false);
+  const [selectedDictionary, setSelectedDictionary] = useState<Dictionary | undefined>(undefined);
+
+  useEffect(() => {
+    if (selectedDictionary !== undefined) {
+      setOpenDialog(true);
+    }
+  }, [selectedDictionary]);
+
+  const handleConfirm = () => {
+    if (selectedDictionary !== undefined) {
+      console.log(`Delete dict ${selectedDictionary?.dictionaryid}`)
+    }
+    setOpenDialog(false);
+  };
 
   return <Table>
     <TableHead>
@@ -18,8 +36,19 @@ const DictionariesTable = () => {
     </TableHead>
 
     <TableBody>
-      {dictionaries.map(el => <DictionariesTableRow dictionary={el} />)}
+      {dictionaries.map(el => <DictionariesTableRow setSelectedDictionary={setSelectedDictionary} dictionary={el} />)}
     </TableBody>
+
+    <ApproveDialog
+      open={openDialog}
+      title={`Izbrisati rječnik ${selectedDictionary?.dictionaryname.toUpperCase()}?`}
+      text={`Rječnik će biti trajno izbrisan, ali sve dodane riječi neće biti izbrisane.`}
+      confirmText="Izbriši"
+      cancelText="Odustani"
+      handleCancel={() => setOpenDialog(false)}
+      handleConfirm={handleConfirm}
+      handleExit={() => setSelectedDictionary(undefined)}
+    />
   </Table>;
 }
 
