@@ -23,6 +23,22 @@ def create_dictionary(languageid):
     return dictionary_schema.dump(new_dict)
 
 
+@api.route("dictionaries/<int:dictionaryid>", methods=["DELETE"])
+@login_required
+def delete_dictionary(dictionaryid):
+    dictionary = db.session.execute(
+        db.select(Dictionary).where(Dictionary.dictionaryid == dictionaryid)
+    ).scalar()
+
+    if dictionary == None:
+        return abort(404)
+
+    db.session.delete(dictionary)
+    db.session.commit()
+
+    return "", 204
+
+
 @api.route("dictionaries/<int:languageid>")
 @login_required
 def get_dictionaries(languageid):

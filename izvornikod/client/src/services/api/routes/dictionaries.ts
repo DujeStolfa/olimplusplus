@@ -8,4 +8,5 @@ const { dictionaries } = endpoints;
 export default {
   getAll: (languageid: number) => axios.get(`${dictionaries.base}/${languageid}`),
   getAllStudents: ({ languageid, studentid }: GetStudentDictionariesInput) => axios.get(`${dictionaries.base}/${languageid}/student/${studentid}`),
+  delete: (dictionaryid: number) => axios.delete(`${dictionaries.base}/${dictionaryid}`),
 }

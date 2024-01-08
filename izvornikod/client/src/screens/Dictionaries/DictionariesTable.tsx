@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { RootState, useAppDispatch } from "../../redux/store";
 import DictionariesTableRow from "./DictionariesTableRow";
 import Dictionary from "../../types/models/Dictionary";
 import ApproveDialog from "../../components/common/AprooveDialog";
+import { deleteDictionary } from "../../redux/slices/dictionariesSlice";
 
 const DictionariesTable = () => {
+  const dispatch = useAppDispatch();
   const { dictionaries } = useSelector((state: RootState) => state.dictionaries);
 
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
@@ -20,7 +22,7 @@ const DictionariesTable = () => {
 
   const handleConfirm = () => {
     if (selectedDictionary !== undefined) {
-      console.log(`Delete dict ${selectedDictionary?.dictionaryid}`)
+      dispatch(deleteDictionary(selectedDictionary.dictionaryid));
     }
     setOpenDialog(false);
   };
