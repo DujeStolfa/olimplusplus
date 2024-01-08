@@ -39,7 +39,6 @@ const CreateWord = () => {
 
   const handleDelete = (index: number) => {
     setPhrases((prevPhrases) => prevPhrases.filter((_, i) => i !== index));
-    
   };
 
   

@@ -5,7 +5,6 @@ import RegisterInput from "../../../types/inputs/user/RegisterInput";
 import CreateAdminInput from "../../../types/inputs/user/CreateAdminInput";
 import EditPasswordInput from "../../../types/inputs/user/EditPasswordInput";
 import EditAdminInput from "../../../types/inputs/user/EditAdminInput";
-import CreateWordInput from "../../../types/inputs/user/CreateWordInput";
 
 const { users } = endpoints;
 
@@ -16,5 +15,4 @@ export default {
   deleteAdmin: (adminId: number) => axios.delete(`${users.base}/delete-admin/${adminId}`),
   editAdmin: (admin: EditAdminInput, adminId: number) => axios.post(`${users.base}/edit-admin/${adminId}`, admin),
   editPassword: (data: EditPasswordInput) => axios.put(`${users.base}/edit-password`, data),
-  createWord: (data: CreateWordInput, languageId: number) => axios.post(`${users.base}/${languageId}`, data),
 };
