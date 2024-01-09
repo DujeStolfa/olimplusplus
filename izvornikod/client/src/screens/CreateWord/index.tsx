@@ -15,17 +15,17 @@ import {
 } from "@mui/material";
 
 const CreateWord = () => {
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { register, handleSubmit} = useForm<CreateWordInput>({
+  const { register, handleSubmit, setValue } = useForm<CreateWordInput>({
     defaultValues: {
-      audiopath: 'audio',
+      audiopath: "audio",
     },
   });
 
   const [phrases, setPhrases] = useState<string[]>([]);
   const [audioFileName, setAudioFileName] = useState<string>("");
+  const [audioFile, setAudioFile] = useState<File | null>(null);
 
   const handleCreate = () => {
     const phrasesTextField = document.getElementById(
@@ -34,27 +34,32 @@ const CreateWord = () => {
     const phrase = phrasesTextField.value;
     setPhrases((prevPhrases) => [...prevPhrases, phrase]);
     phrasesTextField.value = "";
-
   };
 
   const handleDelete = (index: number) => {
     setPhrases((prevPhrases) => prevPhrases.filter((_, i) => i !== index));
   };
 
-  
-
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      setAudioFile(file);
       setAudioFileName(file.name);
+      setValue("audiopath", file.name); // Register the file name in the form
     }
   };
 
+  const handlePlayAudio = () => {
+    if (audioFile) {
+      const audio = new Audio(URL.createObjectURL(audioFile));
+      audio.play();
+    }
+  };
 
- const onSubmit = async (data: CreateWordInput) => {
+  const onSubmit = async (data: CreateWordInput) => {
     await dispatch(createWord(data));
     navigate(`/${route.editDictionary}`);
-    };
+  };
 
   return (
     <Container maxWidth="sm">
@@ -90,12 +95,10 @@ const CreateWord = () => {
             <Grid container spacing={1} alignItems="center">
               <Grid item xs>
                 <TextField
-                  
                   fullWidth
                   id="phrases"
                   label="Fraze"
                   variant="outlined"
-                  
                 />
               </Grid>
               <Grid item>
@@ -129,23 +132,32 @@ const CreateWord = () => {
             </Grid>
           ))}
 
-
           <Grid item xs={12}>
             <Grid container spacing={1} alignItems="center">
               <Grid item xs>
                 <TextField
-                  {...register('audiopath')}
+                  {...register("audiopath")}
                   fullWidth
                   id="audio"
                   label="Audio"
                   variant="outlined"
                   disabled
+                  value={audioFileName}
                 />
               </Grid>
               <Grid item>
                 <Button variant="contained" component="label">
                   upload
-                  <input type="file" hidden onChange={handleFileUpload} />
+                  <input
+                    type="file"
+                    hidden
+                    onChange={handleFileChange}
+                  />
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button variant="contained" onClick={handlePlayAudio}>
+                  play
                 </Button>
               </Grid>
             </Grid>
@@ -170,9 +182,6 @@ const CreateWord = () => {
             </Grid>
           </Grid>
         </Grid>
-
-        
-        
       </Box>
     </Container>
   );
