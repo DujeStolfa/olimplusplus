@@ -1,8 +1,9 @@
 from flask import request
 from flask_login import login_required
+from sqlalchemy import and_
 
 from db import db, word_schema, words_schema
-from db.models import Word, User, Bowl, WordState
+from db.models import Word, User, Bowl, WordState, WordDictionary
 from . import api
 
 
@@ -53,3 +54,15 @@ def get_words(languageid):
     ).all()
 
     return words_schema.dump(words)
+
+@api.route("words/dict/<int:dictionaryid>") # endpoint za rijeci koje nisu u nekom rijecniku
+@login_required
+def get_words_not_in_dictionary(dictionaryid):
+    words_not_in_dictionary = db.session.execute(
+        db.select(Word.wordid, Word.croatianname, Word.foreignname)
+        .where(Word.wordid.not_in(
+            db.select(Word.wordid)
+            .join(WordDictionary)))
+    ).all()
+
+    return words_schema.dump(words_not_in_dictionary)
