@@ -57,6 +57,8 @@ def get_dictionaries(languageid):
 @login_required
 def add_word_to_dictionary():
     # Ovo triba pretvorit u add words, triba primat vise rici odjednon
+    # u requestu bi trebao doci array identifikatora rijeci, tj samo niz brojeva
+    # koje onda samo treba dodati u relaciju word_dict
     word_dict_data = request.json
 
     word_dict = WordDictionary(word_dict_data["wordid"], word_dict_data["dictionaryid"])

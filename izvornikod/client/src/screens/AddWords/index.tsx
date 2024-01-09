@@ -15,8 +15,7 @@ function handleConfirm(){
 
 const AddWords = () => {
 
-    // const [selectedWords, setSelectedWords] = useState<any[]>([]); // ovo mozda kasnije vratiti, vidjet cemo
-    var selectedWords = null
+    const [selectedWordIDs, setSelectedWordIDs] = useState<number[]>([]);
     const { words } = useSelector((state: RootState) => state.words); // Ovo je nadam se tocno
 
     var columns: GridColDef[] = [
@@ -40,18 +39,12 @@ const AddWords = () => {
     temp_rows.forEach(el => {rows.push(el)})
 
     const handleRowSelection = (newSelection: GridRowSelectionModel) => {
-        const selectedIDs = newSelection as GridRowId[];
-        const selectedData = selectedIDs.map((Id) => {
-            const selectedRow = rows.find((row) => row.id === Id);
-            return selectedRow ? { id: selectedRow.id, word: selectedRow.word, translation: selectedRow.translation } : null;
-        });
-        const filteredSelectedData = selectedData.filter((row) => row !== null);
-        // // Trenutno ima glitch gdje ne azurira odma kako treba, al cijeli dan
-        // // ovo grindam, za sada je dobro
-        // setSelectedWords(filteredSelectedData);
-        selectedWords = filteredSelectedData
-        console.log(selectedWords)      
+        const selectedIDs = newSelection as (string | number)[]; 
+        const numericIDs = selectedIDs.filter((el) => typeof el === 'number') as number[];
+        setSelectedWordIDs(numericIDs);
     };
+
+    useEffect(() => {console.log(selectedWordIDs); }, [selectedWordIDs]);
 
     return (
     
