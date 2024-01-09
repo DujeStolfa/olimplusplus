@@ -4,11 +4,19 @@ import { Button, Container, Stack, Typography, Box} from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 
+function handleCancel(){
+    alert("Handle Cancel")
+}
+
+function handleConfirm(){
+    alert("Handle confirm, send that to the dictionary in the back")
+}
 
 
 const AddWords = () => {
 
-    const [selectedWords, setSelectedWords] = useState<any[]>([]);
+    // const [selectedWords, setSelectedWords] = useState<any[]>([]); // ovo mozda kasnije vratiti, vidjet cemo
+    var selectedWords = null
     const { words } = useSelector((state: RootState) => state.words); // Ovo je nadam se tocno
 
     var columns: GridColDef[] = [
@@ -32,16 +40,17 @@ const AddWords = () => {
     temp_rows.forEach(el => {rows.push(el)})
 
     const handleRowSelection = (newSelection: GridRowSelectionModel) => {
-        const selectedRows = newSelection as GridRowId[];
-        const selectedData = selectedRows.map((rowId) => {
-        const selectedRow = rows.find((row) => row.id === rowId);
-        return selectedRow ? { id: selectedRow.id, word: selectedRow.word, translation: selectedRow.translation } : null;
+        const selectedIDs = newSelection as GridRowId[];
+        const selectedData = selectedIDs.map((Id) => {
+            const selectedRow = rows.find((row) => row.id === Id);
+            return selectedRow ? { id: selectedRow.id, word: selectedRow.word, translation: selectedRow.translation } : null;
         });
         const filteredSelectedData = selectedData.filter((row) => row !== null);
+        // // Trenutno ima glitch gdje ne azurira odma kako treba, al cijeli dan
+        // // ovo grindam, za sada je dobro
+        // setSelectedWords(filteredSelectedData);
+        selectedWords = filteredSelectedData
         console.log(selectedWords)      
-        // Trenutno ima glitch gdje ne azurira odma kako treba, al cijeli dan
-        // ovo grindam, za sada je dobro
-        setSelectedWords(filteredSelectedData);
     };
 
     return (
@@ -88,8 +97,8 @@ const AddWords = () => {
                     width="100%"
                     marginTop={"2em"}
                 >
-                    <Button variant="contained" sx={{ width: "48%", justifyContent: "flex-end"}}>Cancel</Button>
-                    <Button variant="contained" sx={{ width: "48%", justifyContent: "flex-end" }}>Add them words</Button>
+                    <Button variant="contained" sx={{ width: "48%", justifyContent: "flex-end"}} onClick={handleCancel}>Cancel</Button>
+                    <Button variant="contained" sx={{ width: "48%", justifyContent: "flex-end" }} onClick={handleConfirm}>Add them words</Button>
                 </Box>
             </Box>
         </Container>
