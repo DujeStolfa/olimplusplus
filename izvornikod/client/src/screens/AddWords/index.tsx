@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { DataGrid, GridColDef, GridRowId, GridRowSelectionModel } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowId, GridRowSelectionModel, GridToolbar} from '@mui/x-data-grid';
 import { Button, Container, Stack, Typography, Box} from "@mui/material"; 
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-
 
 
 
@@ -70,7 +69,16 @@ const AddWords = () => {
                     }}
                     onRowSelectionModelChange={(newSelectionModel) => {
                         handleRowSelection(newSelectionModel);
-                      }}
+                    }}
+                    disableColumnFilter
+                    disableColumnSelector
+                    disableDensitySelector
+                    slots={{ toolbar: GridToolbar }}
+                    slotProps={{
+                    toolbar: {
+                        showQuickFilter: true,
+                    },
+                    }}
                 />
 
                 <Box
