@@ -14,6 +14,7 @@ const route = Object.freeze({
   selectLanguage: 'selectlanguage',
   words: 'words',
   selectDictionary: 'select-dictionary',
+  study: 'study',
 });
 
 export default route;

@@ -8,7 +8,7 @@ import {
 import Login from "./Login";
 import AdminInfo from "./AdminInfo";
 import StudentInfo from "./StudentInfo";
-import Error from "./Error";
+import Error from "../components/common/Error";
 import Register from "./Register";
 import AdminList from "./AdminList";
 import StudyTypes from "./StudyTypes";
@@ -22,6 +22,7 @@ import SelectLanguage from "./SelectLanguage";
 import StudentDictionaries from "./StudentDictionaries";
 import Words from "./Words";
 import AddWords from "./AddWords";
+import Study from "./Study";
 
 // local imports
 import route from "../constants/route";
@@ -30,6 +31,7 @@ import store from "../redux/store";
 import { fetchDictionaries } from "../redux/slices/dictionariesSlice";
 import { fetchWords } from "../redux/slices/wordsSlice";
 import { fetchStudentDictionaries } from "../redux/slices/studentDictionariesSlice";
+import { fetchAvailableWords } from "../redux/slices/studySessionSlice";
 
 const appRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -68,6 +70,15 @@ const appRouter = createBrowserRouter(
             }
 
             store.dispatch(fetchStudentDictionaries({ languageid: 1, studentid: auth.user.userid }));
+            return true;
+          }}
+        />
+
+        <Route
+          path={`${route.study}`}
+          element={<Study />}
+          loader={() => {
+            store.dispatch(fetchAvailableWords(1));
             return true;
           }}
         />

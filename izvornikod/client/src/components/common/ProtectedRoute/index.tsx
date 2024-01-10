@@ -3,7 +3,7 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import ROLE from "../../../types/enums/Role";
-import Error from "../../../screens/Error";
+import Error from "../Error";
 import { RootState, useAppDispatch } from "../../../redux/store";
 import { fetchCurrentUser } from "../../../redux/slices/authSlice";
 

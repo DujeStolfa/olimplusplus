@@ -5,6 +5,7 @@ import dictionariesSlice from "./slices/dictionariesSlice";
 import adminSlice from "./slices/adminSlice";
 import wordsSlice from "./slices/wordsSlice";
 import studentDictionariesSlice from "./slices/studentDictionariesSlice";
+import studySessionSlice from "./slices/studySessionSlice";
 
 const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
     admins: adminSlice,
     words: wordsSlice,
     studentDictionaries: studentDictionariesSlice,
+    studySesion: studySessionSlice,
   }
 });
 
