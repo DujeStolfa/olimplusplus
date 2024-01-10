@@ -19,7 +19,6 @@
     "@types/react-dom": "^18.2.14",
     "axios": "^1.6.0",
     "lodash": "^4.17.21",
-    "material-ui-search-bar": "^1.0.0-beta.14",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.48.2",
