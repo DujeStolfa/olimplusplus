@@ -2,21 +2,20 @@ import React, { useEffect, useState } from "react";
 import { DataGrid, GridColDef, GridRowId, GridRowSelectionModel, GridToolbar} from '@mui/x-data-grid';
 import { Button, Container, Stack, Typography, Box} from "@mui/material"; 
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-
-function handleCancel(){
-    alert("Handle Cancel")
-}
-
-function handleConfirm(){
-    alert("Handle confirm, send that to the dictionary in the back")
-}
-
+import { RootState, useAppDispatch } from "../../redux/store";
+import { fetchWordsNotInDictionary } from "../../redux/slices/wordsSlice";
 
 const AddWords = () => {
 
+    const dictionaryid:number = 1       // Ovo kasnije treba azurirati, za sada hardcodirano
+    const dispatch = useAppDispatch();
     const [selectedWordIDs, setSelectedWordIDs] = useState<number[]>([]);
-    const { words } = useSelector((state: RootState) => state.words); // Ovo je nadam se tocno
+    const wordsNotInDictionary = useSelector((state: RootState) => state.words.wordsNotInDictionary); // Ovo je nadam se tocno
+
+
+    useEffect(() => {
+        dispatch(fetchWordsNotInDictionary(dictionaryid))
+    }, [dictionaryid]);
 
     var columns: GridColDef[] = [
         {field: "id", headerName: "ID", flex: 1},
@@ -24,16 +23,16 @@ const AddWords = () => {
         {field: "translation", headerName: "Translation", flex: 1}
     ]
     
-    var rows = words.map(el =>({
+    var rows = wordsNotInDictionary.map(el =>({
         id: el.wordid,
         word: el.foreignname,
         translation: el.croatianname
     }))
 
     var temp_rows = [
-        {id: 34, word: "table", translation: "stol"},
-        {id: 35, word: "edge", translation: "ivica"},
-        {id: 36, word: "pot", translation: "marica"}
+        {id: 34, word: "window", translation: "prozor"},
+        {id: 35, word: "love", translation: "ljubav"},
+        {id: 36, word: "beauty", translation: "ljepota"}
     ]   // Ovo cemo kasnije skloniti
 
     temp_rows.forEach(el => {rows.push(el)})
@@ -45,6 +44,16 @@ const AddWords = () => {
     };
 
     useEffect(() => {console.log(selectedWordIDs); }, [selectedWordIDs]);
+
+    function handleCancel(){
+        alert("Handle Cancel")
+    }
+    
+    function handleConfirm(){
+        alert("Handle confirm, send that to the dictionary in the back")
+        console.log(wordsNotInDictionary)
+    }
+    
 
     return (
     
@@ -98,4 +107,4 @@ const AddWords = () => {
     );
 }
 
-export default AddWords; // export default znaci da je ovo entrypoint
+export default AddWords;

@@ -26,6 +26,14 @@ const fetchWords = createAsyncThunk(
     }
 );
 
+const fetchWordsNotInDictionary = createAsyncThunk(
+    'words/fetchNotInDictionary',
+    async ( dictionaryid: number) => {
+      const response = await wordService.getAllNotInDictionary(dictionaryid);
+      return response.data;
+    }
+);
+
 const createWord = createAsyncThunk(
     'auth/createWordStatus',
     async (data: CreateWordInput) => {
@@ -44,11 +52,14 @@ const wordSlice = createSlice({
         builder.addCase(fetchWords.fulfilled, (state, action: PayloadAction<Word[]>) => {
             state.words = action.payload;
         });
+        builder.addCase(fetchWordsNotInDictionary.fulfilled, (state, action: PayloadAction<Word[]>) => {
+            state.wordsNotInDictionary = action.payload;
+        })
     }
 });
 
 export {
-    fetchWords,createWord,
+    fetchWords, createWord, fetchWordsNotInDictionary
 }
 
 export default wordSlice.reducer;

@@ -53,7 +53,7 @@ def get_dictionaries(languageid):
     return dictionaries_schema.dump(dictionaries)
 
 
-@api.route("dictionaries/add-word", methods=["POST"])
+@api.route("dictionaries/add-words", methods=["POST"])
 @login_required
 def add_word_to_dictionary():
     # Ovo triba pretvorit u add words, triba primat vise rici odjednon

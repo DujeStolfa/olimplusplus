@@ -6,7 +6,8 @@ import CreateWordInput from "../../../types/inputs/user/CreateWordInput";
 const { words } = endpoints;
 
 export default {
-  getAll: (wordid: number) => axios.get(`${words.base}/${wordid}`),
+  getAll: (languageid: number) => axios.get(`${words.base}/${languageid}`),
+  getAllNotInDictionary: (dictionaryid: number) => axios.get(`${words.base}/dict/${dictionaryid}`),
   createWord: (data: CreateWordInput, languageid:number) => axios.post(`${words.base}/${languageid}`, data),
 }
 
