@@ -16,20 +16,12 @@ interface Props {
 const EditAdmin: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
   const { register, handleSubmit } = useForm<EditAdminInput>();
-  const [error, setError] = useState(false);
 
   const onSubmit = async (data: EditAdminInput) => {
     if (props.admin)
       await dispatch(editAdmin({ admin: data, adminId: props.admin.userid }));
     props.toggleDrawer();
     props.refreshAdmins();
-  };
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-
-    if (value !== "admin" && value !== "student") setError(true);
-    else setError(false);
   };
 
   return (
@@ -72,19 +64,6 @@ const EditAdmin: React.FC<Props> = (props) => {
                 type="email"
                 id="email"
                 defaultValue={props.admin?.email}
-                required
-                fullWidth
-              />
-            </Box>
-            <Box marginBottom="20px">
-              <TextField
-                {...register("role")}
-                label="Uloga"
-                name="role"
-                id="role"
-                onChange={handleInputChange}
-                error={error}
-                defaultValue={props.admin?.role}
                 required
                 fullWidth
               />

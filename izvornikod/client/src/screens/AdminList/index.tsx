@@ -11,12 +11,18 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
   Drawer,
-} from "@mui/material/";
+  Container,
+  Stack,
+  IconButton,
+} from "@mui/material";
 import { fetchAdmins, deleteAdmin } from "../../redux/slices/adminSlice";
-import { TitleWrapper, ScreenWrapper } from "./index.styled";
+import { TableHeading, TableWrapper } from "../../components/common/styled";
 import User from "../../types/models/User";
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ApproveDialog from "../../components/common/AprooveDialog";
 
 interface State {
   currentAdmin: User | undefined;
@@ -33,13 +39,26 @@ const AdminList = () => {
     drawerMode: "",
   });
 
+
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [selectedAdmin, setSelectedAdmin] = useState<User | undefined>(undefined);
+
   useEffect(() => {
     dispatch(fetchAdmins());
   }, []);
 
-  async function handleDelete(admin: User) {
-    await dispatch(deleteAdmin(admin.userid));
-    refreshAdmins();
+  useEffect(() => {
+    if (selectedAdmin !== undefined) {
+      setOpenDialog(true);
+    }
+  }, [selectedAdmin]);
+
+  async function handleDelete() {
+    if (selectedAdmin !== undefined) {
+      await dispatch(deleteAdmin(selectedAdmin.userid));
+      refreshAdmins();
+    }
+    setOpenDialog(false);
   }
 
   function handleEdit(admin: User) {
@@ -70,64 +89,87 @@ const AdminList = () => {
   }
 
   return (
-    <ScreenWrapper>
-      <TitleWrapper>
-        <Typography style={{ paddingLeft: "1rem" }} component="h1" variant="h5">
-          Administratori
-        </Typography>
+    <Container>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        spacing={2}
+      >
+        <TableHeading variant="h2">Administratori</TableHeading>
+
         <Button
           onClick={handleCreate}
           style={{ marginRight: "1rem" }}
-          variant="contained"
+          variant="outlined"
+          size="large"
+          startIcon={<AddIcon />}
         >
-          Kreiraj
+          Dodaj administratora
         </Button>
-      </TitleWrapper>
-      <TableContainer>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow style={{ borderBottom: "2px solid" }}>
-              <TableCell style={{ fontWeight: "bold" }}>ime</TableCell>
-              <TableCell style={{ fontWeight: "bold" }} align="center">
-                prezime
-              </TableCell>
-              <TableCell style={{ fontWeight: "bold" }} align="center">
-                email
-              </TableCell>
-              <TableCell style={{ fontWeight: "bold" }} align="center">
-                datum stvaranja
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {admins.map((row: User) => (
-              <TableRow
-                key={row.userid}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.firstname}
-                </TableCell>
-                <TableCell align="center">{row.lastname}</TableCell>
-                <TableCell align="center">{row.email}</TableCell>
+      </Stack>
+      <TableWrapper>
+        <TableContainer>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Ime</TableCell>
                 <TableCell align="center">
-                  {row.usercreatedat ? row.usercreatedat : ""}
+                  Prezime
+                </TableCell>
+                <TableCell align="center">
+                  Email
+                </TableCell>
+                <TableCell align="center">
+                  Datum stvaranja
                 </TableCell>
                 <TableCell>
-                  <Button onClick={() => handleEdit(row)} variant="contained">
-                    Uredi
-                  </Button>
-                </TableCell>
-                <TableCell>
-                  <Button onClick={() => handleDelete(row)} variant="contained">
-                    Izbriši
-                  </Button>
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {admins.map((row: User) => (
+                <TableRow
+                  key={row.userid}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {row.firstname}
+                  </TableCell>
+                  <TableCell align="center">{row.lastname}</TableCell>
+                  <TableCell align="center">{row.email}</TableCell>
+                  <TableCell align="center">
+                    {row.usercreatedat
+                      ? (new Date(row.usercreatedat + "Z")).toLocaleDateString("hr-HR", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })
+                      : ""}
+                  </TableCell>
+                  <TableCell align="right">
+                    <IconButton
+                      size="small"
+                      onClick={() => handleEdit(row)}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      size="small"
+                      onClick={() => {
+                        setOpenDialog(true);
+                        setSelectedAdmin(row);
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </TableWrapper>
       <Drawer
         anchor={"bottom"}
         open={state.isDrawerVisible}
@@ -147,7 +189,17 @@ const AdminList = () => {
           />
         )}
       </Drawer>
-    </ScreenWrapper>
+      <ApproveDialog
+        open={openDialog}
+        title={`Izbrisati administratora ${selectedAdmin?.firstname} ${selectedAdmin?.lastname}?`}
+        text={`Administratorski račun ${selectedAdmin?.email} bit će trajno izbrisan.`}
+        confirmText="Izbriši"
+        cancelText="Odustani"
+        handleCancel={() => setOpenDialog(false)}
+        handleConfirm={() => handleDelete()}
+        handleExit={() => setSelectedAdmin(undefined)}
+      />
+    </Container>
   );
 };
 

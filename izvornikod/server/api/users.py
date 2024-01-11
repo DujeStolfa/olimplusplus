@@ -1,4 +1,4 @@
-from flask import abort,jsonify, request, session
+from flask import abort, jsonify, request, session
 import bcrypt
 
 from db import db, user_schema, users_schema
@@ -41,6 +41,7 @@ def create_admin():
 
     return "", 204
 
+
 @api.route("users/edit-admin/<int:userId>", methods=["POST"])
 def edit_admin(userId):
     admin_data = request.json
@@ -53,30 +54,31 @@ def edit_admin(userId):
     admin.firstname = admin_data["firstname"]
     admin.lastname = admin_data["lastname"]
     admin.email = admin_data["email"]
-    admin.role = admin_data["role"]
 
     db.session.commit()
 
     return "", 204
 
+
 @api.route("users/get-admins", methods=["GET"])
 def get_admins():
-
     users = db.session.execute(
-        db.select(User.userid,
-                  User.firstname,
-                  User.lastname,
-                  User.email,
-                  User.role,
-                  User.passwordchanged,
-                  User.usercreatedat,).where(User.role == "admin")
+        db.select(
+            User.userid,
+            User.firstname,
+            User.lastname,
+            User.email,
+            User.role,
+            User.passwordchanged,
+            User.usercreatedat,
+        ).where(User.role == "admin")
     ).all()
 
     return users_schema.dump(users)
 
+
 @api.route("users/delete-admin/<int:userId>", methods=["DELETE"])
 def delete_admin(userId):
-
     admin = User.query.filter_by(userid=userId, role="admin").first()
 
     if admin is None:
@@ -86,6 +88,7 @@ def delete_admin(userId):
     db.session.commit()
 
     return "", 204
+
 
 @api.route("/users/edit-password", methods=["PUT"])
 def edit_password():

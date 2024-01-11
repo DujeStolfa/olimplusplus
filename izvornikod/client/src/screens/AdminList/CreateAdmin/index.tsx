@@ -79,7 +79,7 @@ const CreateAdmin: React.FC<Props> = (props) => {
                 {...register("confirmPassword")}
                 label="Inicijalna lozinka"
                 name="confirmPassword"
-                type="confirmPassword"
+                type="password"
                 id="confirmPassword"
                 required
                 fullWidth
