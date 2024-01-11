@@ -45,7 +45,7 @@ const CreateWord = () => {
     if (file) {
       setAudioFile(file);
       setAudioFileName(file.name);
-      setValue("audiopath", file.name); // Register the file name in the form
+      setValue("audiopath", file.name); 
     }
   };
 
