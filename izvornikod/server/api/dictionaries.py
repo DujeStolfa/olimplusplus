@@ -60,7 +60,6 @@ def add_word_to_dictionary():
     # u requestu bi trebao doci array identifikatora rijeci, tj samo niz brojeva
     # koje onda samo treba dodati u relaciju word_dict
     word_dict_data = request.json
-
     word_dict = WordDictionary(word_dict_data["wordid"], word_dict_data["dictionaryid"])
     db.session.add(word_dict)
     db.session.commit()

@@ -11,7 +11,7 @@ const AddWords = () => {
     const dispatch = useAppDispatch();
     const [selectedWordIDs, setSelectedWordIDs] = useState<number[]>([]);
     const wordsNotInDictionary = useSelector((state: RootState) => state.words.wordsNotInDictionary); // Ovo je nadam se tocno
-
+    const all_words_in_dict: boolean = wordsNotInDictionary.length == 0
 
     useEffect(() => {
         dispatch(fetchWordsNotInDictionary(dictionaryid))
@@ -33,7 +33,7 @@ const AddWords = () => {
         {id: 34, word: "window", translation: "prozor"},
         {id: 35, word: "love", translation: "ljubav"},
         {id: 36, word: "beauty", translation: "ljepota"}
-    ]   // Ovo cemo kasnije skloniti
+    ]   // Ovo cemo kasnije skloniti to je cisto da malo popuni ako nemate u bazi
 
     temp_rows.forEach(el => {rows.push(el)})
 
@@ -51,7 +51,7 @@ const AddWords = () => {
     
     function handleConfirm(){
         alert("Handle confirm, send that to the dictionary in the back")
-        console.log(wordsNotInDictionary)
+        console.log(selectedWordIDs)
     }
     
 
@@ -61,7 +61,9 @@ const AddWords = () => {
             <Box margin={"auto"} bgcolor={"rgb(188, 232, 218)"} maxHeight="md" padding={"5em"} marginTop="3em">
                 <Typography component="h1" variant="h5">We gon be ading words with this one boys! </Typography>
 
-                <DataGrid
+                {all_words_in_dict ? 
+                    <Typography component="h1" variant="h5" color="gray">All the words are in the dicitonary. </Typography>: 
+                    <DataGrid
                     rows={rows}
                     columns={columns}
                     initialState={{
@@ -76,7 +78,13 @@ const AddWords = () => {
                     disableRowSelectionOnClick
                     sx = {{
                         marginTop: "1em",
-                        borderColor: "black"
+                        borderColor: "black",
+                        '.MuiDataGrid-columnHeaders': {
+                            bgcolor: "rgb(46, 154, 176)"
+                        },
+                        '.MuiDataGrid-toolbarContainer': {
+                            bgcolor: "rgb(46, 154, 176)"    // treba poraditi na boji, al otom potom
+                        }
                     }}
                     onRowSelectionModelChange={(newSelectionModel) => {
                         handleRowSelection(newSelectionModel);
@@ -90,7 +98,9 @@ const AddWords = () => {
                         showQuickFilter: true,
                     },
                     }}
-                />
+                    />
+                }
+                
 
                 <Box
                     display={"flex"}
