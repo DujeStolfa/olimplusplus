@@ -23,6 +23,8 @@ import StudentDictionaries from "./StudentDictionaries";
 import Words from "./Words";
 import AddWords from "./AddWords";
 import Study from "./Study";
+import AppDrawerStudents from "./AppDrawerStudents";
+import AppDrawerAdmins from "./AppDrawerAdmins";
 
 // local imports
 import route from "../constants/route";
@@ -38,41 +40,48 @@ const appRouter = createBrowserRouter(
     <>
       <Route element={<ProtectedRoute uloge={[ROLE.Admin]} />}>
         <Route path={`${route.adminInfo}`} element={<AdminInfo />} />
-        <Route path={`${route.editPassword}`} element={<EditPassword />} />
-        <Route path={`${route.editDictionary}`} element={<EditDictionary />} />
-        <Route
-          path={`${route.dictionaries}`}
-          element={<Dictionaries />}
-          loader={() => {
-            // hardkodiran languageid, prominit kad dodamo odabir jezika
-            store.dispatch(fetchDictionaries(1));
-            return true;
-          }}
-        />
-        <Route
-          path={`${route.words}`} element={<Words />}
-          loader={() => {
-            store.dispatch(fetchWords(2));
-            return true;
-          }}
-        />
-        <Route path={`${route.addWords}`} element={<AddWords />} />
+        <Route element={<AppDrawerAdmins />}>
+          <Route path={`${route.editPassword}`} element={<EditPassword />} />
+          <Route path={`${route.editDictionary}`} element={<EditDictionary />} />
+          <Route
+            path={`${route.dictionaries}`}
+            element={<Dictionaries />}
+            loader={() => {
+              // hardkodiran languageid, prominit kad dodamo odabir jezika
+              store.dispatch(fetchDictionaries(1));
+              return true;
+            }}
+          />
+          <Route
+            path={`${route.words}`} element={<Words />}
+            loader={() => {
+              store.dispatch(fetchWords(2));
+              return true;
+            }}
+          />
+          <Route path={`${route.addWords}`} element={<AddWords />} />
+          <Route path={`${route.adminList}`} element={<AdminList />} />
+        </Route>
       </Route>
       <Route element={<ProtectedRoute uloge={[ROLE.Student]} />}>
-        <Route
-          path={`${route.selectDictionary}`}
-          element={<StudentDictionaries />}
-          loader={() => {
-            const { auth } = store.getState();
+        <Route element={<AppDrawerStudents />}>
 
-            if (auth.user === undefined) {
-              return false;
-            }
+          <Route
+            path={`${route.selectDictionary}`}
+            element={<StudentDictionaries />}
+            loader={() => {
+              const { auth } = store.getState();
 
-            store.dispatch(fetchStudentDictionaries({ languageid: 1, studentid: auth.user.userid }));
-            return true;
-          }}
-        />
+              if (auth.user === undefined) {
+                return false;
+              }
+
+              store.dispatch(fetchStudentDictionaries({ languageid: 1, studentid: auth.user.userid }));
+              return true;
+            }}
+          />
+
+        </Route>
 
         <Route
           path={`${route.study}`}
@@ -91,7 +100,6 @@ const appRouter = createBrowserRouter(
       </Route>
       <Route path={`${route.login}`} element={<Login />} />
       <Route path={`${route.register}`} element={<Register />} />
-      <Route path={`${route.adminList}`} element={<AdminList />} />
       <Route path={`${route.createWord}`} element={<CreateWord />} />
       <Route path={`${route.selectLanguage}`} element={<SelectLanguage />} />
       <Route path="*" element={<Error errorText="Stranica ne postoji." />} />

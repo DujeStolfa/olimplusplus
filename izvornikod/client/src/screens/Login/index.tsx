@@ -29,9 +29,9 @@ const Login = () => {
         navigate(`${location.state.from.pathname}`);
       } else {
         if (user.role === ROLE.Admin) {
-          navigate(`/${route.adminInfo}`);
+          navigate(`/${route.words}`);
         } else if (user.role === ROLE.Student) {
-          navigate(`/${route.studentInfo}`);
+          navigate(`/${route.selectDictionary}`);
         }
       }
     }
