@@ -13,6 +13,8 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
+import { storageRef } from "../../firebaseConfig";
+import { uploadBytes, ref } from "firebase/storage";
 
 const CreateWord = () => {
   const dispatch = useAppDispatch();
@@ -58,6 +60,10 @@ const CreateWord = () => {
 
   const onSubmit = async (data: CreateWordInput) => {
     await dispatch(createWord(data));
+    if (audioFile) {
+      const audioRef = ref(storageRef, audioFileName)
+      uploadBytes(audioRef, audioFile);
+    }
     navigate(`/${route.editDictionary}`);
   };
 
@@ -151,6 +157,7 @@ const CreateWord = () => {
                   <input
                     type="file"
                     hidden
+                    required
                     onChange={handleFileChange}
                   />
                 </Button>
