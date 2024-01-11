@@ -15,6 +15,8 @@ import { attemptLogout } from "../../redux/slices/authSlice";
 import ApproveDialog from "../../components/common/AprooveDialog";
 import Error from "../../components/common/Error";
 import route from "../../constants/route";
+import { clearSession } from "../../redux/slices/studySessionSlice";
+import { clearSelectedDictionary } from "../../redux/slices/studentDictionariesSlice";
 
 
 const AppDrawerStudents = () => {
@@ -30,6 +32,9 @@ const AppDrawerStudents = () => {
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
 
   const handleLogout = () => {
+    dispatch(clearSelectedLanguage());
+    dispatch(clearSelectedDictionary());
+    dispatch(clearSession());
     navigate(`/${route.login}`, { replace: true });
     dispatch(attemptLogout());
   }
@@ -75,6 +80,8 @@ const AppDrawerStudents = () => {
             <MenuItem
               onClick={() => {
                 dispatch(clearSelectedLanguage());
+                dispatch(clearSelectedDictionary());
+                dispatch(clearSession());
                 navigate(`/${route.selectLanguage}/student`)
               }}
             >
@@ -132,7 +139,7 @@ const AppDrawerStudents = () => {
             <ListItem>
               <Stack direction="column">
                 <IconButton
-                  disabled={selectedLanguage === undefined || location.pathname === `/${route.study}`}
+                  disabled={selectedLanguage === undefined}
                   component={Link}
                   to={`/${route.selectDictionary}`}
                 >

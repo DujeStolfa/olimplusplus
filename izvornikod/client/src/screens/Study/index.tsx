@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { TableHeading } from "../../components/common/styled";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { clearSession, fetchNextQuestion, updateWordState } from "../../redux/slices/studySessionSlice";
+import { clearSelectedDictionary } from "../../redux/slices/studentDictionariesSlice";
 import { QuestionBodyWrapper } from "./index.styled";
 import AnswerFeedback from "./AnswerFeedback"
 import MultipleChoiceList from "./MultipleChoiceList";
@@ -31,6 +32,7 @@ const Study = () => {
     setAnswer(undefined);
     setCorrect(undefined);
     dispatch(clearSession());
+    dispatch(clearSelectedDictionary());
     navigate(`/${route.selectDictionary}`);
   }
 

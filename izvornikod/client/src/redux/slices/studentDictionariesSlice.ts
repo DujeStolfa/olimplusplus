@@ -6,10 +6,12 @@ import StudentDictionary from "../../types/models/StudentDictionary";
 
 interface StudentDictionariesState {
   dictionaries: StudentDictionary[];
+  selectedDictionary: StudentDictionary | undefined;
 }
 
 const initialState: StudentDictionariesState = {
-  dictionaries: []
+  dictionaries: [],
+  selectedDictionary: undefined,
 }
 
 const fetchStudentDictionaries = createAsyncThunk(
@@ -23,13 +25,25 @@ const fetchStudentDictionaries = createAsyncThunk(
 const studentDictionariesSlice = createSlice({
   name: "studentDictionaries",
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedDictionary: (state, action: PayloadAction<StudentDictionary>) => {
+      state.selectedDictionary = action.payload;
+    },
+    clearSelectedDictionary: (state) => {
+      state.selectedDictionary = undefined;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchStudentDictionaries.fulfilled, (state, action: PayloadAction<StudentDictionary[]>) => {
       state.dictionaries = action.payload;
     });
   }
 });
+
+export const {
+  setSelectedDictionary,
+  clearSelectedDictionary,
+} = studentDictionariesSlice.actions;
 
 export {
   fetchStudentDictionaries,

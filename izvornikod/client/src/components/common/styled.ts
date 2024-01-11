@@ -30,3 +30,11 @@ export const TableHeading = styled(Typography)`
     padding-block: 0.5em;
     padding-inline: 0.3em;
 `;
+
+export const ButtonsContainer = styled(Box)`
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content:center;
+  gap: 1.5em;
+`;

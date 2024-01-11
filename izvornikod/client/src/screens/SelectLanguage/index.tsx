@@ -3,9 +3,8 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Typography } from "@mui/material";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { ScreenWrapper } from "../../components/common/styled";
+import { ButtonsContainer, ScreenWrapper } from "../../components/common/styled";
 import { setSelectedLanguage } from "../../redux/slices/languageSlice";
-import { LanguagesContainer } from "./index.styled";
 import Language from "../../types/models/Language";
 import ROLE from "../../types/enums/Role";
 import route from "../../constants/route";
@@ -33,12 +32,13 @@ const SelectLanguage = () => {
                 <Typography
                     variant="h2"
                     mb={4}
-                    display="flex" justifyContent="center"
+                    display="flex"
+                    justifyContent="center"
                 >
                     Odaberite jezik
                 </Typography>
 
-                <LanguagesContainer>{
+                <ButtonsContainer>{
                     languages.map(el =>
                         <Button
                             variant="outlined"
@@ -48,7 +48,7 @@ const SelectLanguage = () => {
                             {`${el.languagename} - ${el.isocode.toUpperCase()}`}
                         </Button>
                     )
-                }</LanguagesContainer>
+                }</ButtonsContainer>
             </Container>
         </ScreenWrapper>
     );

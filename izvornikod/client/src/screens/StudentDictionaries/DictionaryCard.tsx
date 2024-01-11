@@ -1,14 +1,19 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Chip, Grid, Typography } from "@mui/material";
 import { DictionaryCardWrapper } from "./index.styled";
+import { useAppDispatch } from "../../redux/store";
+import { setSelectedDictionary } from "../../redux/slices/studentDictionariesSlice";
 import StudentDictionary from "../../types/models/StudentDictionary";
-
+import route from "../../constants/route";
 
 interface Props {
   dictionary: StudentDictionary;
 }
 
 const DictionaryCard = ({ dictionary }: Props) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   if (dictionary.totalwordcount === 0) {
     return (
@@ -35,7 +40,10 @@ const DictionaryCard = ({ dictionary }: Props) => {
           backgroundColor: "#f3f3f3"
         }
       }}
-      onClick={() => { console.log(`Započni učenje na rječniku ${dictionary.dictionaryid}`) }}
+      onClick={() => {
+        dispatch(setSelectedDictionary(dictionary));
+        navigate(`/${route.studyTypes}`);
+      }}
     >
       <Grid container>
         <Grid item xs={10}>

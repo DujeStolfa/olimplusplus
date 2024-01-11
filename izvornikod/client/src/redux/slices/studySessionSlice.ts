@@ -4,18 +4,21 @@ import wordService from "../../services/api/routes/words";
 import Word from "../../types/models/Word";
 import GetWordChoicesInput from "../../types/inputs/word/GetWordChoicesInput";
 import UpdateWordStateInput from "../../types/inputs/word/UpdateWordStateInput";
+import STUDY_TYPE from "../../types/enums/StudyType";
 
 
 interface StudySessionState {
   availableWords: Word[];
   choices: Word[];
-  currentQuestionIdx?: number;
+  currentQuestionIdx: number | undefined;
+  selectedStudyType: STUDY_TYPE | undefined;
 }
 
 const initialState: StudySessionState = {
   availableWords: [],
   choices: [],
   currentQuestionIdx: undefined,
+  selectedStudyType: undefined,
 }
 
 const fetchAvailableWords = createAsyncThunk(
@@ -50,7 +53,11 @@ const studySessionSlice = createSlice({
       state.availableWords = [];
       state.choices = [];
       state.currentQuestionIdx = undefined;
-    }
+      state.selectedStudyType = undefined;
+    },
+    setSelectedStudyType: (state, action: PayloadAction<STUDY_TYPE>) => {
+      state.selectedStudyType = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchAvailableWords.fulfilled, (state, action: PayloadAction<Word[]>) => {
@@ -60,11 +67,8 @@ const studySessionSlice = createSlice({
     builder.addCase(fetchNextQuestion.fulfilled, (state, action: PayloadAction<Word[]>) => {
       state.choices = action.payload;
       if (state.currentQuestionIdx !== undefined && state.currentQuestionIdx < state.availableWords.length) {
-        console.log("increment")
         state.currentQuestionIdx = state.currentQuestionIdx + 1;
-        console.log(state.currentQuestionIdx)
       } else {
-        console.log("start");
         state.currentQuestionIdx = 0;
       }
     });
@@ -73,6 +77,7 @@ const studySessionSlice = createSlice({
 
 export const {
   clearSession,
+  setSelectedStudyType,
 } = studySessionSlice.actions;
 
 export {

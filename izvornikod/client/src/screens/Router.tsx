@@ -32,9 +32,9 @@ import ROLE from "../types/enums/Role";
 import store from "../redux/store";
 import { fetchDictionaries } from "../redux/slices/dictionariesSlice";
 import { fetchWords } from "../redux/slices/wordsSlice";
-import { fetchStudentDictionaries } from "../redux/slices/studentDictionariesSlice";
-import { fetchAvailableWords } from "../redux/slices/studySessionSlice";
-import { fetchLanguages } from "../redux/slices/languageSlice";
+import { clearSelectedDictionary, fetchStudentDictionaries } from "../redux/slices/studentDictionariesSlice";
+import { clearSession, fetchAvailableWords } from "../redux/slices/studySessionSlice";
+import { clearSelectedLanguage, fetchLanguages } from "../redux/slices/languageSlice";
 
 const appRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -90,6 +90,9 @@ const appRouter = createBrowserRouter(
             element={<SelectLanguage />}
             loader={() => {
               store.dispatch(fetchLanguages());
+              store.dispatch(clearSession());
+              store.dispatch(clearSelectedLanguage());
+              store.dispatch(clearSelectedDictionary());
               return true;
             }}
           />
@@ -98,34 +101,42 @@ const appRouter = createBrowserRouter(
             path={`${route.selectDictionary}`}
             element={<StudentDictionaries />}
             loader={() => {
+              store.dispatch(clearSession());
+              store.dispatch(clearSelectedDictionary());
               const { auth, languages } = store.getState();
 
               if (auth.user === undefined || languages.selectedLanguage === undefined) {
                 return false;
               }
 
-
               store.dispatch(fetchStudentDictionaries({ languageid: languages.selectedLanguage.languageid, studentid: auth.user.userid }));
               return true;
             }}
           />
+
           <Route
             path={`${route.study}`}
             element={<Study />}
             loader={() => {
-              store.dispatch(fetchAvailableWords(1));
+              const { studentDictionaries } = store.getState();
+
+              if (studentDictionaries.selectedDictionary === undefined) {
+                return false;
+              }
+
+              store.dispatch(fetchAvailableWords(studentDictionaries.selectedDictionary.dictionaryid));
               return true;
             }}
           />
-        </Route>
 
+          <Route path={`${route.studyTypes}`} element={<StudyTypes />} />
+        </Route>
 
         <Route path={`${route.studentInfo}`} element={<StudentInfo />} />
         <Route
           path={`${route.foreignTranslation}`}
           element={<ForeignTranslation />}
         />
-        <Route path={`${route.studyTypes}`} element={<StudyTypes />} />
       </Route>
       <Route path={`${route.login}`} element={<Login />} />
       <Route path={`${route.register}`} element={<Register />} />

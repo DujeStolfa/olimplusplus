@@ -16,7 +16,7 @@ const StudentDictionaries = () => {
       <DictionaryGridWrapper>
         {dictionaries.length !== 0 ?
           dictionaries.map(el => <DictionaryCard dictionary={el} />)
-          : <Typography variant="h6" color="gray"> Nema dostupnih rječnika </Typography>}
+          : <Typography variant="h6" color="gray"> Odabrani jezik nema dostupnih rječnika </Typography>}
       </DictionaryGridWrapper>
     </Container>
   );
