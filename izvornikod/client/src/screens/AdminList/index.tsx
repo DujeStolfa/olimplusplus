@@ -39,13 +39,8 @@ const AdminList = () => {
     drawerMode: "",
   });
 
-
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [selectedAdmin, setSelectedAdmin] = useState<User | undefined>(undefined);
-
-  useEffect(() => {
-    dispatch(fetchAdmins());
-  }, []);
 
   useEffect(() => {
     if (selectedAdmin !== undefined) {

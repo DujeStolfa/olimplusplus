@@ -30,11 +30,12 @@ import AppDrawerAdmins from "./AppDrawerAdmins";
 import route from "../constants/route";
 import ROLE from "../types/enums/Role";
 import store from "../redux/store";
-import { fetchDictionaries } from "../redux/slices/dictionariesSlice";
-import { fetchWords } from "../redux/slices/wordsSlice";
+import { clearDictionary, fetchDictionaries } from "../redux/slices/dictionariesSlice";
+import { fetchWords, fetchWordsNotInDictionary } from "../redux/slices/wordsSlice";
 import { clearSelectedDictionary, fetchStudentDictionaries } from "../redux/slices/studentDictionariesSlice";
 import { clearSession, fetchAvailableWords } from "../redux/slices/studySessionSlice";
 import { clearSelectedLanguage, fetchLanguages } from "../redux/slices/languageSlice";
+import { fetchAdmins } from "../redux/slices/adminSlice";
 
 const appRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -47,6 +48,7 @@ const appRouter = createBrowserRouter(
             element={<SelectLanguage />}
             loader={() => {
               store.dispatch(fetchLanguages());
+              store.dispatch(clearDictionary());
               return true;
             }}
           />
@@ -68,6 +70,7 @@ const appRouter = createBrowserRouter(
             path={`${route.dictionaries}`}
             element={<Dictionaries />}
             loader={() => {
+              store.dispatch(clearDictionary());
               const { languages } = store.getState();
 
               if (languages.selectedLanguage === undefined) {
@@ -91,8 +94,28 @@ const appRouter = createBrowserRouter(
               return true;
             }}
           />
-          <Route path={`${route.addWords}`} element={<AddWords />} />
-          <Route path={`${route.adminList}`} element={<AdminList />} />
+          <Route
+            path={`${route.addWords}`}
+            element={<AddWords />}
+            loader={() => {
+              const { dictionaries } = store.getState();
+
+              if (dictionaries.selectedDictionary === undefined) {
+                return false;
+              }
+
+              store.dispatch(fetchWordsNotInDictionary(dictionaries.selectedDictionary.dictionaryid));
+              return true;
+            }}
+          />
+          <Route
+            path={`${route.adminList}`}
+            element={<AdminList />}
+            loader={() => {
+              store.dispatch(fetchAdmins());
+              return true;
+            }}
+          />
         </Route>
       </Route>
       <Route element={<ProtectedRoute uloge={[ROLE.Student]} />}>

@@ -7,6 +7,8 @@ import Dictionary from "../../types/models/Dictionary";
 import CRUD_ACTION from "../../types/enums/CrudAction";
 import RenameDictionaryForm from "./RenameDictionaryForm";
 import route from "../../constants/route";
+import { useAppDispatch } from "../../redux/store";
+import { selectDictionary } from "../../redux/slices/dictionariesSlice";
 
 interface Props {
   dictionary: Dictionary;
@@ -14,6 +16,7 @@ interface Props {
 }
 
 const DictionariesTableRow = ({ setSelectedDictionary, dictionary }: Props) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [renameState, setRenameState] = useState<CRUD_ACTION>(CRUD_ACTION.READ);
 
@@ -21,6 +24,7 @@ const DictionariesTableRow = ({ setSelectedDictionary, dictionary }: Props) => {
     <TableRow
       hover
       onClick={() => {
+        dispatch(selectDictionary(dictionary));
         navigate(`/${route.editDictionary}/${dictionary.dictionaryid}`);
       }}
     >

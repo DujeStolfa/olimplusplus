@@ -10,11 +10,13 @@ import RenameDictionaryInput from "../../types/inputs/dictionary/RenameDictionar
 interface DictionariesState {
   dictionaries: Dictionary[];
   createFormState: CRUD_ACTION;
+  selectedDictionary: Dictionary | undefined;
 }
 
 const initialState: DictionariesState = {
   dictionaries: [],
   createFormState: CRUD_ACTION.READ,
+  selectedDictionary: undefined,
 }
 
 const fetchDictionaries = createAsyncThunk(
@@ -56,6 +58,12 @@ const dictionarySlice = createSlice({
     setCreateFormState: (state, action: PayloadAction<CRUD_ACTION>) => {
       state.createFormState = action.payload;
     },
+    selectDictionary: (state, action: PayloadAction<Dictionary>) => {
+      state.selectedDictionary = action.payload;
+    },
+    clearDictionary: (state) => {
+      state.selectedDictionary = undefined;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchDictionaries.fulfilled, (state, action: PayloadAction<Dictionary[]>) => {
@@ -79,6 +87,8 @@ const dictionarySlice = createSlice({
 
 export const {
   setCreateFormState,
+  selectDictionary,
+  clearDictionary,
 } = dictionarySlice.actions;
 
 export {

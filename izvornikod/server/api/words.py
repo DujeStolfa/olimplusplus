@@ -65,7 +65,11 @@ def get_words_not_in_dictionary(dictionaryid):
     # endpoint za rijeci koje nisu u nekom rijecniku
     words_not_in_dictionary = db.session.execute(
         db.select(Word.wordid, Word.croatianname, Word.foreignname).where(
-            Word.wordid.not_in(db.select(Word.wordid).join(WordDictionary))
+            Word.wordid.not_in(
+                db.select(Word.wordid)
+                .join(WordDictionary)
+                .where(WordDictionary.dictionaryid == dictionaryid)
+            )
         )
     ).all()
 
