@@ -116,6 +116,7 @@ const appRouter = createBrowserRouter(
               return true;
             }}
           />
+          <Route path={`${route.createWord}`} element={<CreateWord />} />
         </Route>
       </Route>
       <Route element={<ProtectedRoute uloge={[ROLE.Student]} />}>
@@ -175,7 +176,6 @@ const appRouter = createBrowserRouter(
       </Route>
       <Route path={`${route.login}`} element={<Login />} />
       <Route path={`${route.register}`} element={<Register />} />
-      <Route path={`${route.createWord}`} element={<CreateWord />} />
       <Route path="*" element={<Error errorText="Stranica ne postoji." />} />
     </>
   )

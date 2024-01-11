@@ -1,24 +1,20 @@
 import React, { useState } from "react";
-import { useAppDispatch } from "../../redux/store";
-import { createWord } from "../../redux/slices/wordsSlice";
-import route from "../../constants/route";
-import CreateWordInput from "../../types/inputs/user/CreateWordInput";
+import { Box, Button, Container, TextField, Typography, Grid } from "@mui/material";
+import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import {
-  Box,
-  Button,
-  Container,
-  TextField,
-  Typography,
-  Grid,
-} from "@mui/material";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { createWord } from "../../redux/slices/wordsSlice";
 import { storageRef } from "../../firebaseConfig";
 import { uploadBytes, ref } from "firebase/storage";
+import route from "../../constants/route";
+import CreateWordInput from "../../types/inputs/user/CreateWordInput";
+
 
 const CreateWord = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { selectedLanguage } = useSelector((state: RootState) => state.languages);
   const { register, handleSubmit, setValue } = useForm<CreateWordInput>({
     defaultValues: {
       audiopath: "audio",
@@ -47,7 +43,7 @@ const CreateWord = () => {
     if (file) {
       setAudioFile(file);
       setAudioFileName(file.name);
-      setValue("audiopath", file.name); 
+      setValue("audiopath", file.name);
     }
   };
 
@@ -59,12 +55,16 @@ const CreateWord = () => {
   };
 
   const onSubmit = async (data: CreateWordInput) => {
-    await dispatch(createWord(data));
-    if (audioFile) {
-      const audioRef = ref(storageRef, audioFileName)
-      uploadBytes(audioRef, audioFile);
+    if (selectedLanguage !== undefined) {
+      dispatch(createWord({ ...data, languageid: selectedLanguage.languageid }));
+
+      if (audioFile) {
+        const audioRef = ref(storageRef, audioFileName)
+        uploadBytes(audioRef, audioFile);
+      }
+
+      navigate(`/${route.words}`);
     }
-    navigate(`/${route.editDictionary}`);
   };
 
   return (
@@ -172,7 +172,7 @@ const CreateWord = () => {
           <Grid item xs={12}>
             <Grid container spacing={2} justifyContent="space-around">
               <Grid item xs={6}>
-                <Button variant="outlined" fullWidth>
+                <Button variant="outlined" fullWidth onClick={() => navigate(`/${route.words}`)}>
                   odustani
                 </Button>
               </Grid>

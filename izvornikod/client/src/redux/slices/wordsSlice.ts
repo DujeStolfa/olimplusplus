@@ -8,7 +8,7 @@ interface WordsState {
     words: Word[];
     wordsNotInDictionary: Word[];   // za dodavanje rijeci u rjecnik prvo treba uzeti sve rijeci koje nisu u rjecniku
     wordsToBeAdded: Word[];         // odabrane rijeci idu u ovaj array
-    dictionaryWords:Word[]; //Moguci problem down the line oko tipa, ako bude problema, tu pogledati
+    dictionaryWords: Word[]; //Moguci problem down the line oko tipa, ako bude problema, tu pogledati
 }
 
 const initialState: WordsState = {
@@ -28,19 +28,17 @@ const fetchWords = createAsyncThunk(
 
 const fetchWordsNotInDictionary = createAsyncThunk(
     'words/fetchNotInDictionary',
-    async ( dictionaryid: number) => {
-      const response = await wordService.getAllNotInDictionary(dictionaryid);
-      return response.data;
+    async (dictionaryid: number) => {
+        const response = await wordService.getAllNotInDictionary(dictionaryid);
+        return response.data;
     }
 );
 
 const createWord = createAsyncThunk(
     'auth/createWordStatus',
     async (data: CreateWordInput) => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const languageId = Number(urlParams.get('languageId'));
-    const response = await wordService.createWord(data, languageId);
-    return response.data;
+        const response = await wordService.createWord(data, data.languageid);
+        return response.data;
     }
 );
 
