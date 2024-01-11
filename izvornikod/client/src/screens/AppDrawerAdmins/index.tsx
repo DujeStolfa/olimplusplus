@@ -69,7 +69,8 @@ const AppDrawerAdmins = () => {
             <MenuItem
               onClick={() => {
                 dispatch(clearSelectedLanguage());
-                navigate(`/${route.selectLanguage}/admin`)
+                navigate(`/${route.selectLanguage}/admin`);
+                handleClose();
               }}
             >
               <ListItemIcon>

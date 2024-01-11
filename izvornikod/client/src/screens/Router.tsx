@@ -51,7 +51,19 @@ const appRouter = createBrowserRouter(
             }}
           />
           <Route path={`${route.editPassword}`} element={<EditPassword />} />
-          <Route path={`${route.editDictionary}`} element={<EditDictionary />} />
+          <Route
+            path={`${route.editDictionary}/:dictionaryid`}
+            element={<EditDictionary />}
+            loader={({ params }) => {
+              if (params.dictionaryid !== undefined) {
+                // za ninu koja je bila u LONDONU
+                // You have to add some lines of code here m8
+
+                return true;
+              }
+              return false;
+            }}
+          />
           <Route
             path={`${route.dictionaries}`}
             element={<Dictionaries />}

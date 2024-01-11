@@ -15,6 +15,7 @@ class DictionarySchema(Schema):
     dictionaryid = fields.Int()
     dictionaryname = fields.Str()
     dictionarycreatedat = fields.DateTime()
+    dictionarysize = fields.Int()
     languageid = fields.Int(load_only=True)
 
 

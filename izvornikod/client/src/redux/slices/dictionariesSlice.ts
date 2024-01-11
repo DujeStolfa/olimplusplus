@@ -1,15 +1,20 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { remove } from "lodash";
+import { findIndex, remove } from "lodash";
 
 import dictionaryService from "../../services/api/routes/dictionaries";
 import Dictionary from "../../types/models/Dictionary";
+import CRUD_ACTION from "../../types/enums/CrudAction";
+import CreateDictionaryInput from "../../types/inputs/dictionary/CreateDictionaryInput";
+import RenameDictionaryInput from "../../types/inputs/dictionary/RenameDictionaryInput";
 
 interface DictionariesState {
   dictionaries: Dictionary[];
+  createFormState: CRUD_ACTION;
 }
 
 const initialState: DictionariesState = {
   dictionaries: [],
+  createFormState: CRUD_ACTION.READ,
 }
 
 const fetchDictionaries = createAsyncThunk(
@@ -28,10 +33,30 @@ const deleteDictionary = createAsyncThunk(
   }
 );
 
+const createDictionary = createAsyncThunk(
+  'dictionaries/create',
+  async (dictInput: CreateDictionaryInput) => {
+    const response = await dictionaryService.create(dictInput);
+    return response.data;
+  }
+);
+
+const renameDictionary = createAsyncThunk(
+  'dictionaries/rename',
+  async (dictInput: RenameDictionaryInput) => {
+    const response = await dictionaryService.rename(dictInput);
+    return response.data;
+  }
+);
+
 const dictionarySlice = createSlice({
   name: "dictionaries",
   initialState,
-  reducers: {},
+  reducers: {
+    setCreateFormState: (state, action: PayloadAction<CRUD_ACTION>) => {
+      state.createFormState = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchDictionaries.fulfilled, (state, action: PayloadAction<Dictionary[]>) => {
       state.dictionaries = action.payload;
@@ -40,12 +65,27 @@ const dictionarySlice = createSlice({
     builder.addCase(deleteDictionary.fulfilled, (state, action: PayloadAction<number>) => {
       remove(state.dictionaries, el => el.dictionaryid === action.payload);
     });
+
+    builder.addCase(createDictionary.fulfilled, (state, action: PayloadAction<Dictionary>) => {
+      state.dictionaries.push(action.payload);
+    });
+
+    builder.addCase(renameDictionary.fulfilled, (state, action: PayloadAction<Dictionary>) => {
+      let idx = findIndex(state.dictionaries, el => el.dictionaryid === action.payload.dictionaryid);
+      state.dictionaries[idx] = action.payload;
+    });
   }
 });
+
+export const {
+  setCreateFormState,
+} = dictionarySlice.actions;
 
 export {
   fetchDictionaries,
   deleteDictionary,
+  createDictionary,
+  renameDictionary,
 }
 
 export default dictionarySlice.reducer;

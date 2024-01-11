@@ -1,8 +1,12 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { IconButton, TableCell, TableRow } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Dictionary from "../../types/models/Dictionary";
+import CRUD_ACTION from "../../types/enums/CrudAction";
+import RenameDictionaryForm from "./RenameDictionaryForm";
+import route from "../../constants/route";
 
 interface Props {
   dictionary: Dictionary;
@@ -10,14 +14,24 @@ interface Props {
 }
 
 const DictionariesTableRow = ({ setSelectedDictionary, dictionary }: Props) => {
+  const navigate = useNavigate();
+  const [renameState, setRenameState] = useState<CRUD_ACTION>(CRUD_ACTION.READ);
+
   return (
     <TableRow
       hover
       onClick={() => {
-        console.log(`Edit ${dictionary.dictionaryid}`);
+        navigate(`/${route.editDictionary}/${dictionary.dictionaryid}`);
       }}
     >
-      <TableCell>{dictionary.dictionaryname}</TableCell>
+      <TableCell>
+        {
+          renameState !== CRUD_ACTION.EDIT
+            ? dictionary.dictionaryname
+            : <RenameDictionaryForm dictionary={dictionary} setRenameState={setRenameState} />
+        }
+      </TableCell>
+
       <TableCell>
         {
           (new Date(dictionary.dictionarycreatedat + "Z")).toLocaleDateString("hr-HR", {
@@ -27,11 +41,12 @@ const DictionariesTableRow = ({ setSelectedDictionary, dictionary }: Props) => {
           })
         }
       </TableCell>
-      <TableCell>nije implementirano</TableCell>
+      <TableCell>{dictionary.dictionarysize}</TableCell>
       <TableCell align="right">
         <IconButton
           size="small"
           onClick={(event) => {
+            setRenameState(CRUD_ACTION.EDIT);
             console.log(`Rename ${dictionary.dictionaryid}`);
             event.stopPropagation();
           }}

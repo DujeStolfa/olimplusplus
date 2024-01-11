@@ -20,7 +20,10 @@ def create_dictionary(languageid):
     db.session.add(new_dict)
     db.session.commit()
 
-    return dictionary_schema.dump(new_dict)
+    serialized = dictionary_schema.dump(new_dict)
+    serialized["dictionarysize"] = 0
+
+    return serialized
 
 
 @api.route("dictionaries/<int:dictionaryid>", methods=["DELETE"])
@@ -39,6 +42,34 @@ def delete_dictionary(dictionaryid):
     return "", 204
 
 
+@api.route("dictionaries/<int:dictionaryid>", methods=["PUT"])
+@login_required
+def rename_dictionary(dictionaryid):
+    data = request.json
+
+    if "dictionaryname" not in data:
+        return abort(400)
+
+    dictionary = db.session.execute(
+        db.select(Dictionary).where(Dictionary.dictionaryid == dictionaryid)
+    ).scalar()
+
+    dictionary.dictionaryname = data["dictionaryname"]
+    db.session.commit()
+
+    dict_size = db.session.execute(
+        db.select(func.count(distinct(Word.wordid)))
+        .join(WordState)
+        .join(WordDictionary)
+        .where(WordDictionary.dictionaryid == dictionaryid)
+    ).scalar()
+
+    serialized = dictionary_schema.dump(dictionary)
+    serialized["dictionarysize"] = dict_size
+
+    return serialized
+
+
 @api.route("dictionaries/<int:languageid>")
 @login_required
 def get_dictionaries(languageid):
@@ -47,6 +78,12 @@ def get_dictionaries(languageid):
             Dictionary.dictionaryid,
             Dictionary.dictionarycreatedat,
             Dictionary.dictionaryname,
+            (
+                db.select(func.count(distinct(Word.wordid)))
+                .join(WordState)
+                .join(WordDictionary)
+                .where(WordDictionary.dictionaryid == Dictionary.dictionaryid)
+            ).label("dictionarysize"),
         ).where(Dictionary.languageid == languageid)
     ).all()
 
