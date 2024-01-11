@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { redirect, useLocation, useNavigate } from "react-router-dom";
-import { Button, Container, Stack, Typography} from "@mui/material"; // Yoink Dujinog koda i importa iz Logina
-import { ScreenWrapper } from "../Login/index.styled";
+import { Button, Container, Stack, Typography } from "@mui/material"; // Yoink Dujinog koda i importa iz Logina
 import route from "../../constants/route";
+import { ScreenWrapper } from "../../components/common/styled";
 
 
 const StudyTypes = () => {

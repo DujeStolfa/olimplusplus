@@ -32,3 +32,9 @@ class WordSchema(Schema):
     foreignname = fields.Str()
     audiopath = fields.Str()
     languageid = fields.Int(load_only=True)
+
+
+class LanguageSchema(Schema):
+    languageid = fields.Int()
+    languagename = fields.Str()
+    isocode = fields.Str()

@@ -1,5 +1,5 @@
 import React from "react"
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Box, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Menu, MenuItem, MenuList, Stack, Typography } from "@mui/material";
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
@@ -11,15 +11,19 @@ import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 
 import { AppContent, UserBox } from "./index.styled";
 import { RootState, useAppDispatch } from "../../redux/store";
+import { clearSelectedLanguage } from "../../redux/slices/languageSlice";
 import { attemptLogout } from "../../redux/slices/authSlice";
+import Error from "../../components/common/Error";
 import route from "../../constants/route";
-import ApproveDialog from "../../components/common/AprooveDialog";
 
 
 const AppDrawerAdmins = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useSelector((state: RootState) => state.auth);
+  const { selectedLanguage } = useSelector((state: RootState) => state.languages);
+
   const [menuAnchor, setMenuAnchor] = React.useState<null | HTMLElement>(null);
   const open = Boolean(menuAnchor);
 
@@ -33,10 +37,6 @@ const AppDrawerAdmins = () => {
   };
   const handleClose = () => {
     setMenuAnchor(null);
-  };
-
-  const handleConfirmDelete = () => {
-
   };
 
   const AccountMenu = () => {
@@ -67,7 +67,10 @@ const AppDrawerAdmins = () => {
 
           <Box paddingTop="0.5em">
             <MenuItem
-              onClick={() => { }}
+              onClick={() => {
+                dispatch(clearSelectedLanguage());
+                navigate(`/${route.selectLanguage}/admin`)
+              }}
             >
               <ListItemIcon>
                 <LanguageIcon fontSize="small" />
@@ -113,6 +116,7 @@ const AppDrawerAdmins = () => {
             <ListItem>
               <Stack direction="column" alignItems="center">
                 <IconButton
+                  disabled={selectedLanguage === undefined}
                   component={Link}
                   to={`/${route.words}`}
                 >
@@ -124,6 +128,7 @@ const AppDrawerAdmins = () => {
             <ListItem>
               <Stack direction="column" alignItems="center">
                 <IconButton
+                  disabled={selectedLanguage === undefined}
                   component={Link}
                   to={`/${route.dictionaries}`}
                 >
@@ -135,6 +140,7 @@ const AppDrawerAdmins = () => {
             <ListItem>
               <Stack direction="column" alignItems="center">
                 <IconButton
+                  disabled={selectedLanguage === undefined}
                   component={Link}
                   to={`/${route.adminList}`}
                 >
@@ -147,7 +153,11 @@ const AppDrawerAdmins = () => {
         </Drawer>
       </Box >
       <AppContent>
-        <Outlet />
+        {
+          (selectedLanguage === undefined && location.pathname !== `/${route.selectLanguage}/admin`)
+            ? <Error errorText="Nije odabran nijedan jezik. Molimo odaberite ga u izborniku." />
+            : <Outlet />
+        }
       </AppContent>
       <AccountMenu />
     </>

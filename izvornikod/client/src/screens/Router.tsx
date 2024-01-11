@@ -34,6 +34,7 @@ import { fetchDictionaries } from "../redux/slices/dictionariesSlice";
 import { fetchWords } from "../redux/slices/wordsSlice";
 import { fetchStudentDictionaries } from "../redux/slices/studentDictionariesSlice";
 import { fetchAvailableWords } from "../redux/slices/studySessionSlice";
+import { fetchLanguages } from "../redux/slices/languageSlice";
 
 const appRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -41,21 +42,40 @@ const appRouter = createBrowserRouter(
       <Route element={<ProtectedRoute uloge={[ROLE.Admin]} />}>
         <Route path={`${route.adminInfo}`} element={<AdminInfo />} />
         <Route element={<AppDrawerAdmins />}>
+          <Route
+            path={`${route.selectLanguage}/admin`}
+            element={<SelectLanguage />}
+            loader={() => {
+              store.dispatch(fetchLanguages());
+              return true;
+            }}
+          />
           <Route path={`${route.editPassword}`} element={<EditPassword />} />
           <Route path={`${route.editDictionary}`} element={<EditDictionary />} />
           <Route
             path={`${route.dictionaries}`}
             element={<Dictionaries />}
             loader={() => {
-              // hardkodiran languageid, prominit kad dodamo odabir jezika
-              store.dispatch(fetchDictionaries(1));
+              const { languages } = store.getState();
+
+              if (languages.selectedLanguage === undefined) {
+                return false;
+              }
+
+              store.dispatch(fetchDictionaries(languages.selectedLanguage.languageid));
               return true;
             }}
           />
           <Route
             path={`${route.words}`} element={<Words />}
             loader={() => {
-              store.dispatch(fetchWords(2));
+              const { languages } = store.getState();
+
+              if (languages.selectedLanguage === undefined) {
+                return false;
+              }
+
+              store.dispatch(fetchWords(languages.selectedLanguage.languageid));
               return true;
             }}
           />
@@ -65,32 +85,41 @@ const appRouter = createBrowserRouter(
       </Route>
       <Route element={<ProtectedRoute uloge={[ROLE.Student]} />}>
         <Route element={<AppDrawerStudents />}>
+          <Route
+            path={`${route.selectLanguage}/student`}
+            element={<SelectLanguage />}
+            loader={() => {
+              store.dispatch(fetchLanguages());
+              return true;
+            }}
+          />
 
           <Route
             path={`${route.selectDictionary}`}
             element={<StudentDictionaries />}
             loader={() => {
-              const { auth } = store.getState();
+              const { auth, languages } = store.getState();
 
-              if (auth.user === undefined) {
+              if (auth.user === undefined || languages.selectedLanguage === undefined) {
                 return false;
               }
 
-              store.dispatch(fetchStudentDictionaries({ languageid: 1, studentid: auth.user.userid }));
+
+              store.dispatch(fetchStudentDictionaries({ languageid: languages.selectedLanguage.languageid, studentid: auth.user.userid }));
               return true;
             }}
           />
-
+          <Route
+            path={`${route.study}`}
+            element={<Study />}
+            loader={() => {
+              store.dispatch(fetchAvailableWords(1));
+              return true;
+            }}
+          />
         </Route>
 
-        <Route
-          path={`${route.study}`}
-          element={<Study />}
-          loader={() => {
-            store.dispatch(fetchAvailableWords(1));
-            return true;
-          }}
-        />
+
         <Route path={`${route.studentInfo}`} element={<StudentInfo />} />
         <Route
           path={`${route.foreignTranslation}`}
@@ -101,7 +130,6 @@ const appRouter = createBrowserRouter(
       <Route path={`${route.login}`} element={<Login />} />
       <Route path={`${route.register}`} element={<Register />} />
       <Route path={`${route.createWord}`} element={<CreateWord />} />
-      <Route path={`${route.selectLanguage}`} element={<SelectLanguage />} />
       <Route path="*" element={<Error errorText="Stranica ne postoji." />} />
     </>
   )

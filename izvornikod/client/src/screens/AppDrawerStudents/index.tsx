@@ -1,5 +1,5 @@
 import React from "react"
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Box, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Menu, MenuItem, MenuList, Stack, Typography } from "@mui/material";
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
@@ -10,15 +10,20 @@ import PersonOffIcon from '@mui/icons-material/PersonOff';
 
 import { AppContent, UserBox } from "./index.styled";
 import { RootState, useAppDispatch } from "../../redux/store";
+import { clearSelectedLanguage } from "../../redux/slices/languageSlice";
 import { attemptLogout } from "../../redux/slices/authSlice";
-import route from "../../constants/route";
 import ApproveDialog from "../../components/common/AprooveDialog";
+import Error from "../../components/common/Error";
+import route from "../../constants/route";
 
 
 const AppDrawerStudents = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useSelector((state: RootState) => state.auth);
+  const { selectedLanguage } = useSelector((state: RootState) => state.languages);
+
   const [menuAnchor, setMenuAnchor] = React.useState<null | HTMLElement>(null);
   const open = Boolean(menuAnchor);
 
@@ -68,7 +73,10 @@ const AppDrawerStudents = () => {
 
           <Box paddingTop="0.5em">
             <MenuItem
-              onClick={() => { }}
+              onClick={() => {
+                dispatch(clearSelectedLanguage());
+                navigate(`/${route.selectLanguage}/student`)
+              }}
             >
               <ListItemIcon>
                 <LanguageIcon fontSize="small" />
@@ -124,6 +132,7 @@ const AppDrawerStudents = () => {
             <ListItem>
               <Stack direction="column">
                 <IconButton
+                  disabled={selectedLanguage === undefined || location.pathname === `/${route.study}`}
                   component={Link}
                   to={`/${route.selectDictionary}`}
                 >
@@ -136,7 +145,11 @@ const AppDrawerStudents = () => {
         </Drawer>
       </Box >
       <AppContent>
-        <Outlet />
+        {
+          (selectedLanguage === undefined && location.pathname !== `/${route.selectLanguage}/student`)
+            ? <Error errorText="Nije odabran nijedan jezik. Molimo odaberite ga u izborniku." />
+            : <Outlet />
+        }
       </AppContent>
       <AccountMenu />
       <ApproveDialog

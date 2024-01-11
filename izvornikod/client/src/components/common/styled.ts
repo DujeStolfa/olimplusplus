@@ -10,6 +10,13 @@ export const InfoWrapper = styled(Box)`
   align-items: center;
 `;
 
+export const ScreenWrapper = styled(Box)`
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const ActionsWrapper = styled(Stack)`
   margin-top: 2em;
   margin-bottom: 1em;

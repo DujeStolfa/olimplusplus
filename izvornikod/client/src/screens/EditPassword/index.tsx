@@ -3,11 +3,12 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Container, Typography, Box, TextField, Button } from "@mui/material";
 
-import { ScreenWrapper, FormWrapper, FormTitleWrapper } from "../Login/index.styled";
+import { FormWrapper, FormTitleWrapper } from "../Login/index.styled";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { editPassword } from "../../redux/slices/authSlice";
 import route from "../../constants/route";
 import EditPasswordInput from "../../types/inputs/user/EditPasswordInput";
+import { ScreenWrapper } from "../../components/common/styled";
 
 
 

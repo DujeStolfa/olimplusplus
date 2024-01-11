@@ -9,7 +9,8 @@ import route from "../../constants/route";
 import LoginInput from "../../types/inputs/user/LoginInput";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { attemptLogin } from "../../redux/slices/authSlice";
-import { FormTitleWrapper, FormWrapper, ScreenWrapper } from "./index.styled";
+import { FormTitleWrapper, FormWrapper } from "./index.styled";
+import { ScreenWrapper } from "../../components/common/styled";
 
 
 const Login = () => {
