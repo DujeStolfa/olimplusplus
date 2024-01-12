@@ -196,6 +196,6 @@ def update_word_state(wordid):
     return "", 204
 
 
-@api.route("words/getTranslation/<str:language>/<str:word>")
+@api.route("words/getTranslation/language/word")
 def getTranslation(word, language):
     return translator.translate(word, src=language), 200
