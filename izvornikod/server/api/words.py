@@ -195,6 +195,21 @@ def update_word_state(wordid):
 
     return "", 204
 
+@api.route("words/<int:wordid>", methods=["DELETE"])
+@login_required
+def delete_word(wordid):
+    word = db.session.execute(
+        db.select(Word).where(Word.wordid == wordid)
+    ).scalar()
+
+    if word == None:
+        return abort(404)
+
+    db.session.delete(word)
+    db.session.commit()
+
+    return "", 204
+
 
 @api.route("words/getTranslation/language/word")
 def getTranslation(word, language):

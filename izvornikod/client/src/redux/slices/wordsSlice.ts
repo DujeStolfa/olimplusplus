@@ -1,9 +1,12 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { findIndex, remove } from "lodash";
 import CreateWordInput from "../../types/inputs/user/CreateWordInput";
 import GetWordTranslationInput from "../../types/inputs/word/GetWordTranslationInput";
 import wordService from "../../services/api/routes/words";
 import Word from "../../types/models/Word";
 import { words } from "lodash";
+import CRUD_ACTION from "../../types/enums/CrudAction";
+import RenameWordInput from "../../types/inputs/word/RenameWordInput";
 
 interface WordsState {
     words: Word[];
@@ -11,6 +14,8 @@ interface WordsState {
     wordsToBeAdded: Word[];         // odabrane rijeci idu u ovaj array
     dictionaryWords: Word[]; //Moguci problem down the line oko tipa, ako bude problema, tu pogledati
     wordsInDictionary: Word[];
+    createFormState: CRUD_ACTION;
+    selectedWord: Word | undefined;
 }
 
 const initialState: WordsState = {
@@ -19,12 +24,30 @@ const initialState: WordsState = {
     wordsToBeAdded: [],
     dictionaryWords: [],
     wordsInDictionary: [],
+    createFormState: CRUD_ACTION.READ,
+    selectedWord: undefined,
 }
 
 const fetchWords = createAsyncThunk(
     'words/fetchAll',
     async (languageid: number) => {
         const response = await wordService.getAll(languageid);
+        return response.data;
+    }
+);
+
+const deleteWord = createAsyncThunk(
+    'words/delete',
+    async (wordid: number) => {
+        const response = await wordService.delete(wordid);
+        return wordid;
+    }
+);
+
+const renameWord = createAsyncThunk(
+    'words/rename',
+    async (wordInput: RenameWordInput) => {
+        const response = await wordService.rename(wordInput);
         return response.data;
     }
 );
@@ -66,12 +89,24 @@ const wordSlice = createSlice({
         });
         builder.addCase(fetchWordsInDictionary.fulfilled, (state, action: PayloadAction<Word[]>) => {
             state.wordsInDictionary = action.payload;
-        })
+        });
+        builder.addCase(deleteWord.fulfilled, (state, action: PayloadAction<number>) => {
+            remove(state.words, el => el.wordid === action.payload);
+        });
+        builder.addCase(renameWord.fulfilled, (state, action: PayloadAction<Word>) => {
+            let idx = findIndex(state.words, el => el.wordid === action.payload.wordid);
+            state.words[idx] = action.payload;
+        });
     }
 });
 
 export {
-    fetchWords, createWord, fetchWordsNotInDictionary, fetchWordsInDictionary
+    fetchWords,
+    createWord,
+    fetchWordsNotInDictionary,
+    fetchWordsInDictionary,
+    deleteWord,
+    renameWord,
 }
 
 export default wordSlice.reducer;
