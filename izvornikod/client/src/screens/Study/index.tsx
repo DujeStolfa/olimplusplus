@@ -11,14 +11,17 @@ import AnswerFeedback from "./AnswerFeedback"
 import MultipleChoiceList from "./MultipleChoiceList";
 import Error from "../../components/common/Error";
 import route from "../../constants/route";
+import STUDY_TYPE from "../../types/enums/StudyType";
+import SpellingInput from "./SpellingInput";
 
 const Study = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { availableWords, currentQuestionIdx, choices } = useSelector((state: RootState) => state.studySesion);
+  const { availableWords, currentQuestionIdx, choices, selectedStudyType } = useSelector((state: RootState) => state.studySesion);
   const [showFeedback, setShowFeedback] = useState<boolean>(false);
   const [answer, setAnswer] = useState<number | undefined>(undefined);
+  const [spellingAnswer, setSpellingAnswer] = useState<string | undefined>(undefined);
   const [correct, setCorrect] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
@@ -30,6 +33,7 @@ const Study = () => {
   const stopSession = () => {
     setShowFeedback(false);
     setAnswer(undefined);
+    setSpellingAnswer(undefined);
     setCorrect(undefined);
     dispatch(clearSession());
     dispatch(clearSelectedDictionary());
@@ -45,10 +49,18 @@ const Study = () => {
         dispatch(updateWordState({ wordid: availableWords[currentQuestionIdx].wordid, correct: check }))
         setCorrect(check);
       }
+      else if (!showFeedback && spellingAnswer !== undefined) {
+        setShowFeedback(true);
+
+        const check = availableWords[currentQuestionIdx].foreignname === spellingAnswer;
+        dispatch(updateWordState({ wordid: availableWords[currentQuestionIdx].wordid, correct: check }))
+        setCorrect(check);
+      }
       else {
         if (currentQuestionIdx < availableWords.length - 1) {
           dispatch(fetchNextQuestion({ dictionaryid: 1, wordid: availableWords[currentQuestionIdx + 1].wordid }));
           setAnswer(undefined);
+          setSpellingAnswer(undefined);
           setShowFeedback(false);
           setCorrect(undefined);
         } else {
@@ -74,14 +86,28 @@ const Study = () => {
         <QuestionBodyWrapper>
 
           <Stack direction="row" justifyContent="space-between">
-            <Typography variant="h5">{availableWords[currentQuestionIdx]?.foreignname}</Typography>
+            <Typography variant="h5">{
+              (selectedStudyType === STUDY_TYPE.ForeignToNative)
+                ? availableWords[currentQuestionIdx]?.foreignname
+                : (selectedStudyType === STUDY_TYPE.NativeToForeign)
+                  ? availableWords[currentQuestionIdx]?.croatianname
+                  : (selectedStudyType == STUDY_TYPE.Listening)
+                    ? `listening to ${availableWords[currentQuestionIdx]?.croatianname}`
+                    : ""
+            }</Typography>
             <Typography variant="button" color="gray">{currentQuestionIdx + 1}/{availableWords.length}</Typography>
           </Stack>
 
           {
             (showFeedback && correct !== undefined)
               ? <AnswerFeedback correct={correct} />
-              : <MultipleChoiceList answer={answer} setAnswer={setAnswer} />
+              : (selectedStudyType === STUDY_TYPE.ForeignToNative)
+                ? <MultipleChoiceList answer={answer} setAnswer={setAnswer} attribute="croatianname" />
+                : (selectedStudyType === STUDY_TYPE.NativeToForeign)
+                  ? <MultipleChoiceList answer={answer} setAnswer={setAnswer} attribute="foreignname" />
+                  : (selectedStudyType === STUDY_TYPE.Listening)
+                    ? <SpellingInput spellingAnswer={spellingAnswer} setSpellingAnswer={setSpellingAnswer} />
+                    : <>error</>
           }
 
           <Stack direction="row" justifyContent="space-between">
@@ -92,7 +118,7 @@ const Study = () => {
               size="large"
               color="secondary"
               onClick={() => handleConfirm()}
-              disabled={answer === undefined && !showFeedback}
+              disabled={answer === undefined && spellingAnswer === undefined && !showFeedback}
             >
               {(!showFeedback) ? "Potvrdi" : (currentQuestionIdx == availableWords.length - 1) ? "Završi učenje" : "Nastavi"}
             </Button>

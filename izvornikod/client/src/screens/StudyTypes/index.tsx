@@ -29,13 +29,31 @@ const StudyTypes = () => {
                         size="large"
                         onClick={() => {
                             dispatch(setSelectedStudyType(STUDY_TYPE.ForeignToNative));
-                            navigate(`/${route.study}`)
+                            navigate(`/${route.study}`);
                         }}
                     >
                         Prijevod strane riječi
                     </Button>
-                    <Button size="large">Prijevod na strani jezik</Button>
-                    <Button size="large">Slušanje i pisanje</Button>
+                    <Button
+                        variant="outlined"
+                        size="large"
+                        onClick={() => {
+                            dispatch(setSelectedStudyType(STUDY_TYPE.NativeToForeign));
+                            navigate(`/${route.study}`);
+                        }}
+                    >
+                        Prijevod na strani jezik
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        size="large"
+                        onClick={() => {
+                            dispatch(setSelectedStudyType(STUDY_TYPE.Listening));
+                            navigate(`/${route.study}`);
+                        }}
+                    >
+                        Slušanje i pisanje
+                    </Button>
                     <Button size="large">Snimanje izgovora</Button>
                 </ButtonsContainer>
             </Container>

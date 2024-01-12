@@ -7,13 +7,14 @@ import MultipleChoiceItem from "./MultipleChoiceItem";
 interface Props {
   setAnswer: Dispatch<SetStateAction<number | undefined>>;
   answer: number | undefined;
+  attribute: "croatianname" | "foreignname";
 }
 
-const MultipleChoiceList = ({ answer, setAnswer }: Props) => {
+const MultipleChoiceList = ({ answer, setAnswer, attribute }: Props) => {
   const { choices } = useSelector((state: RootState) => state.studySesion);
   return <Stack direction="column" spacing={2}>
     {
-      choices.map((el, i) => <MultipleChoiceItem text={el.croatianname} onClick={() => setAnswer(i)} selected={answer === i} />)
+      choices.map((el, i) => <MultipleChoiceItem text={el[attribute]} onClick={() => setAnswer(i)} selected={answer === i} />)
     }
   </Stack>
 }

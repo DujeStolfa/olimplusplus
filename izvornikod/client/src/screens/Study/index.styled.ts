@@ -40,3 +40,8 @@ export const FeedbackWrapper = styled(Box)`
   align-items: center;
   height: 50vh;
 `;
+
+export const SpellingFormWrapper = styled(Box)`
+  display: flex;
+  justify-content: center;
+`;
