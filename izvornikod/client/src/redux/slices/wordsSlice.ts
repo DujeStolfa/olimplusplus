@@ -1,5 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import CreateWordInput from "../../types/inputs/user/CreateWordInput";
+import GetWordTranslationInput from "../../types/inputs/word/GetWordTranslationInput";
 import wordService from "../../services/api/routes/words";
 import Word from "../../types/models/Word";
 import { words } from "lodash";
@@ -35,7 +36,7 @@ const fetchWordsNotInDictionary = createAsyncThunk(
 );
 
 const createWord = createAsyncThunk(
-    'auth/createWordStatus',
+    'words/createWordStatus',
     async (data: CreateWordInput) => {
         const response = await wordService.createWord(data, data.languageid);
         return response.data;
@@ -57,7 +58,7 @@ const wordSlice = createSlice({
 });
 
 export {
-    fetchWords, createWord, fetchWordsNotInDictionary
+    fetchWords, createWord, fetchWordsNotInDictionary,
 }
 
 export default wordSlice.reducer;

@@ -9,13 +9,14 @@ import { storageRef } from "../../firebaseConfig";
 import { uploadBytes, ref } from "firebase/storage";
 import route from "../../constants/route";
 import CreateWordInput from "../../types/inputs/user/CreateWordInput";
+import wordService from "../../services/api/routes/words";
 
 
 const CreateWord = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { selectedLanguage } = useSelector((state: RootState) => state.languages);
-  const { register, handleSubmit, setValue } = useForm<CreateWordInput>({
+  const { register, handleSubmit, setValue, watch } = useForm<CreateWordInput>({
     defaultValues: {
       audiopath: "audio",
     },
@@ -24,6 +25,7 @@ const CreateWord = () => {
   const [phrases, setPhrases] = useState<string[]>([]);
   const [audioFileName, setAudioFileName] = useState<string>("");
   const [audioFile, setAudioFile] = useState<File | null>(null);
+  const [translateLabel, setTranslateLabel] = useState('Prijevod');
 
   const handleCreate = () => {
     const phrasesTextField = document.getElementById(
@@ -54,12 +56,24 @@ const CreateWord = () => {
     }
   };
 
+  
+  const word = watch("croatianname");
+  const language = selectedLanguage?.languagename;
+  const handleTranslate = async () => {
+    if (language){ 
+      const response = await wordService.translate(word, language);
+      setValue("foreignname", response.data.text);
+      setTranslateLabel(response.data.text);
+    }
+  };
+
+
   const onSubmit = async (data: CreateWordInput) => {
     if (selectedLanguage !== undefined) {
       dispatch(createWord({ ...data, languageid: selectedLanguage.languageid }));
 
       if (audioFile) {
-        const audioRef = ref(storageRef, audioFileName)
+        const audioRef = ref(storageRef, audioFileName);
         uploadBytes(audioRef, audioFile);
       }
 
@@ -84,6 +98,7 @@ const CreateWord = () => {
               id="word"
               label="Riječ"
               variant="outlined"
+              onChange={() => handleTranslate()}
             />
           </Grid>
           <Grid item xs={12}>
@@ -92,7 +107,7 @@ const CreateWord = () => {
               required
               fullWidth
               id="translation"
-              label="Prijevod"
+              label={translateLabel}
               variant="outlined"
             />
           </Grid>

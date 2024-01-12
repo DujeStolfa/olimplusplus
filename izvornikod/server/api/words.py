@@ -8,6 +8,8 @@ from sqlalchemy import and_
 from db import db, word_schema, words_schema
 from db.models import Word, User, Bowl, WordDictionary, WordState
 from . import api
+from googletrans import Translator
+translator = Translator()
 
 
 @api.route("words/<int:languageid>", methods=["POST"])
@@ -181,3 +183,8 @@ def update_word_state(wordid):
         db.session.commit()
 
     return "", 204
+
+
+@api.route("words/getTranslation/<str:language>/<str:word>")
+def getTranslation(word, language):
+    return translator.translate(word, src=language), 200
