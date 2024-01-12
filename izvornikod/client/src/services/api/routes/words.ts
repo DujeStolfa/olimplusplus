@@ -13,4 +13,5 @@ export default {
   getAvailable: (dictionaryid: number) => axios.get(`${words.base}/available/${dictionaryid}`),
   getChoices: (dictionaryid: number, wordid: number) => axios.get(`${words.base}/choice/${dictionaryid}/${wordid}`),
   updateWordState: ({ wordid, correct }: UpdateWordStateInput) => axios.put(`${words.base}/state/${wordid}`, { correct: correct }),
+  getAllInDictionary: (dictionaryid: number) => axios.get(`${words.base}/in-dict/${dictionaryid}`),
 }

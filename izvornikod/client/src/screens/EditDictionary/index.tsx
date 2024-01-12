@@ -1,39 +1,37 @@
-import { Container, IconButton, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Button, Container, Stack } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
 import { TableHeading, TableWrapper } from "../../components/common/styled";
-import DeleteIcon from '@mui/icons-material/Delete';
-
+import EditDictionaryTable from "./EditDictionaryTable";
+import { useNavigate } from "react-router-dom";
+import route from "../../constants/route";
 
 const EditDictionary = () => {
+    const navigate = useNavigate();
 
     return (
         <Container>
-            <TableHeading variant="h2">Uredi rječnik</TableHeading>
+            <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                spacing={2}
+            >
+                <TableHeading variant="h2">Uredi rječnik</TableHeading>
+
+                <Button
+                    variant="outlined"
+                    size="large"
+                    startIcon={<AddIcon />}
+                    onClick={() => navigate(`/${route.addWords}`)}
+                >
+                    Dodaj riječ
+                </Button>
+            </Stack>
 
             <TableWrapper>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Riječ</TableCell>
-                            <TableCell>Prijevod</TableCell>
-                            <TableCell width="10%"></TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell>ovo</TableCell>
-                            <TableCell>je probni redak</TableCell>
-                            <TableCell>
-                                <IconButton onClick={() => console.log("Delete word")}>
-                                    <DeleteIcon />
-                                </IconButton>
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
+                <EditDictionaryTable />
             </TableWrapper>
         </Container>
-
     );
 }
-
 export default EditDictionary;
