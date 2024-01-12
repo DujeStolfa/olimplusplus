@@ -31,7 +31,7 @@ import route from "../constants/route";
 import ROLE from "../types/enums/Role";
 import store from "../redux/store";
 import { clearDictionary, fetchDictionaries } from "../redux/slices/dictionariesSlice";
-import { fetchWords, fetchWordsNotInDictionary } from "../redux/slices/wordsSlice";
+import { fetchWords, fetchWordsInDictionary, fetchWordsNotInDictionary } from "../redux/slices/wordsSlice";
 import { clearSelectedDictionary, fetchStudentDictionaries } from "../redux/slices/studentDictionariesSlice";
 import { clearSession, fetchAvailableWords } from "../redux/slices/studySessionSlice";
 import { clearSelectedLanguage, fetchLanguages } from "../redux/slices/languageSlice";
@@ -58,8 +58,7 @@ const appRouter = createBrowserRouter(
             element={<EditDictionary />}
             loader={({ params }) => {
               if (params.dictionaryid !== undefined) {
-                // za ninu koja je bila u LONDONU
-                // You have to add some lines of code here m8
+                store.dispatch(fetchWordsInDictionary(parseInt(params.dictionaryid)));
 
                 return true;
               }

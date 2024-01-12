@@ -1,4 +1,3 @@
-import logging
 import random
 from datetime import datetime
 from flask import abort, request
@@ -59,6 +58,18 @@ def get_words(languageid):
     ).all()
 
     return words_schema.dump(words)
+
+
+@api.route("words/in-dict/<int:dictionaryid>")
+@login_required
+def get_words_in_dictionary(dictionaryid):
+    words_in_dictionary = db.session.execute(
+        db.select(Word.wordid, Word.croatianname, Word.foreignname)
+        .join(WordDictionary)
+        .where(WordDictionary.dictionaryid == dictionaryid)
+    ).all()
+
+    return words_schema.dump(words_in_dictionary)
 
 
 @api.route("words/dict/<int:dictionaryid>")

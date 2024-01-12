@@ -10,19 +10,29 @@ interface WordsState {
     wordsNotInDictionary: Word[];   // za dodavanje rijeci u rjecnik prvo treba uzeti sve rijeci koje nisu u rjecniku
     wordsToBeAdded: Word[];         // odabrane rijeci idu u ovaj array
     dictionaryWords: Word[]; //Moguci problem down the line oko tipa, ako bude problema, tu pogledati
+    wordsInDictionary: Word[];
 }
 
 const initialState: WordsState = {
     words: [],
     wordsNotInDictionary: [],
     wordsToBeAdded: [],
-    dictionaryWords: []
+    dictionaryWords: [],
+    wordsInDictionary: [],
 }
 
 const fetchWords = createAsyncThunk(
     'words/fetchAll',
     async (languageid: number) => {
         const response = await wordService.getAll(languageid);
+        return response.data;
+    }
+);
+
+const fetchWordsInDictionary = createAsyncThunk(
+    'words/fetchAllInDictionary',
+    async (dictionaryid: number) => {
+        const response = await wordService.getAllInDictionary(dictionaryid);
         return response.data;
     }
 );
@@ -53,12 +63,15 @@ const wordSlice = createSlice({
         });
         builder.addCase(fetchWordsNotInDictionary.fulfilled, (state, action: PayloadAction<Word[]>) => {
             state.wordsNotInDictionary = action.payload;
+        });
+        builder.addCase(fetchWordsInDictionary.fulfilled, (state, action: PayloadAction<Word[]>) => {
+            state.wordsInDictionary = action.payload;
         })
     }
 });
 
 export {
-    fetchWords, createWord, fetchWordsNotInDictionary,
+    fetchWords, createWord, fetchWordsNotInDictionary, fetchWordsInDictionary
 }
 
 export default wordSlice.reducer;
