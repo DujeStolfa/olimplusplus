@@ -25,16 +25,33 @@ import AddWords from "./AddWords";
 import Study from "./Study";
 import AppDrawerStudents from "./AppDrawerStudents";
 import AppDrawerAdmins from "./AppDrawerAdmins";
+import VoiceRecorder from "./Study/VoiceRecorder";
 
 // local imports
 import route from "../constants/route";
 import ROLE from "../types/enums/Role";
 import store from "../redux/store";
-import { clearDictionary, fetchDictionaries } from "../redux/slices/dictionariesSlice";
-import { fetchWords, fetchWordsInDictionary, fetchWordsNotInDictionary } from "../redux/slices/wordsSlice";
-import { clearSelectedDictionary, fetchStudentDictionaries } from "../redux/slices/studentDictionariesSlice";
-import { clearSession, fetchAvailableWords } from "../redux/slices/studySessionSlice";
-import { clearSelectedLanguage, fetchLanguages } from "../redux/slices/languageSlice";
+import {
+  clearDictionary,
+  fetchDictionaries,
+} from "../redux/slices/dictionariesSlice";
+import {
+  fetchWords,
+  fetchWordsInDictionary,
+  fetchWordsNotInDictionary,
+} from "../redux/slices/wordsSlice";
+import {
+  clearSelectedDictionary,
+  fetchStudentDictionaries,
+} from "../redux/slices/studentDictionariesSlice";
+import {
+  clearSession,
+  fetchAvailableWords,
+} from "../redux/slices/studySessionSlice";
+import {
+  clearSelectedLanguage,
+  fetchLanguages,
+} from "../redux/slices/languageSlice";
 import { fetchAdmins } from "../redux/slices/adminSlice";
 
 const appRouter = createBrowserRouter(
@@ -58,7 +75,9 @@ const appRouter = createBrowserRouter(
             element={<EditDictionary />}
             loader={({ params }) => {
               if (params.dictionaryid !== undefined) {
-                store.dispatch(fetchWordsInDictionary(parseInt(params.dictionaryid)));
+                store.dispatch(
+                  fetchWordsInDictionary(parseInt(params.dictionaryid))
+                );
 
                 return true;
               }
@@ -76,12 +95,15 @@ const appRouter = createBrowserRouter(
                 return false;
               }
 
-              store.dispatch(fetchDictionaries(languages.selectedLanguage.languageid));
+              store.dispatch(
+                fetchDictionaries(languages.selectedLanguage.languageid)
+              );
               return true;
             }}
           />
           <Route
-            path={`${route.words}`} element={<Words />}
+            path={`${route.words}`}
+            element={<Words />}
             loader={() => {
               const { languages } = store.getState();
 
@@ -103,7 +125,11 @@ const appRouter = createBrowserRouter(
                 return false;
               }
 
-              store.dispatch(fetchWordsNotInDictionary(dictionaries.selectedDictionary.dictionaryid));
+              store.dispatch(
+                fetchWordsNotInDictionary(
+                  dictionaries.selectedDictionary.dictionaryid
+                )
+              );
               return true;
             }}
           />
@@ -140,11 +166,19 @@ const appRouter = createBrowserRouter(
               store.dispatch(clearSelectedDictionary());
               const { auth, languages } = store.getState();
 
-              if (auth.user === undefined || languages.selectedLanguage === undefined) {
+              if (
+                auth.user === undefined ||
+                languages.selectedLanguage === undefined
+              ) {
                 return false;
               }
 
-              store.dispatch(fetchStudentDictionaries({ languageid: languages.selectedLanguage.languageid, studentid: auth.user.userid }));
+              store.dispatch(
+                fetchStudentDictionaries({
+                  languageid: languages.selectedLanguage.languageid,
+                  studentid: auth.user.userid,
+                })
+              );
               return true;
             }}
           />
@@ -159,7 +193,11 @@ const appRouter = createBrowserRouter(
                 return false;
               }
 
-              store.dispatch(fetchAvailableWords(studentDictionaries.selectedDictionary.dictionaryid));
+              store.dispatch(
+                fetchAvailableWords(
+                  studentDictionaries.selectedDictionary.dictionaryid
+                )
+              );
               return true;
             }}
           />
@@ -176,6 +214,7 @@ const appRouter = createBrowserRouter(
       <Route path={`${route.login}`} element={<Login />} />
       <Route path={`${route.register}`} element={<Register />} />
       <Route path="*" element={<Error errorText="Stranica ne postoji." />} />
+      <Route path="/voiceRecord" element={<VoiceRecorder />} />
     </>
   )
 );
