@@ -6,6 +6,7 @@ import Dictionary from "../../types/models/Dictionary";
 import CRUD_ACTION from "../../types/enums/CrudAction";
 import CreateDictionaryInput from "../../types/inputs/dictionary/CreateDictionaryInput";
 import RenameDictionaryInput from "../../types/inputs/dictionary/RenameDictionaryInput";
+import AddWordsToDictionaryInput from "../../types/inputs/dictionary/AddWordsToDictInput";
 
 interface DictionariesState {
   dictionaries: Dictionary[];
@@ -47,6 +48,14 @@ const renameDictionary = createAsyncThunk(
   'dictionaries/rename',
   async (dictInput: RenameDictionaryInput) => {
     const response = await dictionaryService.rename(dictInput);
+    return response.data;
+  }
+);
+
+const addWordsToDictionary = createAsyncThunk(
+  'dictionaries/add-words',
+  async (dictInput: AddWordsToDictionaryInput) => {
+    const response = await dictionaryService.addWordsToDictIOnary(dictInput);
     return response.data;
   }
 );
@@ -96,6 +105,7 @@ export {
   deleteDictionary,
   createDictionary,
   renameDictionary,
+  addWordsToDictionary
 }
 
 export default dictionarySlice.reducer;

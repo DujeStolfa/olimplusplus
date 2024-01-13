@@ -4,12 +4,22 @@ import { Button, Container, Stack, Typography, Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { fetchWordsNotInDictionary } from "../../redux/slices/wordsSlice";
+import { addWordsToDictionary } from "../../redux/slices/dictionariesSlice"
+import AddWordsToDictionaryInput from "../../types/inputs/dictionary/AddWordsToDictInput";
+import { useNavigate } from "react-router-dom";
+import route from "../../constants/route";
 
 const AddWords = () => {
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [selectedWordIDs, setSelectedWordIDs] = useState<number[]>([]);
     const wordsNotInDictionary = useSelector((state: RootState) => state.words.wordsNotInDictionary);
     const { selectedDictionary } = useSelector((state: RootState) => state.dictionaries);
+
+    const SendToBack= (data: AddWordsToDictionaryInput) => {
+        dispatch(addWordsToDictionary(data))
+        console.log("SENDIT");
+    };
 
     var columns: GridColDef[] = [
         { field: "id", headerName: "ID", flex: 1 },
@@ -39,13 +49,18 @@ const AddWords = () => {
 
     useEffect(() => { console.log(selectedWordIDs); }, [selectedWordIDs]);
 
+    // Samo se vratimo nazad na edit dicitonary pomocu dictionary id
     function handleCancel() {
-        alert("Handle Cancel")
+        navigate(`/${route.editDictionary}/${selectedDictionary?.dictionaryid}`);
     }
 
+    // dodamo rijeci i onda se vratimo nazad na edit dictionary da se vidi da su rijeci dodane
+    // Samo sto se ne vidi da su rijeci dodane, na prvi navigate, ne znam zasto
     function handleConfirm() {
-        alert("Handle confirm, send that to the dictionary in the back")
+        var data: AddWordsToDictionaryInput = { dictionaryid: selectedDictionary?.dictionaryid, wordids: selectedWordIDs }
+        SendToBack(data)
         console.log('The IDs: ' + selectedWordIDs + 'The dictionaryId:' + selectedDictionary?.dictionaryid)
+        navigate(`/${route.editDictionary}/${selectedDictionary?.dictionaryid}`);
     }
 
     return (

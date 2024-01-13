@@ -10,6 +10,7 @@ const { words } = endpoints;
 export default {
   getAll: (languageid: number) => axios.get(`${words.base}/${languageid}`),
   getAllNotInDictionary: (dictionaryid: number) => axios.get(`${words.base}/dict/${dictionaryid}`),
+  addWordsToDictIOnary: (dictionaryid: number, wordids: number[]) => axios.post(`dictionaries/add-words`),
   createWord: (data: CreateWordInput, languageid: number) => axios.post(`${words.base}/${languageid}`, data),
   getAvailable: (dictionaryid: number) => axios.get(`${words.base}/available/${dictionaryid}`),
   getChoices: (dictionaryid: number, wordid: number) => axios.get(`${words.base}/choice/${dictionaryid}/${wordid}`),
