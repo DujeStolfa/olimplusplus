@@ -6,7 +6,6 @@ import wordService from "../../services/api/routes/words";
 import Word from "../../types/models/Word";
 import { words } from "lodash";
 import CRUD_ACTION from "../../types/enums/CrudAction";
-import RenameWordInput from "../../types/inputs/word/RenameWordInput";
 
 interface WordsState {
     words: Word[];
@@ -41,14 +40,6 @@ const deleteWord = createAsyncThunk(
     async (wordid: number) => {
         const response = await wordService.delete(wordid);
         return wordid;
-    }
-);
-
-const renameWord = createAsyncThunk(
-    'words/rename',
-    async (wordInput: RenameWordInput) => {
-        const response = await wordService.rename(wordInput);
-        return response.data;
     }
 );
 
@@ -93,10 +84,6 @@ const wordSlice = createSlice({
         builder.addCase(deleteWord.fulfilled, (state, action: PayloadAction<number>) => {
             remove(state.words, el => el.wordid === action.payload);
         });
-        builder.addCase(renameWord.fulfilled, (state, action: PayloadAction<Word>) => {
-            let idx = findIndex(state.words, el => el.wordid === action.payload.wordid);
-            state.words[idx] = action.payload;
-        });
     }
 });
 
@@ -106,7 +93,6 @@ export {
     fetchWordsNotInDictionary,
     fetchWordsInDictionary,
     deleteWord,
-    renameWord,
 }
 
 export default wordSlice.reducer;

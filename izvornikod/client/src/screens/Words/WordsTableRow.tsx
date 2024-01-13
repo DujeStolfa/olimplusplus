@@ -4,11 +4,8 @@ import { useNavigate } from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Word from "../../types/models/Word";
-import CRUD_ACTION from "../../types/enums/CrudAction";
-import RenameDictionaryForm from "./RenameWordForm";
 import route from "../../constants/route";
 import { useAppDispatch } from "../../redux/store";
-import { selectDictionary } from "../../redux/slices/dictionariesSlice";
 
 interface Props {
   word: Word;
@@ -33,6 +30,7 @@ const WordsTableRow = ({ setSelectedWord, word }: Props) => {
         <IconButton
           size="small"
           onClick={(event) => {
+            navigate(`/${route.createWord}`);
             console.log(`Rename ${word.wordid}`);
             event.stopPropagation();
           }}
