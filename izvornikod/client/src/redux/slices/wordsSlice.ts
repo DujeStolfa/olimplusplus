@@ -12,7 +12,7 @@ interface WordsState {
     words: Word[];
     wordsNotInDictionary: Word[];   // za dodavanje rijeci u rjecnik prvo treba uzeti sve rijeci koje nisu u rjecniku
     wordsToBeAdded: Word[];         // odabrane rijeci idu u ovaj array
-    dictionaryWords: Word[]; //Moguci problem down the line oko tipa, ako bude problema, tu pogledati
+    dictionaryWords: Word[];        //Moguci problem down the line oko tipa, ako bude problema, tu pogledati
     wordsInDictionary: Word[];
     createFormState: CRUD_ACTION;
     selectedWord: Word | undefined;

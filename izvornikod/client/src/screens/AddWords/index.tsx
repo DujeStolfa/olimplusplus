@@ -8,13 +8,13 @@ import { fetchWordsNotInDictionary } from "../../redux/slices/wordsSlice";
 const AddWords = () => {
     const dispatch = useAppDispatch();
     const [selectedWordIDs, setSelectedWordIDs] = useState<number[]>([]);
-    const wordsNotInDictionary = useSelector((state: RootState) => state.words.wordsNotInDictionary); // Ovo je nadam se tocno
+    const wordsNotInDictionary = useSelector((state: RootState) => state.words.wordsNotInDictionary);
     const { selectedDictionary } = useSelector((state: RootState) => state.dictionaries);
 
     var columns: GridColDef[] = [
         { field: "id", headerName: "ID", flex: 1 },
-        { field: "word", headerName: "Word", flex: 1 },
-        { field: "translation", headerName: "Translation", flex: 1 }
+        { field: "word", headerName: "Riječ", flex: 1 },
+        { field: "translation", headerName: "Prijevod", flex: 1 }
     ]
 
     var rows = wordsNotInDictionary.map(el => ({
@@ -45,17 +45,20 @@ const AddWords = () => {
 
     function handleConfirm() {
         alert("Handle confirm, send that to the dictionary in the back")
-        console.log(selectedWordIDs)
+        console.log('The IDs: ' + selectedWordIDs + 'The dictionaryId:' + selectedDictionary?.dictionaryid)
     }
 
     return (
-
         <Container maxWidth="md">
-            <Box margin={"auto"} bgcolor={"rgb(188, 232, 218)"} maxHeight="md" padding={"5em"} marginTop="3em">
-                <Typography component="h1" variant="h5">We gon be ading words with this one boys! </Typography>
+            <Box 
+                margin={"auto"} bgcolor={"rgb(188, 232, 218)"} 
+                maxHeight="md" padding={"5em"} borderRadius={"20px"} 
+                marginTop={"0.5em"}
+            >
+                <Typography component="h1" variant="h5">Odaberite riječi koje nisu u rječniku za dodati: </Typography>
 
                 {wordsNotInDictionary.length == 0 ?
-                    <Typography component="h1" variant="h5" color="gray">All the words are in the dicitonary. </Typography> :
+                    <Typography component="h1" variant="h5" color="gray">Sve riječi su u rječniku!. </Typography> :
                     <DataGrid
                         rows={rows}
                         columns={columns}
@@ -71,13 +74,6 @@ const AddWords = () => {
                         disableRowSelectionOnClick
                         sx={{
                             marginTop: "1em",
-                            borderColor: "black",
-                            '.MuiDataGrid-columnHeaders': {
-                                bgcolor: "rgb(46, 154, 176)"
-                            },
-                            '.MuiDataGrid-toolbarContainer': {
-                                bgcolor: "rgb(46, 154, 176)"    // treba poraditi na boji, al otom potom
-                            }
                         }}
                         onRowSelectionModelChange={(newSelectionModel) => {
                             handleRowSelection(newSelectionModel);
