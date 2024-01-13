@@ -90,16 +90,14 @@ const wordSlice = createSlice({
         builder.addCase(fetchWordsInDictionary.fulfilled, (state, action: PayloadAction<Word[]>) => {
             state.wordsInDictionary = action.payload;
         });
-        // builder.addCase(addWordsToDictionary.fulfilled, (state, action: PayloadAction<AddWordsToDictionaryInput>) => {
-        //     var addedWords: Word[] = []
-        //     var selectedIds: number[] = action.payload.wordids
-        //     for(var i=0; i< state.words.length; i++){
-        //         for(var j=0; j<selectedIds.length; j++){
-        //             if(state.words[i].wordid === selectedIds[j]) addedWords.push(state.words[i]);
-        //         }
-        //     }
-        //     state.wordsInDictionary.push(addedWords);
-        // });
+        builder.addCase(addWordsToDictionary.fulfilled, (state, action: PayloadAction<AddWordsToDictionaryInput>) => {
+            var selectedIds: number[] = action.payload.wordids;
+            for (var i = 0; i < state.words.length; i++) {
+              if (selectedIds.includes(state.words[i].wordid)) {
+                state.wordsInDictionary.push(state.words[i]);
+              }
+            }
+          });
         builder.addCase(deleteWord.fulfilled, (state, action: PayloadAction<number>) => {
             remove(state.words, el => el.wordid === action.payload);
         });
