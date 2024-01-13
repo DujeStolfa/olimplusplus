@@ -113,8 +113,8 @@ const AddWords = () => {
                     width="100%"
                     marginTop={"2em"}
                 >
-                    <Button variant="contained" sx={{ width: "48%", justifyContent: "flex-end" }} onClick={handleCancel}>Cancel</Button>
-                    <Button variant="contained" sx={{ width: "48%", justifyContent: "flex-end" }} onClick={handleConfirm}>Add them words</Button>
+                    <Button variant="contained" sx={{ width: "48%", justifyContent: "flex-end" }} onClick={handleCancel}>Odustani</Button>
+                    <Button variant="contained" sx={{ width: "48%", justifyContent: "flex-end" }} onClick={handleConfirm}>Dodaj riječi</Button>
                 </Box>
             </Box>
         </Container>
