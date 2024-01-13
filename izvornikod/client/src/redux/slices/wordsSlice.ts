@@ -7,6 +7,7 @@ import Word from "../../types/models/Word";
 import { words } from "lodash";
 import CRUD_ACTION from "../../types/enums/CrudAction";
 import RenameWordInput from "../../types/inputs/word/RenameWordInput";
+import AddWordsToDictionaryInput from "../../types/inputs/dictionary/AddWordsToDictInput";
 
 interface WordsState {
     words: Word[];
@@ -76,6 +77,14 @@ const createWord = createAsyncThunk(
     }
 );
 
+const addWordsToDictionary = createAsyncThunk(
+    'dictionaries/add-words',
+    async (dictInput: AddWordsToDictionaryInput) => {
+      const response = await wordService.addWordsToDictIOnary(dictInput);
+      return response.data;
+    }
+  );
+
 const wordSlice = createSlice({
     name: "words",
     initialState,
@@ -90,6 +99,16 @@ const wordSlice = createSlice({
         builder.addCase(fetchWordsInDictionary.fulfilled, (state, action: PayloadAction<Word[]>) => {
             state.wordsInDictionary = action.payload;
         });
+        // builder.addCase(addWordsToDictionary.fulfilled, (state, action: PayloadAction<AddWordsToDictionaryInput>) => {
+        //     var addedWords: Word[] = []
+        //     var selectedIds: number[] = action.payload.wordids
+        //     for(var i=0; i< state.words.length; i++){
+        //         for(var j=0; j<selectedIds.length; j++){
+        //             if(state.words[i].wordid === selectedIds[j]) addedWords.push(state.words[i]);
+        //         }
+        //     }
+        //     state.wordsInDictionary.push(addedWords);
+        // });
         builder.addCase(deleteWord.fulfilled, (state, action: PayloadAction<number>) => {
             remove(state.words, el => el.wordid === action.payload);
         });
@@ -105,6 +124,7 @@ export {
     createWord,
     fetchWordsNotInDictionary,
     fetchWordsInDictionary,
+    addWordsToDictionary,
     deleteWord,
     renameWord,
 }

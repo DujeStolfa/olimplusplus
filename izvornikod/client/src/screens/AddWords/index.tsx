@@ -4,7 +4,7 @@ import { Button, Container, Stack, Typography, Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { fetchWordsNotInDictionary } from "../../redux/slices/wordsSlice";
-import { addWordsToDictionary } from "../../redux/slices/dictionariesSlice"
+import { addWordsToDictionary } from "../../redux/slices/wordsSlice"
 import AddWordsToDictionaryInput from "../../types/inputs/dictionary/AddWordsToDictInput";
 import { useNavigate } from "react-router-dom";
 import route from "../../constants/route";
@@ -13,9 +13,10 @@ const AddWords = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [selectedWordIDs, setSelectedWordIDs] = useState<number[]>([]);
+    const allWords = useSelector((state: RootState) => state.words);
     const wordsNotInDictionary = useSelector((state: RootState) => state.words.wordsNotInDictionary);
     const { selectedDictionary } = useSelector((state: RootState) => state.dictionaries);
-
+    
     const SendToBack= (data: AddWordsToDictionaryInput) => {
         dispatch(addWordsToDictionary(data))
         console.log("SENDIT");

@@ -52,14 +52,6 @@ const renameDictionary = createAsyncThunk(
   }
 );
 
-const addWordsToDictionary = createAsyncThunk(
-  'dictionaries/add-words',
-  async (dictInput: AddWordsToDictionaryInput) => {
-    const response = await dictionaryService.addWordsToDictIOnary(dictInput);
-    return response.data;
-  }
-);
-
 const dictionarySlice = createSlice({
   name: "dictionaries",
   initialState,
@@ -91,6 +83,7 @@ const dictionarySlice = createSlice({
       let idx = findIndex(state.dictionaries, el => el.dictionaryid === action.payload.dictionaryid);
       state.dictionaries[idx] = action.payload;
     });
+    
   }
 });
 
@@ -105,7 +98,6 @@ export {
   deleteDictionary,
   createDictionary,
   renameDictionary,
-  addWordsToDictionary
 }
 
 export default dictionarySlice.reducer;
