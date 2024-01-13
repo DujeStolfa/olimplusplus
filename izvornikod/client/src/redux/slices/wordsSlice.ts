@@ -6,7 +6,7 @@ import wordService from "../../services/api/routes/words";
 import Word from "../../types/models/Word";
 import { words } from "lodash";
 import CRUD_ACTION from "../../types/enums/CrudAction";
-import RenameWordInput from "../../types/inputs/word/RenameWordInput";
+import AddWordsToDictionaryInput from "../../types/inputs/dictionary/AddWordsToDictInput";
 
 interface WordsState {
     words: Word[];
