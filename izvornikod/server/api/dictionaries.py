@@ -89,16 +89,18 @@ def get_dictionaries(languageid):
 
     return dictionaries_schema.dump(dictionaries)
 
-
 @api.route("dictionaries/add-words", methods=["POST"])
 @login_required
-def add_word_to_dictionary():
-    # Ovo triba pretvorit u add words, triba primat vise rici odjednon
-    # u requestu bi trebao doci array identifikatora rijeci, tj samo niz brojeva
-    # koje onda samo treba dodati u relaciju word_dict
+def add_words_to_dictionary():
     word_dict_data = request.json
-    word_dict = WordDictionary(word_dict_data["wordid"], word_dict_data["dictionaryid"])
-    db.session.add(word_dict)
+    dictionary_id = word_dict_data["dictionaryid"]
+
+    word_ids = word_dict_data["wordids"]
+
+    for word_id in word_ids:
+        word_dict = WordDictionary(word_id, dictionary_id)
+        db.session.add(word_dict)
+
     db.session.commit()
 
     return "", 204
