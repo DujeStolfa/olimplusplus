@@ -23,4 +23,4 @@ def test_start_study_session_unavailable(
 
     resp = client.get(f"/api/words/choice/{dictionaryid}/{wordid}")
 
-    assert resp.status_code == 400
+    assert resp.status_code == 403

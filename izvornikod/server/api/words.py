@@ -130,7 +130,7 @@ def get_multiple_choice(dictionaryid, wordid):
     ).all()
 
     if len(words) < 3:
-        return abort(400)
+        return abort(403)
 
     choices = random.sample(words, 3)
 
