@@ -1,5 +1,6 @@
 from flask import abort, jsonify, request, session
 import bcrypt
+from flask_login import login_required
 
 from db import db, user_schema, users_schema
 from db.models import User
@@ -26,8 +27,14 @@ def register_student():
 
 
 @api.route("users/create-admin", methods=["POST"])
+@login_required
 def create_admin():
     user_data = request.json
+
+    fields = ["firstname", "lastname", "email", "password"]
+    chk = [field in user_data for field in fields]
+    if False in chk:
+        return abort(400)
 
     user = User(
         user_data["firstname"],
@@ -42,14 +49,17 @@ def create_admin():
     return "", 204
 
 
-@api.route("users/edit-admin/<int:userId>", methods=["POST"])
-def edit_admin(userId):
+@api.route("users/edit-admin/<int:userid>", methods=["POST"])
+@login_required
+def edit_admin(userid):
     admin_data = request.json
 
-    admin = User.query.filter_by(userid=userId, role="admin").first()
+    admin = db.session.execute(
+        db.select(User).where(User.userid == userid).where(User.role == "admin")
+    ).scalar()
 
     if admin is None:
-        return jsonify({"error": "Admin not found"}), 404
+        return abort(404)
 
     admin.firstname = admin_data["firstname"]
     admin.lastname = admin_data["lastname"]
@@ -61,6 +71,7 @@ def edit_admin(userId):
 
 
 @api.route("users/get-admins", methods=["GET"])
+@login_required
 def get_admins():
     users = db.session.execute(
         db.select(
@@ -77,12 +88,15 @@ def get_admins():
     return users_schema.dump(users)
 
 
-@api.route("users/delete-admin/<int:userId>", methods=["DELETE"])
-def delete_admin(userId):
-    admin = User.query.filter_by(userid=userId, role="admin").first()
+@api.route("users/delete-admin/<int:userid>", methods=["DELETE"])
+@login_required
+def delete_admin(userid):
+    admin = db.session.execute(
+        db.select(User).where(User.userid == userid).where(User.role == "admin")
+    ).scalar()
 
     if admin is None:
-        return jsonify({"error": "Admin not found"}), 404
+        return abort(404)
 
     db.session.delete(admin)
     db.session.commit()
@@ -91,6 +105,7 @@ def delete_admin(userId):
 
 
 @api.route("/users/edit-password", methods=["PUT"])
+@login_required
 def edit_password():
     user_data = request.json
 

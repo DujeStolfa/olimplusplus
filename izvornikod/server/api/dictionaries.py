@@ -14,7 +14,10 @@ def create_dictionary(languageid):
     dict_data = request.json
 
     if "dictionaryname" not in dict_data:
-        return abort(500)
+        return abort(400)
+
+    if len(dict_data["dictionaryname"]) == 0:
+        return abort(403)
 
     new_dict = Dictionary(dict_data["dictionaryname"], languageid)
     db.session.add(new_dict)
@@ -89,12 +92,16 @@ def get_dictionaries(languageid):
 
     return dictionaries_schema.dump(dictionaries)
 
+
 @api.route("dictionaries/add-words", methods=["POST"])
 @login_required
 def add_words_to_dictionary():
     word_dict_data = request.json
-    dictionary_id = word_dict_data["dictionaryid"]
 
+    if "dictionaryid" not in word_dict_data or "wordids" not in word_dict_data:
+        return abort(400)
+
+    dictionary_id = word_dict_data["dictionaryid"]
     word_ids = word_dict_data["wordids"]
 
     for word_id in word_ids:

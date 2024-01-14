@@ -1,19 +1,25 @@
 import random
 from datetime import datetime
+
 from flask import abort, request
 from flask_login import current_user, login_required
-from sqlalchemy import and_
+from googletrans import Translator
 
 from db import db, word_schema, words_schema
 from db.models import Word, User, Bowl, WordDictionary, WordState
 from . import api
-from googletrans import Translator
+
 translator = Translator()
 
 
 @api.route("words/<int:languageid>", methods=["POST"])
 def create_word(languageid):
     word_data = request.json
+
+    fields = ["croatianname", "foreignname", "audiopath"]
+    chk = [field in word_data for field in fields]
+    if False in chk:
+        return abort(400)
 
     new_word = Word(
         word_data["croatianname"],
@@ -195,12 +201,11 @@ def update_word_state(wordid):
 
     return "", 204
 
+
 @api.route("words/<int:wordid>", methods=["DELETE"])
 @login_required
 def delete_word(wordid):
-    word = db.session.execute(
-        db.select(Word).where(Word.wordid == wordid)
-    ).scalar()
+    word = db.session.execute(db.select(Word).where(Word.wordid == wordid)).scalar()
 
     if word == None:
         return abort(404)

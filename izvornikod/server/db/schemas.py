@@ -32,7 +32,7 @@ class WordSchema(Schema):
     croatianname = fields.Str()
     foreignname = fields.Str()
     audiopath = fields.Str()
-    languageid = fields.Int(load_only=True)
+    languageid = fields.Int()
 
 
 class LanguageSchema(Schema):
