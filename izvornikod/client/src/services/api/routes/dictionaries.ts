@@ -14,4 +14,5 @@ export default {
   delete: (dictionaryid: number) => axios.delete(`${dictionaries.base}/${dictionaryid}`),
   create: ({ dictionaryname, languageid }: CreateDictionaryInput) => axios.post(`${dictionaries.base}/${languageid}`, { dictionaryname: dictionaryname }),
   rename: ({ dictionaryname, dictionaryid }: RenameDictionaryInput) => axios.put(`${dictionaries.base}/${dictionaryid}`, { dictionaryname: dictionaryname }),
+  addWordsToDictionary: (input: AddWordsToDictionaryInput) => axios.post(`${dictionaries.base}/add-words`, input),
 }

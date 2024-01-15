@@ -1,81 +1,68 @@
-import React, { useEffect, useState } from "react";
-import { DataGrid, GridColDef, GridRowId, GridRowSelectionModel, GridToolbar } from '@mui/x-data-grid';
-import { Button, Container, Stack, Typography, Box } from "@mui/material";
+import React, { useState } from "react";
+import { DataGrid, GridColDef, GridRowSelectionModel, GridToolbar } from '@mui/x-data-grid';
+import { Button, Container, Typography, Box } from "@mui/material";
 import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../../redux/store";
-import { fetchWordsNotInDictionary } from "../../redux/slices/wordsSlice";
-import { addWordsToDictionary } from "../../redux/slices/wordsSlice"
-import AddWordsToDictionaryInput from "../../types/inputs/dictionary/AddWordsToDictInput";
 import { useNavigate } from "react-router-dom";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { clearWordsNotInDict } from "../../redux/slices/wordsSlice";
+import { addWordsToDictionary } from "../../redux/slices/wordsSlice"
+import { FormTitleWrapper, FormWrapper } from "../../components/common/styled";
 import route from "../../constants/route";
+
 
 const AddWords = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [selectedWordIDs, setSelectedWordIDs] = useState<number[]>([]);
-    const allWords = useSelector((state: RootState) => state.words);
     const wordsNotInDictionary = useSelector((state: RootState) => state.words.wordsNotInDictionary);
     const { selectedDictionary } = useSelector((state: RootState) => state.dictionaries);
-    
-    const SendToBack= (data: AddWordsToDictionaryInput) => {
-        dispatch(addWordsToDictionary(data))
-        console.log("SENDIT");
-    };
 
     var columns: GridColDef[] = [
-        { field: "id", headerName: "ID", flex: 1 },
+        // { field: "id", headerName: "ID", flex: 1 },
         { field: "word", headerName: "Riječ", flex: 1 },
-        { field: "translation", headerName: "Prijevod", flex: 1 }
+        { field: "translation", headerName: "Prijevod", flex: 1 },
     ]
 
     var rows = wordsNotInDictionary.map(el => ({
         id: el.wordid,
-        word: el.foreignname,
-        translation: el.croatianname
-    }))
-
-    var temp_rows = [
-        { id: 34, word: "window", translation: "prozor" },
-        { id: 35, word: "love", translation: "ljubav" },
-        { id: 36, word: "beauty", translation: "ljepota" }
-    ]   // Ovo cemo kasnije skloniti to je cisto da malo popuni ako nemate u bazi
-
-    temp_rows.forEach(el => { rows.push(el) })
+        word: el.croatianname,
+        translation: el.foreignname,
+    }));
 
     const handleRowSelection = (newSelection: GridRowSelectionModel) => {
         const selectedIDs = newSelection as (string | number)[];
         const numericIDs = selectedIDs.filter((el) => typeof el === 'number') as number[];
         setSelectedWordIDs(numericIDs);
-    };
-
-    useEffect(() => { console.log(selectedWordIDs); }, [selectedWordIDs]);
-
-    // Samo se vratimo nazad na edit dicitonary pomocu dictionary id
-    function handleCancel() {
-        navigate(`/${route.editDictionary}/${selectedDictionary?.dictionaryid}`);
     }
 
-    // dodamo rijeci i onda se vratimo nazad na edit dictionary da se vidi da su rijeci dodane
-    // Samo sto se ne vidi da su rijeci dodane, na prvi navigate, ne znam zasto
-    function handleConfirm() {
-        var data: AddWordsToDictionaryInput = { dictionaryid: selectedDictionary?.dictionaryid, wordids: selectedWordIDs }
-        SendToBack(data)
-        console.log('The IDs: ' + selectedWordIDs + 'The dictionaryId:' + selectedDictionary?.dictionaryid)
-        navigate(`/${route.editDictionary}/${selectedDictionary?.dictionaryid}`);
+    const handleCancel = () => {
+        if (selectedDictionary !== undefined) {
+            navigate(`/${route.editDictionary}/${selectedDictionary.dictionaryid}`);
+            dispatch(clearWordsNotInDict());
+        }
+    }
+
+    const handleConfirm = () => {
+        if (selectedDictionary !== undefined) {
+            dispatch(addWordsToDictionary({ dictionaryid: selectedDictionary?.dictionaryid, wordids: selectedWordIDs }));
+            navigate(`/${route.editDictionary}/${selectedDictionary.dictionaryid}`);
+            dispatch(clearWordsNotInDict());
+        }
     }
 
     return (
         <Container maxWidth="md">
-            <Box 
-                margin={"auto"} bgcolor={"rgb(188, 232, 218)"} 
-                maxHeight="md" padding={"5em"} borderRadius={"20px"} 
-                marginTop={"0.5em"}
-            >
-                <Typography component="h1" variant="h5">Odaberite riječi koje nisu u rječniku za dodati: </Typography>
+            <Box padding="2em"></Box>
+            <FormWrapper>
+                <FormTitleWrapper>
+                    <Typography component="h1" variant="h5">
+                        Odaberite riječi koje želite dodati u rječnik "{selectedDictionary?.dictionaryname.toLocaleUpperCase()}"
+                    </Typography>
+                </FormTitleWrapper>
 
-                {wordsNotInDictionary.length == 0 ?
-                    <Typography component="h1" variant="h5" color="gray">Sve riječi su u rječniku!. </Typography> :
-                    <DataGrid
+                {wordsNotInDictionary.length == 0
+                    ? <Typography variant="h6" color="gray">Sve riječi su već u rječniku</Typography>
+                    : <DataGrid
                         rows={rows}
                         columns={columns}
                         initialState={{
@@ -85,11 +72,12 @@ const AddWords = () => {
                                 },
                             },
                         }}
-                        pageSizeOptions={[5]}
+                        pageSizeOptions={[5, 10]}
                         checkboxSelection
                         disableRowSelectionOnClick
                         sx={{
                             marginTop: "1em",
+                            width: "100%"
                         }}
                         onRowSelectionModelChange={(newSelectionModel) => {
                             handleRowSelection(newSelectionModel);
@@ -112,12 +100,13 @@ const AddWords = () => {
                     flexDirection="row"
                     justifyContent={"space-between"}
                     width="100%"
-                    marginTop={"2em"}
+                    gap={2}
+                    marginTop={"2.5em"}
                 >
-                    <Button variant="contained" sx={{ width: "48%", justifyContent: "flex-end" }} onClick={handleCancel}>Odustani</Button>
-                    <Button variant="contained" sx={{ width: "48%", justifyContent: "flex-end" }} onClick={handleConfirm}>Dodaj riječi</Button>
+                    <Button variant="outlined" fullWidth onClick={handleCancel}>Odustani</Button>
+                    <Button variant="contained" fullWidth onClick={handleConfirm}>Dodaj riječi</Button>
                 </Box>
-            </Box>
+            </FormWrapper>
         </Container>
     );
 }

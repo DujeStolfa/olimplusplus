@@ -9,7 +9,7 @@ import { storageRef } from "../../firebaseConfig";
 import { uploadBytes, ref } from "firebase/storage";
 import route from "../../constants/route";
 import CreateWordInput from "../../types/inputs/user/CreateWordInput";
-import { FormTitleWrapper, FormWrapper } from "../Login/index.styled";
+import { FormTitleWrapper, FormWrapper } from "../../components/common/styled";
 
 
 const CreateWord = () => {
@@ -73,7 +73,7 @@ const CreateWord = () => {
     }
   };
 
-  const onSubmit = async (data: CreateWordInput) => {
+  const onSubmit = (data: CreateWordInput) => {
     if (selectedLanguage !== undefined) {
       dispatch(createWord({
         ...data,

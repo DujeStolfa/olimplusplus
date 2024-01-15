@@ -36,6 +36,7 @@ import {
 } from "../redux/slices/dictionariesSlice";
 import {
   clearHelperText,
+  clearWordsInDict,
   fetchWords,
   fetchWordsInDictionary,
   fetchWordsNotInDictionary,
@@ -66,6 +67,7 @@ const appRouter = createBrowserRouter(
             loader={() => {
               store.dispatch(fetchLanguages());
               store.dispatch(clearDictionary());
+              store.dispatch(clearWordsInDict());
               return true;
             }}
           />
@@ -75,9 +77,13 @@ const appRouter = createBrowserRouter(
             element={<EditDictionary />}
             loader={({ params }) => {
               if (params.dictionaryid !== undefined) {
-                store.dispatch(
-                  fetchWordsInDictionary(parseInt(params.dictionaryid))
-                );
+                const { words } = store.getState();
+
+                if (words.wordsInDictionary.length === 0) {
+                  store.dispatch(
+                    fetchWordsInDictionary(parseInt(params.dictionaryid))
+                  );
+                }
 
                 return true;
               }
@@ -89,6 +95,7 @@ const appRouter = createBrowserRouter(
             element={<Dictionaries />}
             loader={() => {
               store.dispatch(clearDictionary());
+              store.dispatch(clearWordsInDict());
               const { languages } = store.getState();
 
               if (languages.selectedLanguage === undefined) {
@@ -106,6 +113,7 @@ const appRouter = createBrowserRouter(
             element={<Words />}
             loader={() => {
               store.dispatch(clearHelperText());
+              store.dispatch(clearWordsInDict());
               const { languages } = store.getState();
 
               if (languages.selectedLanguage === undefined) {
