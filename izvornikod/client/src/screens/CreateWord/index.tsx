@@ -4,11 +4,12 @@ import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { createWord, fetchTranslation } from "../../redux/slices/wordsSlice";
+import { clearHelperText, createWord, fetchTranslation } from "../../redux/slices/wordsSlice";
 import { storageRef } from "../../firebaseConfig";
 import { uploadBytes, ref } from "firebase/storage";
 import route from "../../constants/route";
 import CreateWordInput from "../../types/inputs/user/CreateWordInput";
+import { FormTitleWrapper, FormWrapper } from "../Login/index.styled";
 
 
 const CreateWord = () => {
@@ -74,7 +75,12 @@ const CreateWord = () => {
 
   const onSubmit = async (data: CreateWordInput) => {
     if (selectedLanguage !== undefined) {
-      dispatch(createWord({ ...data, languageid: selectedLanguage.languageid }));
+      dispatch(createWord({
+        ...data,
+        croatianname: croatianname,
+        foreignname: foreignname,
+        languageid: selectedLanguage.languageid
+      }));
 
       if (audioFile) {
         const audioRef = ref(storageRef, audioFileName);
@@ -82,144 +88,149 @@ const CreateWord = () => {
       }
 
       navigate(`/${route.words}`);
+      dispatch(clearHelperText());
     }
   };
 
   return (
     <Container maxWidth="sm">
-      <Box m={2}>
-        <Typography variant="h6" gutterBottom>
-          Create/edit riječ
-        </Typography>
-      </Box>
-      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <ClickAwayListener
-              onClickAway={handleTranslate}
-            >
+      <Box padding="2em"></Box>
+      <FormWrapper>
+        <FormTitleWrapper>
+          <Typography component="h1" variant="h5">
+            Edit admin
+          </Typography>
+        </FormTitleWrapper>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <ClickAwayListener
+                onClickAway={handleTranslate}
+              >
+                <TextField
+                  {...register("croatianname")}
+                  required
+                  fullWidth
+                  id="word"
+                  label="Riječ (HR)"
+                  variant="outlined"
+                  value={croatianname}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    setCroatianname(event.target.value);
+                  }}
+                />
+              </ClickAwayListener>
+            </Grid>
+            <Grid item xs={12}>
               <TextField
-                {...register("croatianname")}
+                {...register("foreignname")}
                 required
                 fullWidth
-                id="word"
-                label="Riječ (HR)"
+                id="translation"
+                label={`Prijevod (${selectedLanguage?.isocode.toUpperCase()})`}
                 variant="outlined"
-                value={croatianname}
+                value={foreignname}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  setCroatianname(event.target.value);
+                  setForeignname(event.target.value);
                 }}
               />
-            </ClickAwayListener>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              {...register("foreignname")}
-              required
-              fullWidth
-              id="translation"
-              label={`Prijevod (${selectedLanguage?.isocode.toUpperCase()})`}
-              variant="outlined"
-              value={foreignname}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                setForeignname(event.target.value);
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <Grid container spacing={1} alignItems="center">
-              <Grid item xs>
-                <TextField
-                  fullWidth
-                  id="phrases"
-                  label="Fraze"
-                  variant="outlined"
-                />
-              </Grid>
-              <Grid item>
-                <Button variant="contained" onClick={handleCreate}>
-                  create
-                </Button>
-              </Grid>
             </Grid>
-          </Grid>
-          {phrases.map((phrase, index) => (
+
             <Grid item xs={12}>
               <Grid container spacing={1} alignItems="center">
-                <Grid item xs key={index}>
+                <Grid item xs>
                   <TextField
                     fullWidth
-                    value={phrase}
+                    id="phrases"
+                    label="Fraze"
                     variant="outlined"
-                    disabled
-                    id={`phrase${index}`}
                   />
                 </Grid>
                 <Grid item>
-                  <Button
-                    variant="contained"
-                    onClick={() => handleDelete(index)}
-                  >
-                    delete
+                  <Button variant="contained" onClick={handleCreate}>
+                    create
                   </Button>
                 </Grid>
               </Grid>
             </Grid>
-          ))}
+            {phrases.map((phrase, index) => (
+              <Grid item xs={12}>
+                <Grid container spacing={1} alignItems="center">
+                  <Grid item xs key={index}>
+                    <TextField
+                      fullWidth
+                      value={phrase}
+                      variant="outlined"
+                      disabled
+                      id={`phrase${index}`}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      variant="contained"
+                      onClick={() => handleDelete(index)}
+                    >
+                      delete
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Grid>
+            ))}
 
-          <Grid item xs={12}>
-            <Grid container spacing={1} alignItems="center">
-              <Grid item xs>
-                <TextField
-                  {...register("audiopath")}
-                  fullWidth
-                  id="audio"
-                  label="Audio"
-                  variant="outlined"
-                  disabled
-                  value={audioFileName}
-                />
-              </Grid>
-              <Grid item>
-                <Button variant="contained" component="label">
-                  upload
-                  <input
-                    type="file"
-                    hidden
+            <Grid item xs={12}>
+              <Grid container spacing={1} alignItems="center">
+                <Grid item xs>
+                  <TextField
+                    {...register("audiopath")}
                     required
-                    onChange={handleFileChange}
+                    fullWidth
+                    id="audio"
+                    label="Audio"
+                    variant="outlined"
+                    disabled
+                    value={audioFileName}
                   />
-                </Button>
+                </Grid>
+                <Grid item>
+                  <Button variant="contained" component="label">
+                    upload
+                    <input
+                      type="file"
+                      hidden
+                      required
+                      onChange={handleFileChange}
+                    />
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button variant="contained" onClick={handlePlayAudio}>
+                    play
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Button variant="contained" onClick={handlePlayAudio}>
-                  play
-                </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container spacing={2} justifyContent="space-around">
+                <Grid item xs={6}>
+                  <Button variant="outlined" fullWidth onClick={() => navigate(`/${route.words}`)}>
+                    odustani
+                  </Button>
+                </Grid>
+                <Grid item xs={6}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                  >
+                    potvrdi
+                  </Button>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <Grid container spacing={2} justifyContent="space-around">
-              <Grid item xs={6}>
-                <Button variant="outlined" fullWidth onClick={() => navigate(`/${route.words}`)}>
-                  odustani
-                </Button>
-              </Grid>
-              <Grid item xs={6}>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                >
-                  potvrdi
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Box>
+        </Box>
+      </FormWrapper>
     </Container>
   );
 };

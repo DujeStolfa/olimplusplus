@@ -38,3 +38,14 @@ export const ButtonsContainer = styled(Box)`
   justify-content:center;
   gap: 1.5em;
 `;
+
+export const FormWrapper = styled(Paper)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5em;
+`;
+
+export const FormTitleWrapper = styled(Box)`
+  padding-bottom: 2em;
+`;
