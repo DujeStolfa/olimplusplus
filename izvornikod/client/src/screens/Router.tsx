@@ -35,6 +35,7 @@ import {
   fetchDictionaries,
 } from "../redux/slices/dictionariesSlice";
 import {
+  clearHelperText,
   fetchWords,
   fetchWordsInDictionary,
   fetchWordsNotInDictionary,
@@ -104,6 +105,7 @@ const appRouter = createBrowserRouter(
             path={`${route.words}`}
             element={<Words />}
             loader={() => {
+              store.dispatch(clearHelperText());
               const { languages } = store.getState();
 
               if (languages.selectedLanguage === undefined) {

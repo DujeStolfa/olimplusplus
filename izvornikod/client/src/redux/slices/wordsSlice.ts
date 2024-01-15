@@ -7,6 +7,7 @@ import Word from "../../types/models/Word";
 import { words } from "lodash";
 import CRUD_ACTION from "../../types/enums/CrudAction";
 import AddWordsToDictionaryInput from "../../types/inputs/dictionary/AddWordsToDictInput";
+import FetchTranslationInput from "../../types/inputs/word/FetchTranslationInput";
 
 interface WordsState {
     words: Word[];
@@ -16,6 +17,7 @@ interface WordsState {
     wordsInDictionary: Word[];
     createFormState: CRUD_ACTION;
     selectedWord: Word | undefined;
+    createWordHelperText: string;
 }
 
 const initialState: WordsState = {
@@ -26,6 +28,7 @@ const initialState: WordsState = {
     wordsInDictionary: [],
     createFormState: CRUD_ACTION.READ,
     selectedWord: undefined,
+    createWordHelperText: "",
 }
 
 const fetchWords = createAsyncThunk(
@@ -69,17 +72,29 @@ const createWord = createAsyncThunk(
 );
 
 const addWordsToDictionary = createAsyncThunk(
-    'dictionaries/add-words',
+    'words/addToDictionaryStatus',
     async (dictInput: AddWordsToDictionaryInput) => {
-      const response = await wordService.addWordsToDictIOnary(dictInput);
-      return response.data;
+        const response = await wordService.addWordsToDictIOnary(dictInput);
+        return response.data;
     }
-  );
+);
+
+const fetchTranslation = createAsyncThunk(
+    'words/fetchTranslationStatus',
+    async ({ croatianname, destIsocode }: FetchTranslationInput) => {
+        const response = await wordService.translate(croatianname, destIsocode);
+        return response.data;
+    }
+);
 
 const wordSlice = createSlice({
     name: "words",
     initialState,
-    reducers: {},
+    reducers: {
+        clearHelperText: (state) => {
+            state.createWordHelperText = "";
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchWords.fulfilled, (state, action: PayloadAction<Word[]>) => {
             state.words = action.payload;
@@ -91,18 +106,32 @@ const wordSlice = createSlice({
             state.wordsInDictionary = action.payload;
         });
         builder.addCase(addWordsToDictionary.fulfilled, (state, action: PayloadAction<AddWordsToDictionaryInput>) => {
-            var selectedIds: number[] = action.payload.wordids;
-            for (var i = 0; i < state.words.length; i++) {
-              if (selectedIds.includes(state.words[i].wordid)) {
-                state.wordsInDictionary.push(state.words[i]);
-              }
-            }
-          });
+            let selectedIds: number[] = action.payload.wordids;
+            // for (var i = 0; i < state.words.length; i++) {
+            //   if (selectedIds.includes(state.words[i].wordid)) {
+            //     state.wordsInDictionary.push(state.words[i]);
+            //   }
+            // }
+
+            console.log(selectedIds);
+            // triba na backendu vidit sta se desava
+
+            let filtered = state.words.filter(el => selectedIds.includes(el.wordid));
+            state.wordsInDictionary.push(...filtered);
+        });
         builder.addCase(deleteWord.fulfilled, (state, action: PayloadAction<number>) => {
             remove(state.words, el => el.wordid === action.payload);
         });
+
+        builder.addCase(fetchTranslation.fulfilled, (state, action: PayloadAction<string>) => {
+            state.createWordHelperText = action.payload;
+        });
     }
 });
+
+export const {
+    clearHelperText,
+} = wordSlice.actions;
 
 export {
     fetchWords,
@@ -111,6 +140,7 @@ export {
     fetchWordsInDictionary,
     addWordsToDictionary,
     deleteWord,
+    fetchTranslation,
 }
 
 export default wordSlice.reducer;

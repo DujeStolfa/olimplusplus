@@ -7,5 +7,5 @@ bcrypt
 flask-login
 flask-cors
 python-dotenv
-googletrans
+googletrans==4.0.0rc1
 pytest

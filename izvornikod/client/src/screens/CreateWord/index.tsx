@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import { Box, Button, Container, TextField, Typography, Grid } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Button, Container, TextField, Typography, Grid, ClickAwayListener } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { createWord } from "../../redux/slices/wordsSlice";
+import { createWord, fetchTranslation } from "../../redux/slices/wordsSlice";
 import { storageRef } from "../../firebaseConfig";
 import { uploadBytes, ref } from "firebase/storage";
 import route from "../../constants/route";
 import CreateWordInput from "../../types/inputs/user/CreateWordInput";
-import wordService from "../../services/api/routes/words";
 
 
 const CreateWord = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { selectedLanguage } = useSelector((state: RootState) => state.languages);
-  const { register, handleSubmit, setValue, watch } = useForm<CreateWordInput>({
+  const { createWordHelperText } = useSelector((state: RootState) => state.words);
+  const { register, handleSubmit, setValue } = useForm<CreateWordInput>({
     defaultValues: {
       audiopath: "audio",
     },
@@ -25,7 +25,14 @@ const CreateWord = () => {
   const [phrases, setPhrases] = useState<string[]>([]);
   const [audioFileName, setAudioFileName] = useState<string>("");
   const [audioFile, setAudioFile] = useState<File | null>(null);
-  const [translateLabel, setTranslateLabel] = useState('Prijevod');
+  const [foreignname, setForeignname] = useState<string>("");
+  const [croatianname, setCroatianname] = useState<string>("");
+
+  // TODO: dodat progress na foreignname input
+
+  useEffect(() => {
+    setForeignname(createWordHelperText);
+  }, [createWordHelperText]);
 
   const handleCreate = () => {
     const phrasesTextField = document.getElementById(
@@ -56,17 +63,14 @@ const CreateWord = () => {
     }
   };
 
-  
-  const word = watch("croatianname");
-  const language = selectedLanguage?.languagename;
-  const handleTranslate = async () => {
-    if (language){ 
-      const response = await wordService.translate(word, language);
-      setValue("foreignname", response.data.text);
-      setTranslateLabel(response.data.text);
+  const handleTranslate = () => {
+    if (selectedLanguage !== undefined && croatianname !== "") {
+      dispatch(fetchTranslation({
+        croatianname: croatianname,
+        destIsocode: selectedLanguage.isocode,
+      }));
     }
   };
-
 
   const onSubmit = async (data: CreateWordInput) => {
     if (selectedLanguage !== undefined) {
@@ -91,15 +95,22 @@ const CreateWord = () => {
       <Box component="form" onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <TextField
-              {...register("croatianname")}
-              required
-              fullWidth
-              id="word"
-              label="Riječ"
-              variant="outlined"
-              onChange={() => handleTranslate()}
-            />
+            <ClickAwayListener
+              onClickAway={handleTranslate}
+            >
+              <TextField
+                {...register("croatianname")}
+                required
+                fullWidth
+                id="word"
+                label="Riječ (HR)"
+                variant="outlined"
+                value={croatianname}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setCroatianname(event.target.value);
+                }}
+              />
+            </ClickAwayListener>
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -107,8 +118,12 @@ const CreateWord = () => {
               required
               fullWidth
               id="translation"
-              label={translateLabel}
+              label={`Prijevod (${selectedLanguage?.isocode.toUpperCase()})`}
               variant="outlined"
+              value={foreignname}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setForeignname(event.target.value);
+              }}
             />
           </Grid>
 

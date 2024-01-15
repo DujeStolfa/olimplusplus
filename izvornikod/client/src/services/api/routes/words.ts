@@ -18,7 +18,7 @@ export default {
   getChoices: (dictionaryid: number, wordid: number) => axios.get(`${words.base}/choice/${dictionaryid}/${wordid}`),
   updateWordState: ({ wordid, correct }: UpdateWordStateInput) => axios.put(`${words.base}/state/${wordid}`, { correct: correct }),
   getAllInDictionary: (dictionaryid: number) => axios.get(`${words.base}/in-dict/${dictionaryid}`),
-  translate: (word: string, language: string) => axios.get(`${words.base}/getTranslation/${language}/${word}`),
+  translate: (croatianname: string, destIsocode: string) => axios.get(`${words.base}/getTranslation/${croatianname}/${destIsocode}`),
   delete: (wordid: number) => axios.delete(`${words.base}/${wordid}`),
   getAudioScore: ({ wordid, audiourl }: GetAudioScoreInput) => axios.get(`${words.base}/check-audio/${wordid}/${audiourl}`),
 }

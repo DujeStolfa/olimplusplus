@@ -222,9 +222,14 @@ def delete_word(wordid):
     return "", 204
 
 
-@api.route("words/getTranslation/language/word")
-def getTranslation(word, language):
-    return translator.translate(word, src=language), 200
+@api.route("words/getTranslation/<word>/<dest_isocode>")
+def get_translation(word, dest_isocode):
+    try:
+        translation = translator.translate(word, src="hr", dest=dest_isocode)
+        return translation.text, 200
+
+    except:
+        return abort(418)
 
 
 @api.route("words/check-audio/<int:wordid>/<audiourl>")
