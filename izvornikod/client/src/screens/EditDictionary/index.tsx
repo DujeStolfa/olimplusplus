@@ -5,6 +5,7 @@ import EditDictionaryTable from "./EditDictionaryTable";
 import { useNavigate } from "react-router-dom";
 import route from "../../constants/route";
 
+
 const EditDictionary = () => {
     const navigate = useNavigate();
 
@@ -24,7 +25,7 @@ const EditDictionary = () => {
                     startIcon={<AddIcon />}
                     onClick={() => navigate(`/${route.addWords}`)}
                 >
-                    Dodaj riječ
+                    Dodaj riječi
                 </Button>
             </Stack>
 

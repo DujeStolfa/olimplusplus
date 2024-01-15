@@ -14,7 +14,7 @@ const StudyTypes = () => {
 
     return (
         <ScreenWrapper>
-            <Container maxWidth="md">
+            <Container maxWidth="lg">
                 <Typography
                     variant="h2"
                     mb={4}

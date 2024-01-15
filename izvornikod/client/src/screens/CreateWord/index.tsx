@@ -98,7 +98,7 @@ const CreateWord = () => {
       <FormWrapper>
         <FormTitleWrapper>
           <Typography component="h1" variant="h5">
-            Edit admin
+            Dodaj riječ
           </Typography>
         </FormTitleWrapper>
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>
