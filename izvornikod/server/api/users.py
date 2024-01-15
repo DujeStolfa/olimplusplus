@@ -3,7 +3,7 @@ import bcrypt
 from flask_login import login_required
 
 from db import db, user_schema, users_schema
-from db.models import User
+from db.models import Bowl, User, Word, WordState
 from . import api
 
 
@@ -21,6 +21,19 @@ def register_student():
         "student",
     )
     db.session.add(user)
+    db.session.commit()
+
+    # Dodati zapise u WORD_STATE tablicu
+    words = db.session.execute(db.select(Word.wordid)).all()
+
+    first_bowl_id = (
+        db.session.execute(db.select(Bowl.bowlid).order_by(Bowl.interval))
+        .first()
+        .bowlid
+    )
+
+    word_states = [WordState(user.userid, word.wordid, first_bowl_id) for word in words]
+    db.session.bulk_save_objects(word_states)
     db.session.commit()
 
     return "", 204
@@ -99,6 +112,20 @@ def delete_admin(userid):
         return abort(404)
 
     db.session.delete(admin)
+    db.session.commit()
+
+    return "", 204
+
+
+@api.route("users/<int:userid>", methods=["DELETE"])
+@login_required
+def delete_user(userid):
+    user = db.session.execute(db.select(User).where(User.userid == userid)).scalar()
+
+    if user is None:
+        return abort(404)
+
+    db.session.delete(user)
     db.session.commit()
 
     return "", 204

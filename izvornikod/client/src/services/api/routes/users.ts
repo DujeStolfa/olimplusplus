@@ -15,4 +15,5 @@ export default {
   deleteAdmin: (adminId: number) => axios.delete(`${users.base}/delete-admin/${adminId}`),
   editAdmin: (admin: EditAdminInput, adminId: number) => axios.post(`${users.base}/edit-admin/${adminId}`, admin),
   editPassword: (data: EditPasswordInput) => axios.put(`${users.base}/edit-password`, data),
+  deleteUser: (userid: number) => axios.delete(`${users.base}/${userid}`),
 };

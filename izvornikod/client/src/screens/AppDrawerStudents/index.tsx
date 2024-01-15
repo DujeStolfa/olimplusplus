@@ -11,12 +11,12 @@ import PersonOffIcon from '@mui/icons-material/PersonOff';
 import { AppContent, UserBox } from "./index.styled";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { clearSelectedLanguage } from "../../redux/slices/languageSlice";
-import { attemptLogout } from "../../redux/slices/authSlice";
+import { attemptLogout, deleteCurrentUser } from "../../redux/slices/authSlice";
+import { clearSession } from "../../redux/slices/studySessionSlice";
+import { clearSelectedDictionary } from "../../redux/slices/studentDictionariesSlice";
 import ApproveDialog from "../../components/common/AprooveDialog";
 import Error from "../../components/common/Error";
 import route from "../../constants/route";
-import { clearSession } from "../../redux/slices/studySessionSlice";
-import { clearSelectedDictionary } from "../../redux/slices/studentDictionariesSlice";
 
 
 const AppDrawerStudents = () => {
@@ -94,7 +94,17 @@ const AppDrawerStudents = () => {
               />
             </MenuItem>
             <MenuItem
-              onClick={() => { handleClose(); setOpenDialog(true); }}
+              onClick={() => {
+                if (user?.userid !== undefined) {
+                  dispatch(deleteCurrentUser(user?.userid));
+                  dispatch(clearSelectedLanguage());
+                  dispatch(clearSelectedDictionary());
+                  dispatch(clearSession());
+                  dispatch(attemptLogout());
+                }
+                handleClose();
+                setOpenDialog(true);
+              }}
             >
               <ListItemIcon>
                 <PersonOffIcon fontSize="small" />

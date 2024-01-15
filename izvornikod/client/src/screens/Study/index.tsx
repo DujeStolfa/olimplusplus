@@ -20,7 +20,7 @@ const Study = () => {
   const navigate = useNavigate();
 
   const { availableWords, currentQuestionIdx, choices, selectedStudyType, pronunciationScore } = useSelector((state: RootState) => state.studySesion);
-  const { selectedDictionary } = useSelector((state: RootState) => state.dictionaries);
+  const { selectedDictionary } = useSelector((state: RootState) => state.studentDictionaries);
 
   const [showFeedback, setShowFeedback] = useState<boolean>(false);
   const [correct, setCorrect] = useState<boolean | undefined>(undefined);

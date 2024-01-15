@@ -66,6 +66,13 @@ const editPassword = createAsyncThunk(
   }
 );
 
+const deleteCurrentUser = createAsyncThunk(
+  'auth/deleteCurrentUSer',
+  async (userid: number) => {
+    const response = await usersService.deleteUser(userid);
+  }
+)
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -104,6 +111,7 @@ export {
   registerStudent,
   createAdmin,
   editPassword,
+  deleteCurrentUser,
 };
 
 export default authSlice.reducer;
