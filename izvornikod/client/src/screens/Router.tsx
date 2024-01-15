@@ -25,7 +25,6 @@ import AddWords from "./AddWords";
 import Study from "./Study";
 import AppDrawerStudents from "./AppDrawerStudents";
 import AppDrawerAdmins from "./AppDrawerAdmins";
-import VoiceRecorder from "./Study/VoiceRecorder";
 
 // local imports
 import route from "../constants/route";
@@ -214,7 +213,6 @@ const appRouter = createBrowserRouter(
       <Route path={`${route.login}`} element={<Login />} />
       <Route path={`${route.register}`} element={<Register />} />
       <Route path="*" element={<Error errorText="Stranica ne postoji." />} />
-      <Route path="/voiceRecord" element={<VoiceRecorder />} />
     </>
   )
 );

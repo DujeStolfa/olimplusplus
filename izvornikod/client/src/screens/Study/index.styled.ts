@@ -32,7 +32,6 @@ export const MultipleChoiceButton = styled(Box) < { $selected?: boolean; }>`
     `};
 `;
 
-
 export const FeedbackWrapper = styled(Box)`
   display: flex;
   flex-direction: column;
@@ -44,4 +43,11 @@ export const FeedbackWrapper = styled(Box)`
 export const SpellingFormWrapper = styled(Box)`
   display: flex;
   justify-content: center;
+`;
+
+export const StudyInputWrapper = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
 `;

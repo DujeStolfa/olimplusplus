@@ -4,6 +4,7 @@ import wordService from "../../services/api/routes/words";
 import Word from "../../types/models/Word";
 import GetWordChoicesInput from "../../types/inputs/word/GetWordChoicesInput";
 import UpdateWordStateInput from "../../types/inputs/word/UpdateWordStateInput";
+import GetAudioScoreInput from "../../types/inputs/word/GetAudioScoreInput";
 import STUDY_TYPE from "../../types/enums/StudyType";
 
 
@@ -12,6 +13,7 @@ interface StudySessionState {
   choices: Word[];
   currentQuestionIdx: number | undefined;
   selectedStudyType: STUDY_TYPE | undefined;
+  pronunciationScore: number | undefined;
 }
 
 const initialState: StudySessionState = {
@@ -19,6 +21,7 @@ const initialState: StudySessionState = {
   choices: [],
   currentQuestionIdx: undefined,
   selectedStudyType: undefined,
+  pronunciationScore: undefined,
 }
 
 const fetchAvailableWords = createAsyncThunk(
@@ -43,7 +46,21 @@ const updateWordState = createAsyncThunk(
     const response = await wordService.updateWordState(data);
     return response.data;
   }
-)
+);
+
+const fetchPronunciationScore = createAsyncThunk(
+  'studySessioin/fetchPronunciationScore',
+  async ({ wordid, audiourl }: GetAudioScoreInput) => {
+    let splitted = audiourl.split("/");
+
+    const response = await wordService.getAudioScore({
+      wordid: wordid,
+      audiourl: splitted[splitted.length - 1],
+    });
+
+    return response.data.score;
+  }
+);
 
 const studySessionSlice = createSlice({
   name: "studySession",
@@ -54,9 +71,13 @@ const studySessionSlice = createSlice({
       state.choices = [];
       state.currentQuestionIdx = undefined;
       state.selectedStudyType = undefined;
+      state.pronunciationScore = undefined;
     },
     setSelectedStudyType: (state, action: PayloadAction<STUDY_TYPE>) => {
       state.selectedStudyType = action.payload;
+    },
+    clearPronunciationScore: (state) => {
+      state.pronunciationScore = undefined;
     },
   },
   extraReducers: (builder) => {
@@ -72,18 +93,24 @@ const studySessionSlice = createSlice({
         state.currentQuestionIdx = 0;
       }
     });
+
+    builder.addCase(fetchPronunciationScore.fulfilled, (state, action: PayloadAction<number>) => {
+      state.pronunciationScore = action.payload;
+    })
   }
 });
 
 export const {
   clearSession,
   setSelectedStudyType,
+  clearPronunciationScore,
 } = studySessionSlice.actions;
 
 export {
   fetchAvailableWords,
   fetchNextQuestion,
   updateWordState,
+  fetchPronunciationScore,
 };
 
 export default studySessionSlice.reducer;

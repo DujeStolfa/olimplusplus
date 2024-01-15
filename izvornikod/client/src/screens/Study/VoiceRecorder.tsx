@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { AudioRecorder } from "react-audio-voice-recorder";
 
-const VoiceRecorder = () => {
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+interface Props {
+  audioUrl: string | null;
+  setAudioUrl: Dispatch<SetStateAction<string | null>>;
+}
+
+const VoiceRecorder = ({ audioUrl, setAudioUrl }: Props) => {
 
   const addAudioElement = (blob: Blob) => {
     const url = URL.createObjectURL(blob);

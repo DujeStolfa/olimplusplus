@@ -54,7 +54,16 @@ const StudyTypes = () => {
                     >
                         Slušanje i pisanje
                     </Button>
-                    <Button size="large">Snimanje izgovora</Button>
+                    <Button
+                        variant="outlined"
+                        size="large"
+                        onClick={() => {
+                            dispatch(setSelectedStudyType(STUDY_TYPE.Speaking));
+                            navigate(`/${route.study}`);
+                        }}
+                    >
+                        Snimanje izgovora
+                    </Button>
                 </ButtonsContainer>
             </Container>
         </ScreenWrapper>

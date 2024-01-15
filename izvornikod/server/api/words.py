@@ -1,7 +1,8 @@
+import math
 import random
 from datetime import datetime
 
-from flask import abort, request
+from flask import abort, jsonify, request
 from flask_login import current_user, login_required
 from googletrans import Translator
 
@@ -219,3 +220,13 @@ def delete_word(wordid):
 @api.route("words/getTranslation/language/word")
 def getTranslation(word, language):
     return translator.translate(word, src=language), 200
+
+
+@api.route("words/check-audio/<int:wordid>/<audiourl>")
+def check_audio(wordid, audiourl):
+    if len(audiourl) == 0:
+        return abort(400)
+
+    score = math.floor(random.random() * 10) + 1
+
+    return jsonify({"score": score}), 200

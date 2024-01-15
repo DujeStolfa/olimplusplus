@@ -82,7 +82,8 @@ const AppDrawerStudents = () => {
                 dispatch(clearSelectedLanguage());
                 dispatch(clearSelectedDictionary());
                 dispatch(clearSession());
-                navigate(`/${route.selectLanguage}/student`)
+                navigate(`/${route.selectLanguage}/student`);
+                handleClose();
               }}
             >
               <ListItemIcon>

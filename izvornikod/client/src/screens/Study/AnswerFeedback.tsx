@@ -1,7 +1,7 @@
 import React from "react";
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { FeedbackWrapper } from "./index.styled";
 import { RootState } from "../../redux/store";
@@ -12,13 +12,31 @@ interface Props {
 }
 
 const AnswerFeedback = ({ correct }: Props) => {
-  const { availableWords, currentQuestionIdx, selectedStudyType } = useSelector((state: RootState) => state.studySesion);
+  const { availableWords, currentQuestionIdx, selectedStudyType, pronunciationScore } = useSelector((state: RootState) => state.studySesion);
 
   if (currentQuestionIdx === undefined) {
     return (
       <FeedbackWrapper>
         <Typography variant="h4" margin={1}> Došlo je do neočekivane greške :/ </Typography>
       </FeedbackWrapper>
+    );
+  }
+
+  if (pronunciationScore !== undefined) {
+    return (
+      <FeedbackWrapper>
+        <Typography variant="h4" margin={1}>
+          {correct ? "Točno" : "Netočno"}
+        </Typography>
+        <Typography variant="subtitle1" marginBottom={1}>
+          {pronunciationScore} / 10
+        </Typography>
+        {
+          correct
+            ? <SentimentVerySatisfiedIcon color="success" fontSize="large" />
+            : <SentimentDissatisfiedIcon color="warning" fontSize="large" />
+        }
+      </FeedbackWrapper >
     );
   }
 

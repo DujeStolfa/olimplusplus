@@ -4,31 +4,48 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { TableHeading } from "../../components/common/styled";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { clearSession, fetchNextQuestion, updateWordState } from "../../redux/slices/studySessionSlice";
+import { clearPronunciationScore, clearSession, fetchNextQuestion, fetchPronunciationScore, updateWordState } from "../../redux/slices/studySessionSlice";
 import { clearSelectedDictionary } from "../../redux/slices/studentDictionariesSlice";
 import { QuestionBodyWrapper } from "./index.styled";
-import AnswerFeedback from "./AnswerFeedback"
-import MultipleChoiceList from "./MultipleChoiceList";
 import Error from "../../components/common/Error";
 import route from "../../constants/route";
 import STUDY_TYPE from "../../types/enums/StudyType";
+import MultipleChoiceList from "./MultipleChoiceList";
+import AnswerFeedback from "./AnswerFeedback"
 import SpellingInput from "./SpellingInput";
+import SpeakingInput from "./SpeakingInput";
 
 const Study = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { availableWords, currentQuestionIdx, choices, selectedStudyType } = useSelector((state: RootState) => state.studySesion);
+  const { availableWords, currentQuestionIdx, choices, selectedStudyType, pronunciationScore } = useSelector((state: RootState) => state.studySesion);
+
   const [showFeedback, setShowFeedback] = useState<boolean>(false);
+  const [correct, setCorrect] = useState<boolean | undefined>(undefined);
+
   const [answer, setAnswer] = useState<number | undefined>(undefined);
   const [spellingAnswer, setSpellingAnswer] = useState<string | undefined>(undefined);
-  const [correct, setCorrect] = useState<boolean | undefined>(undefined);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (currentQuestionIdx === undefined && availableWords.length > 0) {
       dispatch(fetchNextQuestion({ dictionaryid: 1, wordid: availableWords[0].wordid }));
     }
   }, [availableWords]);
+
+  useEffect(() => {
+    if (
+      pronunciationScore !== undefined
+      && pronunciationScore > 0
+      && currentQuestionIdx !== undefined
+    ) {
+      let check = pronunciationScore >= 5;
+
+      dispatch(updateWordState({ wordid: availableWords[currentQuestionIdx].wordid, correct: check }));
+      setCorrect(check);
+    }
+  }, [pronunciationScore]);
 
   const stopSession = () => {
     setShowFeedback(false);
@@ -46,15 +63,20 @@ const Study = () => {
         setShowFeedback(true);
 
         const check = choices[answer].wordid === availableWords[currentQuestionIdx].wordid;
-        dispatch(updateWordState({ wordid: availableWords[currentQuestionIdx].wordid, correct: check }))
+        dispatch(updateWordState({ wordid: availableWords[currentQuestionIdx].wordid, correct: check }));
         setCorrect(check);
       }
       else if (!showFeedback && spellingAnswer !== undefined) {
         setShowFeedback(true);
 
         const check = availableWords[currentQuestionIdx].foreignname === spellingAnswer;
-        dispatch(updateWordState({ wordid: availableWords[currentQuestionIdx].wordid, correct: check }))
+        dispatch(updateWordState({ wordid: availableWords[currentQuestionIdx].wordid, correct: check }));
         setCorrect(check);
+      }
+      else if (!showFeedback && audioUrl !== null) {
+        setShowFeedback(true);
+        dispatch(fetchPronunciationScore({ audiourl: audioUrl, wordid: availableWords[currentQuestionIdx].wordid }));
+
       }
       else {
         if (currentQuestionIdx < availableWords.length - 1) {
@@ -63,6 +85,8 @@ const Study = () => {
           setSpellingAnswer(undefined);
           setShowFeedback(false);
           setCorrect(undefined);
+          setAudioUrl(null);
+          dispatch(clearPronunciationScore());
         } else {
           stopSession();
         }
@@ -86,15 +110,17 @@ const Study = () => {
         <QuestionBodyWrapper>
 
           <Stack direction="row" justifyContent="space-between">
-            <Typography variant="h5">{
-              (selectedStudyType === STUDY_TYPE.ForeignToNative)
-                ? availableWords[currentQuestionIdx]?.foreignname
-                : (selectedStudyType === STUDY_TYPE.NativeToForeign)
-                  ? availableWords[currentQuestionIdx]?.croatianname
-                  : (selectedStudyType == STUDY_TYPE.Listening)
-                    ? `listening to ${availableWords[currentQuestionIdx]?.croatianname}`
-                    : ""
-            }</Typography>
+            <Typography variant="h5">
+              {
+                (selectedStudyType === STUDY_TYPE.ForeignToNative || selectedStudyType === STUDY_TYPE.Speaking)
+                  ? availableWords[currentQuestionIdx]?.foreignname
+                  : (selectedStudyType === STUDY_TYPE.NativeToForeign)
+                    ? availableWords[currentQuestionIdx]?.croatianname
+                    : (selectedStudyType == STUDY_TYPE.Listening)
+                      ? `listening to ${availableWords[currentQuestionIdx]?.croatianname}`
+                      : ""
+              }
+            </Typography>
             <Typography variant="button" color="gray">{currentQuestionIdx + 1}/{availableWords.length}</Typography>
           </Stack>
 
@@ -107,7 +133,9 @@ const Study = () => {
                   ? <MultipleChoiceList answer={answer} setAnswer={setAnswer} attribute="foreignname" />
                   : (selectedStudyType === STUDY_TYPE.Listening)
                     ? <SpellingInput spellingAnswer={spellingAnswer} setSpellingAnswer={setSpellingAnswer} />
-                    : <>error</>
+                    : (selectedStudyType === STUDY_TYPE.Speaking)
+                      ? <SpeakingInput audioUrl={audioUrl} setAudioUrl={setAudioUrl} />
+                      : <>error</>
           }
 
           <Stack direction="row" justifyContent="space-between">
@@ -118,7 +146,12 @@ const Study = () => {
               size="large"
               color="secondary"
               onClick={() => handleConfirm()}
-              disabled={answer === undefined && spellingAnswer === undefined && !showFeedback}
+              disabled={
+                answer === undefined
+                && spellingAnswer === undefined
+                && audioUrl === null
+                && !showFeedback
+              }
             >
               {(!showFeedback) ? "Potvrdi" : (currentQuestionIdx == availableWords.length - 1) ? "Završi učenje" : "Nastavi"}
             </Button>
