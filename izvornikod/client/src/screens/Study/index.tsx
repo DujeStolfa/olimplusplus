@@ -20,6 +20,7 @@ const Study = () => {
   const navigate = useNavigate();
 
   const { availableWords, currentQuestionIdx, choices, selectedStudyType, pronunciationScore } = useSelector((state: RootState) => state.studySesion);
+  const { selectedDictionary } = useSelector((state: RootState) => state.dictionaries);
 
   const [showFeedback, setShowFeedback] = useState<boolean>(false);
   const [correct, setCorrect] = useState<boolean | undefined>(undefined);
@@ -29,8 +30,8 @@ const Study = () => {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    if (currentQuestionIdx === undefined && availableWords.length > 0) {
-      dispatch(fetchNextQuestion({ dictionaryid: 1, wordid: availableWords[0].wordid }));
+    if (currentQuestionIdx === undefined && availableWords.length > 0 && selectedDictionary !== undefined) {
+      dispatch(fetchNextQuestion({ dictionaryid: selectedDictionary.dictionaryid, wordid: availableWords[0].wordid }));
     }
   }, [availableWords]);
 
@@ -79,8 +80,8 @@ const Study = () => {
 
       }
       else {
-        if (currentQuestionIdx < availableWords.length - 1) {
-          dispatch(fetchNextQuestion({ dictionaryid: 1, wordid: availableWords[currentQuestionIdx + 1].wordid }));
+        if (currentQuestionIdx < availableWords.length - 1 && selectedDictionary !== undefined) {
+          dispatch(fetchNextQuestion({ dictionaryid: selectedDictionary.dictionaryid, wordid: availableWords[currentQuestionIdx + 1].wordid }));
           setAnswer(undefined);
           setSpellingAnswer(undefined);
           setShowFeedback(false);
@@ -104,7 +105,19 @@ const Study = () => {
 
   return (
     <Container>
-      <TableHeading variant="h4">Prijevod strane riječi</TableHeading>
+      <TableHeading variant="h4" paddingTop="1.4em" paddingBottom="0.8em">
+        {
+          (selectedStudyType === STUDY_TYPE.ForeignToNative)
+            ? "Prijevod strane riječi"
+            : (selectedStudyType === STUDY_TYPE.NativeToForeign)
+              ? "Prijevod na strani jezik"
+              : (selectedStudyType === STUDY_TYPE.Listening)
+                ? "Slušanje i pisanje"
+                : (selectedStudyType === STUDY_TYPE.Speaking)
+                  ? "Snimanje izgovora"
+                  : ""
+        }
+      </TableHeading>
 
       <Stack direction="column" alignItems="center">
         <QuestionBodyWrapper>
@@ -117,7 +130,7 @@ const Study = () => {
                   : (selectedStudyType === STUDY_TYPE.NativeToForeign)
                     ? availableWords[currentQuestionIdx]?.croatianname
                     : (selectedStudyType == STUDY_TYPE.Listening)
-                      ? `listening to ${availableWords[currentQuestionIdx]?.croatianname}`
+                      ? "Upišite odgovor na stranom jeziku"
                       : ""
               }
             </Typography>

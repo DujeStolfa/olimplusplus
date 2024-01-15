@@ -59,9 +59,9 @@ def create_word(languageid):
 @login_required
 def get_words(languageid):
     words = db.session.execute(
-        db.select(Word.wordid, Word.croatianname, Word.foreignname).where(
-            Word.languageid == languageid
-        )
+        db.select(
+            Word.wordid, Word.croatianname, Word.foreignname, Word.audiopath
+        ).where(Word.languageid == languageid)
     ).all()
 
     return words_schema.dump(words)
@@ -71,7 +71,7 @@ def get_words(languageid):
 @login_required
 def get_words_in_dictionary(dictionaryid):
     words_in_dictionary = db.session.execute(
-        db.select(Word.wordid, Word.croatianname, Word.foreignname)
+        db.select(Word.wordid, Word.croatianname, Word.foreignname, Word.audiopath)
         .join(WordDictionary)
         .where(WordDictionary.dictionaryid == dictionaryid)
     ).all()
@@ -84,7 +84,9 @@ def get_words_in_dictionary(dictionaryid):
 def get_words_not_in_dictionary(dictionaryid):
     # endpoint za rijeci koje nisu u nekom rijecniku
     words_not_in_dictionary = db.session.execute(
-        db.select(Word.wordid, Word.croatianname, Word.foreignname).where(
+        db.select(
+            Word.wordid, Word.croatianname, Word.foreignname, Word.audiopath
+        ).where(
             Word.wordid.not_in(
                 db.select(Word.wordid)
                 .join(WordDictionary)
@@ -104,6 +106,7 @@ def get_available_words(dictionaryid):
             Word.wordid,
             Word.croatianname,
             Word.foreignname,
+            Word.audiopath,
         )
         .join(WordState)
         .join(WordDictionary)
@@ -124,6 +127,7 @@ def get_multiple_choice(dictionaryid, wordid):
             Word.wordid,
             Word.croatianname,
             Word.foreignname,
+            Word.audiopath,
         )
         .join(WordDictionary)
         .where(WordDictionary.dictionaryid == dictionaryid)
@@ -140,6 +144,7 @@ def get_multiple_choice(dictionaryid, wordid):
             Word.wordid,
             Word.croatianname,
             Word.foreignname,
+            Word.audiopath,
         ).where(Word.wordid == wordid)
     ).first()
 
