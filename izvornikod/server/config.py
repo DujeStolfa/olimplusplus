@@ -7,6 +7,7 @@ load_dotenv(path.join(basedir, ".env"))
 
 class Config:
     SECRET_KEY = environ.get("SECRET_KEY")
+    MAIL_API_KEY = environ.get("MAIL_API_KEY")
 
 
 class DevConfig(Config):

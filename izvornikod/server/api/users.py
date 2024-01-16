@@ -1,8 +1,10 @@
-from flask import abort, jsonify, request, session
 import bcrypt
+import secrets
+import sib_api_v3_sdk
+from flask import abort, current_app, request, session
 from flask_login import login_required
 
-from db import db, user_schema, users_schema
+from db import db, users_schema
 from db.models import Bowl, User, Word, WordState
 from . import api
 
@@ -11,7 +13,56 @@ from . import api
 def register_student():
     user_data = request.json
 
-    password = "progi123"
+    fields = ["firstname", "lastname", "email"]
+    chk = [field in user_data for field in fields]
+    if False in chk:
+        return abort(400)
+
+    password = secrets.token_urlsafe(5)
+
+    # Poslati mail s inicijalnom lozinkom
+    configuration = sib_api_v3_sdk.Configuration()
+    configuration.api_key["api-key"] = current_app.config["MAIL_API_KEY"]
+
+    api_instance = sib_api_v3_sdk.TransactionalEmailsApi(
+        sib_api_v3_sdk.ApiClient(configuration)
+    )
+
+    sender = {"email": "olimplusplus.progi@gmail.com", "name": "Olimplusplus"}
+    html_content = f"""
+        <body> 
+            <h1>Dobrodošli u FlipMemo!</h1>
+
+            <p>Vaši podaci za prijavu u aplikaciju:</p>
+            <ul>
+                <li>Email: <b>{user_data['email']}</b></li>
+                <li>Lozinka: <b>{password}</b></li>
+            </ul>
+
+            <p><i>Inicijalnu lozinku morat ćete promijeniti nakon prve prijave u aplikaciju.</i></p>
+
+            <h3>Sretno s učenjem &#128640;</h3>
+        </body>
+        """
+
+    send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
+        to=[
+            {
+                "email": user_data["email"],
+                "name": f"{user_data['firstname']} {user_data['lastname']}",
+            }
+        ],
+        bcc=[sender],
+        reply_to=sender,
+        html_content=html_content,
+        sender=sender,
+        subject="FlipMemo - Inicijalna lozinka",
+    )
+
+    try:
+        api_response = api_instance.send_transac_email(send_smtp_email)
+    except:
+        return abort(400)
 
     user = User(
         user_data["firstname"],
