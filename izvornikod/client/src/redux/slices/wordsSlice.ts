@@ -145,6 +145,10 @@ const wordSlice = createSlice({
             state.wordsInDictionary = action.payload;
         });
 
+        builder.addCase(createWord.fulfilled, (state, action: PayloadAction<Word>) => {
+            state.words.push(action.payload);
+        })
+
         builder.addCase(addWordsToDictionary.fulfilled, (state, action: PayloadAction<Word[]>) => {
             state.wordsInDictionary.push(...action.payload);
         });
