@@ -17,7 +17,7 @@ interface WordsState {
     wordsInDictionary: Word[];
     createFormState: CRUD_ACTION;
     selectedWord: Word | undefined;
-    createWordHelperText: string;
+    createWordHelperText: string | undefined;
     selectedEditWord: Word | undefined;
 }
 
@@ -155,6 +155,10 @@ const wordSlice = createSlice({
 
         builder.addCase(fetchTranslation.fulfilled, (state, action: PayloadAction<string>) => {
             state.createWordHelperText = action.payload;
+        }).addCase(fetchTranslation.pending, (state, action) => {
+            state.createWordHelperText = undefined;
+        }).addCase(fetchTranslation.rejected, (state, action) => {
+            state.createWordHelperText = "";
         });
 
         builder.addCase(removeWordFromDictionary.fulfilled, (state, action: PayloadAction<number>) => {

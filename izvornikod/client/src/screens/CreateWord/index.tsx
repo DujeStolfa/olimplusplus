@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Container, TextField, Typography, Grid, ClickAwayListener } from "@mui/material";
+import { Box, Button, Container, TextField, Typography, Grid, ClickAwayListener, InputAdornment, Icon, CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,7 @@ import { storageRef } from "../../firebaseConfig";
 import CreateWordInput from "../../types/inputs/word/CreateWordInput";
 import route from "../../constants/route";
 import Phrase from "../../types/models/Phrase";
+import CheckIcon from '@mui/icons-material/Check';
 
 
 const CreateWord = () => {
@@ -32,10 +33,10 @@ const CreateWord = () => {
   const [activeAudio, setActiveAudio] = useState<HTMLMediaElement | undefined>(undefined);
   const [audioIsPlaying, setAudioIsPlaying] = useState<boolean>(false);
 
-  // TODO: dodat progress na foreignname input
-
   useEffect(() => {
-    setForeignname(createWordHelperText);
+    if (createWordHelperText !== undefined) {
+      setForeignname(createWordHelperText);
+    }
   }, [createWordHelperText]);
 
   const handleCreate = () => {
@@ -127,7 +128,7 @@ const CreateWord = () => {
             <Grid item xs={12}>
               <ClickAwayListener
                 onClickAway={() => {
-                  if (createWordHelperText.length === 0) {
+                  if ((createWordHelperText !== undefined && createWordHelperText.length === 0) || foreignname === "") {
                     handleTranslate();
                   }
                 }}
@@ -157,6 +158,20 @@ const CreateWord = () => {
                 value={foreignname}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   setForeignname(event.target.value);
+                }}
+                InputProps={{
+                  endAdornment:
+                    (createWordHelperText !== "")
+                      ? <InputAdornment position="end">
+                        {
+                          (createWordHelperText !== undefined)
+                            ? <Icon>
+                              <CheckIcon color="success" />
+                            </Icon>
+                            : <CircularProgress size="1.5rem" />
+                        }
+                      </InputAdornment>
+                      : null
                 }}
               />
             </Grid>
