@@ -18,4 +18,4 @@ def test_edit_password(login_student, client, revert_student_password_change):
 
     resp = client.put("/api/users/edit-password", json=edit_password_input)
 
-    assert resp.status_code == 204
+    assert resp.status_code == 200
