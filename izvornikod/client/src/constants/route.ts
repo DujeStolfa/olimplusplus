@@ -1,21 +1,18 @@
 const route = Object.freeze({
-  adminInfo: 'admin-info',
-  studentInfo: 'student-info',
   login: 'login',
   register: 'register',
   adminList: 'admin-list',
   studyTypes: 'study-types',
-  createWord: 'createword',
+  createWord: 'create-word',
   addWords: 'add-words',
   editPassword: 'edit-password',
-  foreignTranslation: 'foreign-translation',
   dictionaries: 'dictionaries',
   editDictionary: 'edit-dictionary',
-  selectLanguage: 'selectlanguage',
-  words: 'words',
+  selectLanguage: 'select-language',
   selectDictionary: 'select-dictionary',
-  study: 'study',
   editWord: "edit-word",
+  words: 'words',
+  study: 'study',
 });
 
 export default route;

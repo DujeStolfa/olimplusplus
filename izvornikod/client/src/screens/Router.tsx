@@ -6,25 +6,23 @@ import {
 
 // Screens and components
 import Login from "./Login";
-import AdminInfo from "./AdminInfo";
-import StudentInfo from "./StudentInfo";
 import Error from "../components/common/Error";
 import Register from "./Register";
 import AdminList from "./AdminList";
 import StudyTypes from "./StudyTypes";
 import EditPassword from "./EditPassword";
 import CreateWord from "./CreateWord";
-import ForeignTranslation from "./ForeignTranslation";
 import Dictionaries from "./Dictionaries";
 import ProtectedRoute from "../components/common/ProtectedRoute";
 import EditDictionary from "./EditDictionary";
 import SelectLanguage from "./SelectLanguage";
 import StudentDictionaries from "./StudentDictionaries";
-import Words from "./Words";
-import AddWords from "./AddWords";
-import Study from "./Study";
 import AppDrawerStudents from "./AppDrawerStudents";
 import AppDrawerAdmins from "./AppDrawerAdmins";
+import AddWords from "./AddWords";
+import EditWord from "./EditWord";
+import Words from "./Words";
+import Study from "./Study";
 
 // local imports
 import route from "../constants/route";
@@ -56,14 +54,14 @@ import {
   fetchLanguages,
 } from "../redux/slices/languageSlice";
 import { fetchAdmins } from "../redux/slices/adminSlice";
-import EditWord from "./EditWord";
+
 
 const appRouter = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route element={<ProtectedRoute uloge={[ROLE.Admin]} />}>
-        <Route path={`${route.adminInfo}`} element={<AdminInfo />} />
         <Route element={<AppDrawerAdmins />}>
+
           <Route
             path={`${route.selectLanguage}/admin`}
             element={<SelectLanguage />}
@@ -74,6 +72,7 @@ const appRouter = createBrowserRouter(
               return true;
             }}
           />
+
           <Route
             path={`${route.editDictionary}/:dictionaryid`}
             element={<EditDictionary />}
@@ -93,6 +92,7 @@ const appRouter = createBrowserRouter(
               return false;
             }}
           />
+
           <Route
             path={`${route.dictionaries}`}
             element={<Dictionaries />}
@@ -111,6 +111,7 @@ const appRouter = createBrowserRouter(
               return true;
             }}
           />
+
           <Route
             path={`${route.words}`}
             element={<Words />}
@@ -131,6 +132,7 @@ const appRouter = createBrowserRouter(
               return true;
             }}
           />
+
           <Route
             path={`${route.addWords}`}
             element={<AddWords />}
@@ -149,6 +151,7 @@ const appRouter = createBrowserRouter(
               return true;
             }}
           />
+
           <Route
             path={`${route.adminList}`}
             element={<AdminList />}
@@ -157,6 +160,7 @@ const appRouter = createBrowserRouter(
               return true;
             }}
           />
+
           <Route
             path={`${route.createWord}`}
             element={<CreateWord />}
@@ -165,6 +169,7 @@ const appRouter = createBrowserRouter(
               return true;
             }}
           />
+
           <Route
             path={`${route.editWord}/:wordid`}
             element={<EditWord />}
@@ -178,10 +183,13 @@ const appRouter = createBrowserRouter(
               return false;
             }}
           />
+
         </Route>
       </Route>
+
       <Route element={<ProtectedRoute uloge={[ROLE.Student]} />}>
         <Route element={<AppDrawerStudents />}>
+
           <Route
             path={`${route.selectLanguage}/student`}
             element={<SelectLanguage />}
@@ -241,14 +249,10 @@ const appRouter = createBrowserRouter(
           />
 
           <Route path={`${route.studyTypes}`} element={<StudyTypes />} />
-        </Route>
 
-        <Route path={`${route.studentInfo}`} element={<StudentInfo />} />
-        <Route
-          path={`${route.foreignTranslation}`}
-          element={<ForeignTranslation />}
-        />
+        </Route>
       </Route>
+
       <Route path={`${route.login}`} element={<Login />} />
       <Route path={`${route.register}`} element={<Register />} />
       <Route path="*" element={<Error errorText="Stranica ne postoji." />} />
