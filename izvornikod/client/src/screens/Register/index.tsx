@@ -30,10 +30,7 @@ const Register = () => {
             <Box marginBottom="20px">
               <Stack spacing={1}>
                 <Alert severity="info">
-                  <s>Privremena lozinka bit će poslana na Vašu email adresu nakon registracije.</s>
-                </Alert>
-                <Alert severity="error">
-                  Za potrebu generičkih funkcionalnosti ne šalju se mailovi s privremenom lozinkom, već su sve lozinke za nove učenike <b>progi123</b>
+                  Privremena lozinka bit će poslana na Vašu email adresu nakon registracije. Provjerite neželjenu poštu &#128512;
                 </Alert>
               </Stack>
             </Box>

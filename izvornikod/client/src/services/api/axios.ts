@@ -10,7 +10,6 @@ const configureAxios = () => {
     (response) => response,
     async (error) => {
       if (error.response.status === 401) {
-        console.log(error);
         store.dispatch(clearUser(401));
       }
       return Promise.reject(error);

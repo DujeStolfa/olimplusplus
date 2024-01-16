@@ -4,7 +4,7 @@ import sib_api_v3_sdk
 from flask import abort, current_app, request, session
 from flask_login import login_required
 
-from db import db, users_schema
+from db import db, users_schema, user_schema
 from db.models import Bowl, User, Word, WordState
 from . import api
 
@@ -204,4 +204,4 @@ def edit_password():
     user.passwordchanged = True
     db.session.commit()
 
-    return "", 204
+    return user_schema.dump(user)

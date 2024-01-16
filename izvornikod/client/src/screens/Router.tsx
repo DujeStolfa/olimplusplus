@@ -74,7 +74,6 @@ const appRouter = createBrowserRouter(
               return true;
             }}
           />
-          <Route path={`${route.editPassword}`} element={<EditPassword />} />
           <Route
             path={`${route.editDictionary}/:dictionaryid`}
             element={<EditDictionary />}
@@ -194,6 +193,8 @@ const appRouter = createBrowserRouter(
               return true;
             }}
           />
+
+          <Route path={`${route.editPassword}`} element={<EditPassword />} />
 
           <Route
             path={`${route.selectDictionary}`}
