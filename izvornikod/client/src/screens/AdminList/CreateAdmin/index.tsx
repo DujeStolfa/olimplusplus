@@ -79,7 +79,7 @@ const CreateAdmin: React.FC<Props> = (props) => {
             <Box marginBottom="20px">
               <TextField
                 {...register("password")}
-                label="Inicijalna lozinka"
+                label="Lozinka"
                 name="password"
                 type="password"
                 id="password"
@@ -94,7 +94,7 @@ const CreateAdmin: React.FC<Props> = (props) => {
             <Box marginBottom="20px">
               <TextField
                 {...register("confirmPassword")}
-                label="Ponovi inicijalnu lozinku"
+                label="Ponovi lozinku"
                 name="confirmPassword"
                 type="password"
                 id="confirmPassword"
