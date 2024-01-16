@@ -39,3 +39,9 @@ class LanguageSchema(Schema):
     languageid = fields.Int()
     languagename = fields.Str()
     isocode = fields.Str()
+
+
+class PhraseSchema(Schema):
+    phraseid = fields.Int()
+    phrase = fields.Str()
+    wordid = fields.Int()

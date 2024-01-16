@@ -15,6 +15,7 @@ const route = Object.freeze({
   words: 'words',
   selectDictionary: 'select-dictionary',
   study: 'study',
+  editWord: "edit-word",
 });
 
 export default route;

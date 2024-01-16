@@ -5,7 +5,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Word from "../../types/models/Word";
 import route from "../../constants/route";
-import { useAppDispatch } from "../../redux/store";
 
 interface Props {
   word: Word;
@@ -13,15 +12,13 @@ interface Props {
 }
 
 const WordsTableRow = ({ setSelectedWord, word }: Props) => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  //  const [renameState, setRenameState] = useState<CRUD_ACTION>(CRUD_ACTION.READ);
 
   return (
     <TableRow
       hover
       onClick={() => {
-        console.log(`Edit ${word.wordid}`);
+        navigate(`/${route.editWord}/${word.wordid}`);
       }}
     >
       <TableCell>{word.croatianname}</TableCell>

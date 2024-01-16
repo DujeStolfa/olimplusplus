@@ -6,7 +6,7 @@ from flask import abort, jsonify, request
 from flask_login import current_user, login_required
 from googletrans import Translator
 
-from db import db, word_schema, words_schema
+from db import db, word_schema, words_schema, phrases_schema
 from db.models import Word, User, Bowl, WordDictionary, WordState, Phrase
 from . import api
 
@@ -14,6 +14,7 @@ translator = Translator()
 
 
 @api.route("words/<int:languageid>", methods=["POST"])
+@login_required
 def create_word(languageid):
     word_data = request.json
 
@@ -53,7 +54,7 @@ def create_word(languageid):
     db.session.commit()
 
     if "phrases" in word_data:
-        if len(word_data["phraes"]) > 0:
+        if len(word_data["phrases"]) > 0:
             phrases = [
                 Phrase(curr_phrase["phrase"], new_word.wordid)
                 for curr_phrase in word_data["phrases"]
@@ -62,6 +63,43 @@ def create_word(languageid):
             db.session.commit()
 
     return word_schema.dump(new_word)
+
+
+@api.route("words/<int:wordid>", methods=["PUT"])
+@login_required
+def edit_word(wordid):
+    edit_data = request.json
+
+    word: Word = db.session.execute(
+        db.select(Word).where(Word.wordid == wordid)
+    ).scalar()
+
+    if word == None:
+        return abort(404)
+
+    word.audiopath = edit_data["audiopath"]
+    word.croatianname = edit_data["croatianname"]
+    word.foreignname = edit_data["foreignname"]
+    db.session.commit()
+
+    if "phrases" in edit_data:
+        if len(edit_data["phrases"]) > 0:
+            old_phrases = db.session.execute(
+                db.select(Phrase).where(Phrase.wordid == wordid)
+            ).scalars()
+
+            for el in old_phrases:
+                db.session.delete(el)
+                db.session.commit()
+
+            phrases = [
+                Phrase(curr_phrase["phrase"], wordid)
+                for curr_phrase in edit_data["phrases"]
+            ]
+            db.session.bulk_save_objects(phrases)
+            db.session.commit()
+
+    return word_schema.dump(word)
 
 
 @api.route("words/<int:languageid>")
@@ -74,6 +112,31 @@ def get_words(languageid):
     ).all()
 
     return words_schema.dump(words)
+
+
+@api.route("words/details/<int:wordid>")
+@login_required
+def get_word_details(wordid):
+    word = db.session.execute(
+        db.select(
+            Word.wordid, Word.croatianname, Word.foreignname, Word.audiopath
+        ).where(Word.wordid == wordid)
+    ).first()
+
+    if word == None:
+        return abort(404)
+
+    phrases = db.session.execute(
+        db.select(Phrase.phraseid, Phrase.phrase, Phrase.wordid).where(
+            Phrase.wordid == wordid
+        )
+    ).all()
+
+    serialized_word = word_schema.dump(word)
+    serialized_phrases = phrases_schema.dump(phrases)
+    serialized_word["phrases"] = serialized_phrases
+
+    return serialized_word, 200
 
 
 @api.route("words/in-dict/<int:dictionaryid>")

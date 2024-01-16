@@ -36,7 +36,9 @@ import {
 } from "../redux/slices/dictionariesSlice";
 import {
   clearHelperText,
+  clearSelectedEditWord,
   clearWordsInDict,
+  fetchWordDetails,
   fetchWords,
   fetchWordsInDictionary,
   fetchWordsNotInDictionary,
@@ -54,6 +56,7 @@ import {
   fetchLanguages,
 } from "../redux/slices/languageSlice";
 import { fetchAdmins } from "../redux/slices/adminSlice";
+import EditWord from "./EditWord";
 
 const appRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -77,6 +80,7 @@ const appRouter = createBrowserRouter(
             element={<EditDictionary />}
             loader={({ params }) => {
               if (params.dictionaryid !== undefined) {
+                store.dispatch(clearSelectedEditWord());
                 const { words } = store.getState();
 
                 if (words.wordsInDictionary.length === 0) {
@@ -114,13 +118,17 @@ const appRouter = createBrowserRouter(
             loader={() => {
               store.dispatch(clearHelperText());
               store.dispatch(clearWordsInDict());
-              const { languages } = store.getState();
+              const { languages, words } = store.getState();
 
               if (languages.selectedLanguage === undefined) {
                 return false;
               }
 
-              store.dispatch(fetchWords(languages.selectedLanguage.languageid));
+              if (words.selectedEditWord === undefined) {
+                store.dispatch(fetchWords(languages.selectedLanguage.languageid));
+              } else {
+                store.dispatch(clearSelectedEditWord());
+              }
               return true;
             }}
           />
@@ -156,6 +164,19 @@ const appRouter = createBrowserRouter(
             loader={() => {
               store.dispatch(clearHelperText());
               return true;
+            }}
+          />
+          <Route
+            path={`${route.editWord}/:wordid`}
+            element={<EditWord />}
+            loader={({ params }) => {
+              if (params.wordid !== undefined) {
+                store.dispatch(fetchWordDetails(parseInt(params.wordid)));
+                store.dispatch(clearHelperText());
+                return true;
+              }
+
+              return false;
             }}
           />
         </Route>

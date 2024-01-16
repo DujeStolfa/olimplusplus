@@ -4,6 +4,7 @@ import { endpoints } from "../endpoints";
 import CreateWordInput from "../../../types/inputs/word/CreateWordInput";
 import UpdateWordStateInput from "../../../types/inputs/word/UpdateWordStateInput";
 import GetAudioScoreInput from "../../../types/inputs/word/GetAudioScoreInput";
+import Word from "../../../types/models/Word";
 
 const { words } = endpoints;
 
@@ -13,7 +14,7 @@ export default {
   createWord: (data: CreateWordInput, languageid: number) => {
     console.log(data)
     console.log(JSON.stringify(data));
-    return axios.post(`${words.base}/${languageid}`, data);
+    // return axios.post(`${words.base}/${languageid}`, data);
     return axios.post(
       `${words.base}/${languageid}`,
       JSON.stringify(data),
@@ -31,4 +32,6 @@ export default {
   translate: (croatianname: string, destIsocode: string) => axios.get(`${words.base}/getTranslation/${croatianname}/${destIsocode}`),
   delete: (wordid: number) => axios.delete(`${words.base}/${wordid}`),
   getAudioScore: ({ wordid, audiourl }: GetAudioScoreInput) => axios.get(`${words.base}/check-audio/${wordid}/${audiourl}`),
+  getWordDetails: (wordid: number) => axios.get(`${words.base}/details/${wordid}`),
+  updateWord: (word: Word) => axios.put(`${words.base}/${word.wordid}`, word),
 }

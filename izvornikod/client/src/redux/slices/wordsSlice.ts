@@ -18,6 +18,7 @@ interface WordsState {
     createFormState: CRUD_ACTION;
     selectedWord: Word | undefined;
     createWordHelperText: string;
+    selectedEditWord: Word | undefined;
 }
 
 const initialState: WordsState = {
@@ -29,6 +30,7 @@ const initialState: WordsState = {
     createFormState: CRUD_ACTION.READ,
     selectedWord: undefined,
     createWordHelperText: "",
+    selectedEditWord: undefined,
 }
 
 const fetchWords = createAsyncThunk(
@@ -86,7 +88,7 @@ const removeWordFromDictionary = createAsyncThunk(
         const response = await dictionaryService.removeWordFromDictionary(input);
         return input.wordid;
     }
-)
+);
 
 const fetchTranslation = createAsyncThunk(
     'words/fetchTranslationStatus',
@@ -95,6 +97,23 @@ const fetchTranslation = createAsyncThunk(
         return response.data;
     }
 );
+
+const fetchWordDetails = createAsyncThunk(
+    'words/fetchWordDetailsStatus',
+    async (wordid: number) => {
+        const response = await wordService.getWordDetails(wordid);
+        return response.data;
+    }
+);
+
+const editWord = createAsyncThunk(
+    'words/editWordStatus',
+    async (input: Word) => {
+        const response = await wordService.updateWord(input);
+        return response.data;
+    }
+);
+
 
 const wordSlice = createSlice({
     name: "words",
@@ -108,6 +127,9 @@ const wordSlice = createSlice({
         },
         clearWordsInDict: (state) => {
             state.wordsInDictionary = [];
+        },
+        clearSelectedEditWord: (state) => {
+            state.selectedEditWord = undefined;
         },
     },
     extraReducers: (builder) => {
@@ -138,6 +160,15 @@ const wordSlice = createSlice({
         builder.addCase(removeWordFromDictionary.fulfilled, (state, action: PayloadAction<number>) => {
             remove(state.wordsInDictionary, el => el.wordid === action.payload);
         });
+
+        builder.addCase(fetchWordDetails.fulfilled, (state, action: PayloadAction<Word>) => {
+            state.selectedEditWord = action.payload;
+        });
+
+        builder.addCase(editWord.fulfilled, (state, action: PayloadAction<Word>) => {
+            let idx = findIndex(state.words, el => el.wordid === action.payload.wordid);
+            state.words[idx] = action.payload;
+        });
     }
 });
 
@@ -145,6 +176,7 @@ export const {
     clearHelperText,
     clearWordsNotInDict,
     clearWordsInDict,
+    clearSelectedEditWord,
 } = wordSlice.actions;
 
 export {
@@ -156,6 +188,8 @@ export {
     deleteWord,
     fetchTranslation,
     removeWordFromDictionary,
+    fetchWordDetails,
+    editWord,
 };
 
 export default wordSlice.reducer;
