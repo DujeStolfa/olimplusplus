@@ -7,6 +7,7 @@ import Word from "../../types/models/Word";
 import CRUD_ACTION from "../../types/enums/CrudAction";
 import AddWordsToDictionaryInput from "../../types/inputs/dictionary/AddWordsToDictInput";
 import FetchTranslationInput from "../../types/inputs/word/FetchTranslationInput";
+import RemoveWordFromDictInput from "../../types/inputs/dictionary/RemoveWordFromDictInput";
 
 interface WordsState {
     words: Word[];
@@ -78,6 +79,14 @@ const addWordsToDictionary = createAsyncThunk(
     }
 );
 
+const removeWordFromDictionary = createAsyncThunk(
+    'words/removeWordFromDictionaryStatus',
+    async (input: RemoveWordFromDictInput) => {
+        const response = await dictionaryService.removeWordFromDictionary(input);
+        return input.wordid;
+    }
+)
+
 const fetchTranslation = createAsyncThunk(
     'words/fetchTranslationStatus',
     async ({ croatianname, destIsocode }: FetchTranslationInput) => {
@@ -124,6 +133,10 @@ const wordSlice = createSlice({
         builder.addCase(fetchTranslation.fulfilled, (state, action: PayloadAction<string>) => {
             state.createWordHelperText = action.payload;
         });
+
+        builder.addCase(removeWordFromDictionary.fulfilled, (state, action: PayloadAction<number>) => {
+            remove(state.wordsInDictionary, el => el.wordid === action.payload);
+        });
     }
 });
 
@@ -141,6 +154,7 @@ export {
     addWordsToDictionary,
     deleteWord,
     fetchTranslation,
+    removeWordFromDictionary,
 };
 
 export default wordSlice.reducer;

@@ -5,6 +5,7 @@ import GetStudentDictionariesInput from "../../../types/inputs/dictionary/GetStu
 import CreateDictionaryInput from "../../../types/inputs/dictionary/CreateDictionaryInput";
 import RenameDictionaryInput from "../../../types/inputs/dictionary/RenameDictionaryInput";
 import AddWordsToDictionaryInput from "../../../types/inputs/dictionary/AddWordsToDictInput";
+import RemoveWordFromDictInput from "../../../types/inputs/dictionary/RemoveWordFromDictInput";
 
 const { dictionaries } = endpoints;
 
@@ -15,4 +16,5 @@ export default {
   create: ({ dictionaryname, languageid }: CreateDictionaryInput) => axios.post(`${dictionaries.base}/${languageid}`, { dictionaryname: dictionaryname }),
   rename: ({ dictionaryname, dictionaryid }: RenameDictionaryInput) => axios.put(`${dictionaries.base}/${dictionaryid}`, { dictionaryname: dictionaryname }),
   addWordsToDictionary: (input: AddWordsToDictionaryInput) => axios.post(`${dictionaries.base}/add-words`, input),
+  removeWordFromDictionary: ({ dictionaryid, wordid }: RemoveWordFromDictInput) => axios.delete(`${dictionaries.base}/${dictionaryid}/${wordid}`),
 }

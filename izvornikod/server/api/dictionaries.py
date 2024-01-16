@@ -127,6 +127,21 @@ def add_words_to_dictionary():
     return words_schema.dump(words), 200
 
 
+@api.route("dictionaries/<int:dictionaryid>/<int:wordid>", methods=["DELETE"])
+@login_required
+def remove_word_from_dictionary(dictionaryid, wordid):
+    word_dict = db.session.execute(
+        db.select(WordDictionary)
+        .where(WordDictionary.wordid == wordid)
+        .where(WordDictionary.dictionaryid == dictionaryid)
+    ).scalar()
+
+    db.session.delete(word_dict)
+    db.session.commit()
+
+    return "", 204
+
+
 @api.route("dictionaries/<int:languageid>/student/<int:studentid>")
 @login_required
 def get_student_dictionaries(languageid, studentid):
