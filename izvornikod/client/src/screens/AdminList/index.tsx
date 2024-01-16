@@ -15,6 +15,8 @@ import {
   Container,
   Stack,
   IconButton,
+  TableFooter,
+  TablePagination,
 } from "@mui/material";
 import { fetchAdmins, deleteAdmin } from "../../redux/slices/adminSlice";
 import { TableHeading, TableWrapper } from "../../components/common/styled";
@@ -42,6 +44,10 @@ const AdminList = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [selectedAdmin, setSelectedAdmin] = useState<User | undefined>(undefined);
 
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - admins.length) : 0;
+
   useEffect(() => {
     if (selectedAdmin !== undefined) {
       setOpenDialog(true);
@@ -55,6 +61,20 @@ const AdminList = () => {
     }
     setOpenDialog(false);
   }
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   function handleEdit(admin: User) {
     setState({
@@ -105,7 +125,9 @@ const AdminList = () => {
       </Stack>
       <TableWrapper>
         <TableContainer>
+
           <Table aria-label="simple table">
+
             <TableHead>
               <TableRow>
                 <TableCell>Ime</TableCell>
@@ -122,11 +144,14 @@ const AdminList = () => {
                 </TableCell>
               </TableRow>
             </TableHead>
+
             <TableBody>
-              {admins.map((row: User) => (
+              {(rowsPerPage > 0
+                ? admins.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                : admins
+              ).map((row: User) => (
                 <TableRow
                   key={row.userid}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
                     {row.firstname}
@@ -161,10 +186,32 @@ const AdminList = () => {
                   </TableCell>
                 </TableRow>
               ))}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 67 * emptyRows }}>
+                  <TableCell colSpan={5} />
+                </TableRow>
+              )}
             </TableBody>
+
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                  colSpan={5}
+                  count={admins.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </TableRow>
+            </TableFooter>
+
           </Table>
+
         </TableContainer>
       </TableWrapper>
+
       <Drawer
         anchor={"bottom"}
         open={state.isDrawerVisible}
@@ -184,6 +231,7 @@ const AdminList = () => {
           />
         )}
       </Drawer>
+
       <ApproveDialog
         open={openDialog}
         title={`Izbrisati administratora ${selectedAdmin?.firstname} ${selectedAdmin?.lastname}?`}

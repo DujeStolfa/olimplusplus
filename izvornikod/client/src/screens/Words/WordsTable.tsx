@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Table, TableBody, TableCell, TableFooter, TableHead, TablePagination, TableRow } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux/store";
+import { deleteWord } from "../../redux/slices/wordsSlice";
+import ApproveDialog from "../../components/common/AprooveDialog";
 import WordsTableRow from "./WordsTableRow";
 import Word from "../../types/models/Word";
-import ApproveDialog from "../../components/common/AprooveDialog";
-import { deleteWord } from "../../redux/slices/wordsSlice";
 
 const WordsTable = () => {
   const dispatch = useAppDispatch();
@@ -13,6 +13,10 @@ const WordsTable = () => {
 
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
   const [selectedWord, setSelectedWord] = useState<Word | undefined>(undefined);
+
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - words.length) : 0;
 
   useEffect(() => {
     if (selectedWord !== undefined) {
@@ -27,6 +31,20 @@ const WordsTable = () => {
     setOpenDialog(false);
   };
 
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return <Table>
     <TableHead>
       <TableRow>
@@ -37,8 +55,30 @@ const WordsTable = () => {
     </TableHead>
 
     <TableBody>
-      {words.map(el => <WordsTableRow setSelectedWord={setSelectedWord} word={el} />)}
+      {(rowsPerPage > 0
+        ? words.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        : words
+      ).map(el => <WordsTableRow setSelectedWord={setSelectedWord} word={el} />)}
+      {emptyRows > 0 && (
+        <TableRow style={{ height: 67 * emptyRows }}>
+          <TableCell colSpan={3} />
+        </TableRow>
+      )}
     </TableBody>
+
+    <TableFooter>
+      <TableRow>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+          colSpan={5}
+          count={words.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </TableRow>
+    </TableFooter>
 
     <ApproveDialog
       open={openDialog}
