@@ -150,7 +150,14 @@ const appRouter = createBrowserRouter(
               return true;
             }}
           />
-          <Route path={`${route.createWord}`} element={<CreateWord />} />
+          <Route
+            path={`${route.createWord}`}
+            element={<CreateWord />}
+            loader={() => {
+              store.dispatch(clearHelperText());
+              return true;
+            }}
+          />
         </Route>
       </Route>
       <Route element={<ProtectedRoute uloge={[ROLE.Student]} />}>

@@ -1,10 +1,10 @@
 import React from "react";
-import { Button, Container, Stack, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
+import { Container, Stack, Typography } from "@mui/material";
 import { TableHeading, TableWrapper } from "../../components/common/styled";
+import { RootState } from "../../redux/store";
 import DictionariesTable from "./DictionariesTable";
 import CreateDictionaryForm from "./CreateDictionaryForm";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 
 
 const Dictionaries = () => {
@@ -24,7 +24,7 @@ const Dictionaries = () => {
       </Stack>
 
       {
-        (dictionaries.length == 0)
+        (dictionaries.length === 0)
           ? <Typography variant="h6" color="gray"> Odabrani jezik nema dostupnih rječnika </Typography>
           : <TableWrapper>
             <DictionariesTable />

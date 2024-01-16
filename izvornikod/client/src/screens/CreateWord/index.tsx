@@ -3,13 +3,14 @@ import { Box, Button, Container, TextField, Typography, Grid, ClickAwayListener 
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { uploadBytes, ref } from "firebase/storage";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { clearHelperText, createWord, fetchTranslation } from "../../redux/slices/wordsSlice";
-import { storageRef } from "../../firebaseConfig";
-import { uploadBytes, ref } from "firebase/storage";
-import route from "../../constants/route";
-import CreateWordInput from "../../types/inputs/user/CreateWordInput";
 import { FormTitleWrapper, FormWrapper } from "../../components/common/styled";
+import { storageRef } from "../../firebaseConfig";
+import CreateWordInput from "../../types/inputs/word/CreateWordInput";
+import route from "../../constants/route";
+import Phrase from "../../types/models/Phrase";
 
 
 const CreateWord = () => {
@@ -28,6 +29,8 @@ const CreateWord = () => {
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [foreignname, setForeignname] = useState<string>("");
   const [croatianname, setCroatianname] = useState<string>("");
+  const [activeAudio, setActiveAudio] = useState<HTMLMediaElement | undefined>(undefined);
+  const [audioIsPlaying, setAudioIsPlaying] = useState<boolean>(false);
 
   // TODO: dodat progress na foreignname input
 
@@ -40,7 +43,7 @@ const CreateWord = () => {
       "phrases"
     ) as HTMLInputElement;
     const phrase = phrasesTextField.value;
-    setPhrases((prevPhrases) => [...prevPhrases, phrase]);
+    setPhrases((prevPhrases) => [phrase, ...prevPhrases]);
     phrasesTextField.value = "";
   };
 
@@ -59,8 +62,19 @@ const CreateWord = () => {
 
   const handlePlayAudio = () => {
     if (audioFile) {
-      const audio = new Audio(URL.createObjectURL(audioFile));
-      audio.play();
+      if (activeAudio === undefined) {
+        const audio = new Audio(URL.createObjectURL(audioFile));
+        audio.play();
+        setActiveAudio(audio);
+        setAudioIsPlaying(true);
+      }
+      else if (audioIsPlaying) {
+        activeAudio.pause();
+        setAudioIsPlaying(false);
+      } else {
+        activeAudio.play();
+        setAudioIsPlaying(true);
+      }
     }
   };
 
@@ -75,15 +89,20 @@ const CreateWord = () => {
 
   const onSubmit = (data: CreateWordInput) => {
     if (selectedLanguage !== undefined) {
+      const currTimestamp = Date.now();
+
       dispatch(createWord({
-        ...data,
+        audiopath: `${currTimestamp}_${data.audiopath}`,
+        phrases: phrases.map(el => {
+          return { phrase: el } as Phrase;
+        }),
         croatianname: croatianname,
         foreignname: foreignname,
         languageid: selectedLanguage.languageid
       }));
 
       if (audioFile) {
-        const audioRef = ref(storageRef, audioFileName);
+        const audioRef = ref(storageRef, `${currTimestamp}_${audioFileName}`);
         uploadBytes(audioRef, audioFile);
       }
 
@@ -105,7 +124,11 @@ const CreateWord = () => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <ClickAwayListener
-                onClickAway={handleTranslate}
+                onClickAway={() => {
+                  if (createWordHelperText.length === 0) {
+                    handleTranslate();
+                  }
+                }}
               >
                 <TextField
                   {...register("croatianname")}
@@ -165,7 +188,7 @@ const CreateWord = () => {
                       id={`phrase${index}`}
                     />
                   </Grid>
-                  <Grid item>
+                  <Grid item key={`${index}-button`}>
                     <Button
                       variant="contained"
                       onClick={() => handleDelete(index)}
@@ -203,8 +226,12 @@ const CreateWord = () => {
                   </Button>
                 </Grid>
                 <Grid item>
-                  <Button variant="contained" onClick={handlePlayAudio}>
-                    play
+                  <Button
+                    variant="contained"
+                    onClick={handlePlayAudio}
+                    disabled={audioFileName.length === 0}
+                  >
+                    {(audioIsPlaying) ? "pause" : "play"}
                   </Button>
                 </Grid>
               </Grid>

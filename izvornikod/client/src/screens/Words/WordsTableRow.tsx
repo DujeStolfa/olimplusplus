@@ -30,16 +30,6 @@ const WordsTableRow = ({ setSelectedWord, word }: Props) => {
         <IconButton
           size="small"
           onClick={(event) => {
-            navigate(`/${route.createWord}`);
-            console.log(`Rename ${word.wordid}`);
-            event.stopPropagation();
-          }}
-        >
-          <EditIcon />
-        </IconButton>
-        <IconButton
-          size="small"
-          onClick={(event) => {
             console.log(`Delete ${word.wordid}`);
             setSelectedWord(word);
             event.stopPropagation();

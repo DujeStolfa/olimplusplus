@@ -7,7 +7,7 @@ from flask_login import current_user, login_required
 from googletrans import Translator
 
 from db import db, word_schema, words_schema
-from db.models import Word, User, Bowl, WordDictionary, WordState
+from db.models import Word, User, Bowl, WordDictionary, WordState, Phrase
 from . import api
 
 translator = Translator()
@@ -51,6 +51,15 @@ def create_word(languageid):
 
     db.session.bulk_save_objects(word_states)
     db.session.commit()
+
+    if "phrases" in word_data:
+        if len(word_data["phraes"]) > 0:
+            phrases = [
+                Phrase(curr_phrase["phrase"], new_word.wordid)
+                for curr_phrase in word_data["phrases"]
+            ]
+            db.session.bulk_save_objects(phrases)
+            db.session.commit()
 
     return word_schema.dump(new_word)
 
