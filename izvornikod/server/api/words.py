@@ -295,6 +295,7 @@ def delete_word(wordid):
 
 
 @api.route("words/getTranslation/<word>/<dest_isocode>")
+@login_required
 def get_translation(word, dest_isocode):
     try:
         translation = translator.translate(word, src="hr", dest=dest_isocode)
@@ -305,6 +306,7 @@ def get_translation(word, dest_isocode):
 
 
 @api.route("words/check-audio/<int:wordid>/<audiourl>")
+@login_required
 def check_audio(wordid, audiourl):
     if len(audiourl) == 0:
         return abort(400)
