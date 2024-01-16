@@ -107,6 +107,11 @@ const CreateWord = () => {
       if (audioFile) {
         const audioRef = ref(storageRef, `${currTimestamp}_${audioFileName}`);
         uploadBytes(audioRef, audioFile);
+
+        if (activeAudio !== undefined && audioIsPlaying) {
+          activeAudio.pause();
+          setAudioIsPlaying(false);
+        }
       }
 
       navigate(`/${route.words}`);
@@ -236,6 +241,7 @@ const CreateWord = () => {
                     upload
                     <input
                       type="file"
+                      accept="audio/*"
                       hidden
                       required
                       onChange={handleFileChange}
@@ -256,7 +262,15 @@ const CreateWord = () => {
             <Grid item xs={12}>
               <Grid container spacing={2} justifyContent="space-around">
                 <Grid item xs={6}>
-                  <Button variant="outlined" fullWidth onClick={() => navigate(`/${route.words}`)}>
+                  <Button variant="outlined" fullWidth onClick={() => {
+                    navigate(`/${route.words}`);
+
+                    if (audioFile && activeAudio !== undefined && audioIsPlaying) {
+                      activeAudio.pause();
+                      setAudioIsPlaying(false);
+                    }
+
+                  }}>
                     odustani
                   </Button>
                 </Grid>
