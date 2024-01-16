@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { uploadBytes, ref } from "firebase/storage";
 import { RootState, useAppDispatch } from "../../redux/store";
-import { clearHelperText, createWord, fetchTranslation } from "../../redux/slices/wordsSlice";
+import { clearHelperText, clearSelectedEditWord, createWord, editWord, fetchTranslation } from "../../redux/slices/wordsSlice";
 import { FormTitleWrapper, FormWrapper } from "../../components/common/styled";
 import { storageRef } from "../../firebaseConfig";
 import CreateWordInput from "../../types/inputs/word/CreateWordInput";
@@ -13,11 +13,11 @@ import route from "../../constants/route";
 import Phrase from "../../types/models/Phrase";
 
 
-const CreateWord = () => {
+const EditWord = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { selectedLanguage } = useSelector((state: RootState) => state.languages);
-  const { createWordHelperText } = useSelector((state: RootState) => state.words);
+  const { createWordHelperText, selectedEditWord } = useSelector((state: RootState) => state.words);
   const { register, handleSubmit, setValue } = useForm<CreateWordInput>({
     defaultValues: {
       audiopath: "audio",
@@ -35,8 +35,22 @@ const CreateWord = () => {
   // TODO: dodat progress na foreignname input
 
   useEffect(() => {
-    setForeignname(createWordHelperText);
-  }, [createWordHelperText]);
+    if (selectedEditWord !== undefined) {
+      if (selectedEditWord.phrases !== undefined) {
+        setPhrases(selectedEditWord.phrases.map(el => el.phrase));
+      }
+
+      setAudioFileName(selectedEditWord.audiopath.split("_")[1]);
+      setForeignname(selectedEditWord.foreignname);
+      setCroatianname(selectedEditWord.croatianname);
+    }
+  }, [selectedEditWord]);
+
+
+
+  // useEffect(() => {
+  //   setForeignname(createWordHelperText);
+  // }, [createWordHelperText]);
 
   const handleCreate = () => {
     const phrasesTextField = document.getElementById(
@@ -90,17 +104,17 @@ const CreateWord = () => {
   };
 
   const onSubmit = (data: CreateWordInput) => {
-    if (selectedLanguage !== undefined) {
+    if (selectedLanguage !== undefined && selectedEditWord !== undefined) {
       const currTimestamp = Date.now();
 
-      dispatch(createWord({
-        audiopath: `${currTimestamp}_${data.audiopath}`,
+      dispatch(editWord({
+        wordid: selectedEditWord.wordid,
+        audiopath: (audioFile) ? `${currTimestamp}_${data.audiopath}` : selectedEditWord?.audiopath,
         phrases: phrases.map(el => {
           return { phrase: el } as Phrase;
         }),
         croatianname: croatianname,
         foreignname: foreignname,
-        languageid: selectedLanguage.languageid
       }));
 
       if (audioFile) {
@@ -119,7 +133,7 @@ const CreateWord = () => {
       <FormWrapper>
         <FormTitleWrapper>
           <Typography component="h1" variant="h5">
-            Dodaj riječ
+            Uredi riječ
           </Typography>
         </FormTitleWrapper>
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>
@@ -202,7 +216,7 @@ const CreateWord = () => {
               </Grid>
             ))}
 
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <Grid container spacing={1} alignItems="center">
                 <Grid item xs>
                   <TextField
@@ -227,17 +241,8 @@ const CreateWord = () => {
                     />
                   </Button>
                 </Grid>
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    onClick={handlePlayAudio}
-                    disabled={audioFileName.length === 0}
-                  >
-                    {(audioIsPlaying) ? "pause" : "play"}
-                  </Button>
-                </Grid>
               </Grid>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12}>
               <Grid container spacing={2} justifyContent="space-around">
                 <Grid item xs={6}>
@@ -264,4 +269,4 @@ const CreateWord = () => {
   );
 };
 
-export default CreateWord;
+export default EditWord;

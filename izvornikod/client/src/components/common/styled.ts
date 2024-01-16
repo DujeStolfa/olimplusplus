@@ -24,6 +24,7 @@ export const ActionsWrapper = styled(Stack)`
 
 export const TableWrapper = styled(Paper)`
     width: 100%;
+    margin-bottom: 2em;
 `;
 
 export const TableHeading = styled(Typography)`

@@ -1,19 +1,30 @@
 import axios from "axios";
 
 import { endpoints } from "../endpoints";
-import CreateWordInput from "../../../types/inputs/user/CreateWordInput";
+import CreateWordInput from "../../../types/inputs/word/CreateWordInput";
 import UpdateWordStateInput from "../../../types/inputs/word/UpdateWordStateInput";
-import AddWordsToDictionaryInput from "../../../types/inputs/dictionary/AddWordsToDictInput";
 import GetAudioScoreInput from "../../../types/inputs/word/GetAudioScoreInput";
+import Word from "../../../types/models/Word";
 
 const { words } = endpoints;
-const { dictionaries } = endpoints;
 
 export default {
   getAll: (languageid: number) => axios.get(`${words.base}/${languageid}`),
   getAllNotInDictionary: (dictionaryid: number) => axios.get(`${words.base}/dict/${dictionaryid}`),
-  addWordsToDictIOnary: ({ dictionaryid, wordids }: AddWordsToDictionaryInput) => axios.post(`${dictionaries.base}/add-words`, { dictionaryid: dictionaryid, wordids: wordids }),
-  createWord: (data: CreateWordInput, languageid: number) => axios.post(`${words.base}/${languageid}`, data),
+  createWord: (data: CreateWordInput, languageid: number) => {
+    console.log(data)
+    console.log(JSON.stringify(data));
+    // return axios.post(`${words.base}/${languageid}`, data);
+    return axios.post(
+      `${words.base}/${languageid}`,
+      JSON.stringify(data),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+    return axios.get(`${words.base}/${languageid}`)
+  },
   getAvailable: (dictionaryid: number) => axios.get(`${words.base}/available/${dictionaryid}`),
   getChoices: (dictionaryid: number, wordid: number) => axios.get(`${words.base}/choice/${dictionaryid}/${wordid}`),
   updateWordState: ({ wordid, correct }: UpdateWordStateInput) => axios.put(`${words.base}/state/${wordid}`, { correct: correct }),
@@ -21,4 +32,6 @@ export default {
   translate: (croatianname: string, destIsocode: string) => axios.get(`${words.base}/getTranslation/${croatianname}/${destIsocode}`),
   delete: (wordid: number) => axios.delete(`${words.base}/${wordid}`),
   getAudioScore: ({ wordid, audiourl }: GetAudioScoreInput) => axios.get(`${words.base}/check-audio/${wordid}/${audiourl}`),
+  getWordDetails: (wordid: number) => axios.get(`${words.base}/details/${wordid}`),
+  updateWord: (word: Word) => axios.put(`${words.base}/${word.wordid}`, word),
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Container, TextField, Typography } from "@mui/material";
 
 import { useAppDispatch } from "../../../redux/store";
 import { createAdmin } from "../../../redux/slices/authSlice";
@@ -15,11 +15,17 @@ interface Props {
 const CreateAdmin: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
   const { register, handleSubmit } = useForm<CreateAdminInput>();
+  const [password, setPassword] = React.useState<string>("");
+  const [confirmPassword, setConfirmPassword] = React.useState<string>("");
+  const [submitted, setSubmitted] = React.useState<boolean>(false);
 
-  const onSubmit = async (data: CreateAdminInput) => {
-    await dispatch(createAdmin(data));
-    props.toggleDrawer();
-    props.refreshAdmins();
+  const onSubmit = (data: CreateAdminInput) => {
+    setSubmitted(true);
+    if (password === confirmPassword) {
+      dispatch(createAdmin(data));
+      props.toggleDrawer();
+      props.refreshAdmins();
+    }
   };
 
   return (
@@ -32,6 +38,13 @@ const CreateAdmin: React.FC<Props> = (props) => {
             </Typography>
           </FormTitleWrapper>
           <Box component="form" width="100%" onSubmit={handleSubmit(onSubmit)}>
+            {
+              (password !== confirmPassword && submitted) ?
+                <Box marginBottom="20px">
+                  <Alert severity="error">Lozinke se razlikuju!</Alert>
+                </Box>
+                : null
+            }
             <Box marginBottom="20px">
               <TextField
                 {...register("firstname")}
@@ -70,6 +83,10 @@ const CreateAdmin: React.FC<Props> = (props) => {
                 name="password"
                 type="password"
                 id="password"
+                value={password}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setPassword(event.target.value);
+                }}
                 required
                 fullWidth
               />
@@ -77,10 +94,14 @@ const CreateAdmin: React.FC<Props> = (props) => {
             <Box marginBottom="20px">
               <TextField
                 {...register("confirmPassword")}
-                label="Inicijalna lozinka"
+                label="Ponovi inicijalnu lozinku"
                 name="confirmPassword"
                 type="password"
                 id="confirmPassword"
+                value={confirmPassword}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setConfirmPassword(event.target.value);
+                }}
                 required
                 fullWidth
               />

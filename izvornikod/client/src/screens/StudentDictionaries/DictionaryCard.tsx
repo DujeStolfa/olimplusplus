@@ -33,6 +33,22 @@ const DictionaryCard = ({ dictionary }: Props) => {
     )
   }
 
+  if (dictionary.unfinishedwordcount === 0) {
+    return (
+      <DictionaryCardWrapper>
+        <Grid container>
+          <Grid item xs={10}>
+            <Typography variant="h5">{dictionary.dictionaryname}</Typography>
+            <Typography variant="subtitle1">Sve riječi u rječniku su naučene</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Chip variant="outlined" color="success" size="small" label={`${100 - Math.round(100 * dictionary.unfinishedwordcount / dictionary.totalwordcount)}%`} />
+          </Grid>
+        </Grid>
+      </DictionaryCardWrapper>
+    )
+  }
+
   return (
     <DictionaryCardWrapper
       sx={{

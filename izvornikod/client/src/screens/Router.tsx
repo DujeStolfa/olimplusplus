@@ -36,6 +36,9 @@ import {
 } from "../redux/slices/dictionariesSlice";
 import {
   clearHelperText,
+  clearSelectedEditWord,
+  clearWordsInDict,
+  fetchWordDetails,
   fetchWords,
   fetchWordsInDictionary,
   fetchWordsNotInDictionary,
@@ -53,6 +56,7 @@ import {
   fetchLanguages,
 } from "../redux/slices/languageSlice";
 import { fetchAdmins } from "../redux/slices/adminSlice";
+import EditWord from "./EditWord";
 
 const appRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -66,18 +70,23 @@ const appRouter = createBrowserRouter(
             loader={() => {
               store.dispatch(fetchLanguages());
               store.dispatch(clearDictionary());
+              store.dispatch(clearWordsInDict());
               return true;
             }}
           />
-          <Route path={`${route.editPassword}`} element={<EditPassword />} />
           <Route
             path={`${route.editDictionary}/:dictionaryid`}
             element={<EditDictionary />}
             loader={({ params }) => {
               if (params.dictionaryid !== undefined) {
-                store.dispatch(
-                  fetchWordsInDictionary(parseInt(params.dictionaryid))
-                );
+                store.dispatch(clearSelectedEditWord());
+                const { words } = store.getState();
+
+                if (words.wordsInDictionary.length === 0) {
+                  store.dispatch(
+                    fetchWordsInDictionary(parseInt(params.dictionaryid))
+                  );
+                }
 
                 return true;
               }
@@ -89,6 +98,7 @@ const appRouter = createBrowserRouter(
             element={<Dictionaries />}
             loader={() => {
               store.dispatch(clearDictionary());
+              store.dispatch(clearWordsInDict());
               const { languages } = store.getState();
 
               if (languages.selectedLanguage === undefined) {
@@ -106,13 +116,18 @@ const appRouter = createBrowserRouter(
             element={<Words />}
             loader={() => {
               store.dispatch(clearHelperText());
-              const { languages } = store.getState();
+              store.dispatch(clearWordsInDict());
+              const { languages, words } = store.getState();
 
               if (languages.selectedLanguage === undefined) {
                 return false;
               }
 
-              store.dispatch(fetchWords(languages.selectedLanguage.languageid));
+              if (words.selectedEditWord === undefined) {
+                store.dispatch(fetchWords(languages.selectedLanguage.languageid));
+              } else {
+                store.dispatch(clearSelectedEditWord());
+              }
               return true;
             }}
           />
@@ -142,7 +157,27 @@ const appRouter = createBrowserRouter(
               return true;
             }}
           />
-          <Route path={`${route.createWord}`} element={<CreateWord />} />
+          <Route
+            path={`${route.createWord}`}
+            element={<CreateWord />}
+            loader={() => {
+              store.dispatch(clearHelperText());
+              return true;
+            }}
+          />
+          <Route
+            path={`${route.editWord}/:wordid`}
+            element={<EditWord />}
+            loader={({ params }) => {
+              if (params.wordid !== undefined) {
+                store.dispatch(fetchWordDetails(parseInt(params.wordid)));
+                store.dispatch(clearHelperText());
+                return true;
+              }
+
+              return false;
+            }}
+          />
         </Route>
       </Route>
       <Route element={<ProtectedRoute uloge={[ROLE.Student]} />}>
@@ -158,6 +193,8 @@ const appRouter = createBrowserRouter(
               return true;
             }}
           />
+
+          <Route path={`${route.editPassword}`} element={<EditPassword />} />
 
           <Route
             path={`${route.selectDictionary}`}

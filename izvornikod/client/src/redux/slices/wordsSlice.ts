@@ -1,23 +1,24 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { findIndex, remove } from "lodash";
-import CreateWordInput from "../../types/inputs/user/CreateWordInput";
-import GetWordTranslationInput from "../../types/inputs/word/GetWordTranslationInput";
+import CreateWordInput from "../../types/inputs/word/CreateWordInput";
 import wordService from "../../services/api/routes/words";
+import dictionaryService from "../../services/api/routes/dictionaries";
 import Word from "../../types/models/Word";
-import { words } from "lodash";
 import CRUD_ACTION from "../../types/enums/CrudAction";
 import AddWordsToDictionaryInput from "../../types/inputs/dictionary/AddWordsToDictInput";
 import FetchTranslationInput from "../../types/inputs/word/FetchTranslationInput";
+import RemoveWordFromDictInput from "../../types/inputs/dictionary/RemoveWordFromDictInput";
 
 interface WordsState {
     words: Word[];
-    wordsNotInDictionary: Word[];   // za dodavanje rijeci u rjecnik prvo treba uzeti sve rijeci koje nisu u rjecniku
-    wordsToBeAdded: Word[];         // odabrane rijeci idu u ovaj array
-    dictionaryWords: Word[]; //Moguci problem down the line oko tipa, ako bude problema, tu pogledati
+    wordsNotInDictionary: Word[];
+    wordsToBeAdded: Word[];
+    dictionaryWords: Word[];
     wordsInDictionary: Word[];
     createFormState: CRUD_ACTION;
     selectedWord: Word | undefined;
     createWordHelperText: string;
+    selectedEditWord: Word | undefined;
 }
 
 const initialState: WordsState = {
@@ -29,6 +30,7 @@ const initialState: WordsState = {
     createFormState: CRUD_ACTION.READ,
     selectedWord: undefined,
     createWordHelperText: "",
+    selectedEditWord: undefined,
 }
 
 const fetchWords = createAsyncThunk(
@@ -66,16 +68,25 @@ const fetchWordsNotInDictionary = createAsyncThunk(
 const createWord = createAsyncThunk(
     'words/createWordStatus',
     async (data: CreateWordInput) => {
+        console.log(data)
         const response = await wordService.createWord(data, data.languageid);
         return response.data;
     }
 );
 
 const addWordsToDictionary = createAsyncThunk(
-    'words/addToDictionaryStatus',
+    'words/addWordsToDictionaryStatus',
     async (dictInput: AddWordsToDictionaryInput) => {
-        const response = await wordService.addWordsToDictIOnary(dictInput);
+        const response = await dictionaryService.addWordsToDictionary(dictInput);
         return response.data;
+    }
+);
+
+const removeWordFromDictionary = createAsyncThunk(
+    'words/removeWordFromDictionaryStatus',
+    async (input: RemoveWordFromDictInput) => {
+        const response = await dictionaryService.removeWordFromDictionary(input);
+        return input.wordid;
     }
 );
 
@@ -87,6 +98,23 @@ const fetchTranslation = createAsyncThunk(
     }
 );
 
+const fetchWordDetails = createAsyncThunk(
+    'words/fetchWordDetailsStatus',
+    async (wordid: number) => {
+        const response = await wordService.getWordDetails(wordid);
+        return response.data;
+    }
+);
+
+const editWord = createAsyncThunk(
+    'words/editWordStatus',
+    async (input: Word) => {
+        const response = await wordService.updateWord(input);
+        return response.data;
+    }
+);
+
+
 const wordSlice = createSlice({
     name: "words",
     initialState,
@@ -94,31 +122,33 @@ const wordSlice = createSlice({
         clearHelperText: (state) => {
             state.createWordHelperText = "";
         },
+        clearWordsNotInDict: (state) => {
+            state.wordsNotInDictionary = [];
+        },
+        clearWordsInDict: (state) => {
+            state.wordsInDictionary = [];
+        },
+        clearSelectedEditWord: (state) => {
+            state.selectedEditWord = undefined;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(fetchWords.fulfilled, (state, action: PayloadAction<Word[]>) => {
             state.words = action.payload;
         });
+
         builder.addCase(fetchWordsNotInDictionary.fulfilled, (state, action: PayloadAction<Word[]>) => {
             state.wordsNotInDictionary = action.payload;
         });
+
         builder.addCase(fetchWordsInDictionary.fulfilled, (state, action: PayloadAction<Word[]>) => {
             state.wordsInDictionary = action.payload;
         });
-        builder.addCase(addWordsToDictionary.fulfilled, (state, action: PayloadAction<AddWordsToDictionaryInput>) => {
-            let selectedIds: number[] = action.payload.wordids;
-            // for (var i = 0; i < state.words.length; i++) {
-            //   if (selectedIds.includes(state.words[i].wordid)) {
-            //     state.wordsInDictionary.push(state.words[i]);
-            //   }
-            // }
 
-            console.log(selectedIds);
-            // triba na backendu vidit sta se desava
-
-            let filtered = state.words.filter(el => selectedIds.includes(el.wordid));
-            state.wordsInDictionary.push(...filtered);
+        builder.addCase(addWordsToDictionary.fulfilled, (state, action: PayloadAction<Word[]>) => {
+            state.wordsInDictionary.push(...action.payload);
         });
+
         builder.addCase(deleteWord.fulfilled, (state, action: PayloadAction<number>) => {
             remove(state.words, el => el.wordid === action.payload);
         });
@@ -126,11 +156,27 @@ const wordSlice = createSlice({
         builder.addCase(fetchTranslation.fulfilled, (state, action: PayloadAction<string>) => {
             state.createWordHelperText = action.payload;
         });
+
+        builder.addCase(removeWordFromDictionary.fulfilled, (state, action: PayloadAction<number>) => {
+            remove(state.wordsInDictionary, el => el.wordid === action.payload);
+        });
+
+        builder.addCase(fetchWordDetails.fulfilled, (state, action: PayloadAction<Word>) => {
+            state.selectedEditWord = action.payload;
+        });
+
+        builder.addCase(editWord.fulfilled, (state, action: PayloadAction<Word>) => {
+            let idx = findIndex(state.words, el => el.wordid === action.payload.wordid);
+            state.words[idx] = action.payload;
+        });
     }
 });
 
 export const {
     clearHelperText,
+    clearWordsNotInDict,
+    clearWordsInDict,
+    clearSelectedEditWord,
 } = wordSlice.actions;
 
 export {
@@ -141,7 +187,10 @@ export {
     addWordsToDictionary,
     deleteWord,
     fetchTranslation,
-}
+    removeWordFromDictionary,
+    fetchWordDetails,
+    editWord,
+};
 
 export default wordSlice.reducer;
 

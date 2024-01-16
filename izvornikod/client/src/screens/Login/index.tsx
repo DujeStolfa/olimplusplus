@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { redirect, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { Box, Button, Container, TextField, Typography, Alert } from "@mui/material";
@@ -16,7 +16,6 @@ import { ScreenWrapper } from "../../components/common/styled";
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
   const { user, authenticated } = useSelector((state: RootState) => state.auth)
   const { register, handleSubmit } = useForm<LoginInput>();
 
@@ -26,17 +25,13 @@ const Login = () => {
 
   useEffect(() => {
     if (user !== undefined) {
-      if (location.state) {
-        navigate(`${location.state.from.pathname}`);
-      } else {
-        if (user.role === ROLE.Admin) {
-          navigate(`/${route.words}`);
-        } else if (user.role === ROLE.Student) {
-          navigate(`/${route.selectDictionary}`);
-        }
+      if (user.role === ROLE.Admin) {
+        navigate(`/${route.selectLanguage}/admin`);
+      } else if (user.role === ROLE.Student) {
+        navigate(`/${route.selectLanguage}/student`);
       }
     }
-  }, [user, location]);
+  }, [user]);
 
   return (
     <ScreenWrapper>

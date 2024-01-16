@@ -97,6 +97,9 @@ const authSlice = createSlice({
       state.user = action.payload;
       state.authenticated = true;
     });
+    builder.addCase(editPassword.fulfilled, (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
+    });
   }
 });
 

@@ -1,13 +1,14 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { IconButton, TableCell, TableRow } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Word from "../../types/models/Word";
 
 interface Props {
     word: Word;
+    setSelectedWord: Dispatch<SetStateAction<Word | undefined>>;
 }
 
-const EditDictionaryTableRow = ({ word }: Props) => {
+const EditDictionaryTableRow = ({ word, setSelectedWord }: Props) => {
     return (
         <TableRow>
             <TableCell>{word.croatianname}</TableCell>
@@ -16,7 +17,7 @@ const EditDictionaryTableRow = ({ word }: Props) => {
                 <IconButton
                     size="small"
                     onClick={(event) => {
-                        console.log(`Delete ${word.wordid}`);
+                        setSelectedWord(word);
                         event.stopPropagation();
                     }}
                 >

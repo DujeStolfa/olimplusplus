@@ -10,3 +10,4 @@ python-dotenv
 googletrans==4.0.0rc1
 pytest
 selenium
+sib_api_v3_sdk

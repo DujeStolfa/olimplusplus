@@ -3,7 +3,13 @@ from flask import abort, request
 from flask_login import login_required
 from sqlalchemy import distinct, func
 
-from db import db, dictionary_schema, dictionaries_schema, dictionary_word_states_schema
+from db import (
+    db,
+    dictionary_schema,
+    dictionaries_schema,
+    dictionary_word_states_schema,
+    words_schema,
+)
 from db.models import Dictionary, Language, WordDictionary, Word, WordState
 from . import api
 
@@ -104,10 +110,33 @@ def add_words_to_dictionary():
     dictionary_id = word_dict_data["dictionaryid"]
     word_ids = word_dict_data["wordids"]
 
-    for word_id in word_ids:
-        word_dict = WordDictionary(word_id, dictionary_id)
-        db.session.add(word_dict)
+    added_words = [WordDictionary(wordid, dictionary_id) for wordid in word_ids]
+    db.session.bulk_save_objects(added_words)
+    db.session.commit()
 
+    words = db.session.execute(
+        db.select(
+            Word.wordid,
+            Word.audiopath,
+            Word.croatianname,
+            Word.foreignname,
+            Word.languageid,
+        ).where(Word.wordid.in_(word_ids))
+    ).all()
+
+    return words_schema.dump(words), 200
+
+
+@api.route("dictionaries/<int:dictionaryid>/<int:wordid>", methods=["DELETE"])
+@login_required
+def remove_word_from_dictionary(dictionaryid, wordid):
+    word_dict = db.session.execute(
+        db.select(WordDictionary)
+        .where(WordDictionary.wordid == wordid)
+        .where(WordDictionary.dictionaryid == dictionaryid)
+    ).scalar()
+
+    db.session.delete(word_dict)
     db.session.commit()
 
     return "", 204

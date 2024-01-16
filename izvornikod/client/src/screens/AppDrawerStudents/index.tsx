@@ -7,6 +7,7 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import StyleIcon from '@mui/icons-material/Style';
 import LanguageIcon from '@mui/icons-material/Language';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
+import PasswordIcon from '@mui/icons-material/Password';
 
 import { AppContent, UserBox } from "./index.styled";
 import { RootState, useAppDispatch } from "../../redux/store";
@@ -47,7 +48,15 @@ const AppDrawerStudents = () => {
   };
 
   const handleConfirmDelete = () => {
-
+    if (user?.userid !== undefined) {
+      dispatch(deleteCurrentUser(user?.userid));
+      dispatch(clearSelectedLanguage());
+      dispatch(clearSelectedDictionary());
+      dispatch(clearSession());
+      dispatch(attemptLogout());
+    }
+    handleClose();
+    setOpenDialog(true);
   };
 
   const AccountMenu = () => {
@@ -95,15 +104,21 @@ const AppDrawerStudents = () => {
             </MenuItem>
             <MenuItem
               onClick={() => {
-                if (user?.userid !== undefined) {
-                  dispatch(deleteCurrentUser(user?.userid));
-                  dispatch(clearSelectedLanguage());
-                  dispatch(clearSelectedDictionary());
-                  dispatch(clearSession());
-                  dispatch(attemptLogout());
-                }
+                navigate(`/${route.editPassword}`)
                 handleClose();
+              }}
+            >
+              <ListItemIcon>
+                <PasswordIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText
+                primary="Promijeni lozinku"
+              />
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
                 setOpenDialog(true);
+                handleClose();
               }}
             >
               <ListItemIcon>
@@ -164,9 +179,13 @@ const AppDrawerStudents = () => {
       </Box >
       <AppContent>
         {
-          (selectedLanguage === undefined && location.pathname !== `/${route.selectLanguage}/student`)
-            ? <Error errorText="Nije odabran nijedan jezik. Molimo odaberite ga u izborniku." />
-            : <Outlet />
+          (location.pathname === `/${route.editPassword}`)
+            ? <Outlet />
+            : (user?.passwordchanged === false)
+              ? <Error errorText="Inicijalna lozinka nije promijenjena. Molimo promijenite je u izborniku da biste mogli pristupiti aplikaciji." />
+              : (selectedLanguage === undefined && location.pathname !== `/${route.selectLanguage}/student`)
+                ? <Error errorText="Nije odabran nijedan jezik. Molimo odaberite ga u izborniku." />
+                : <Outlet />
         }
       </AppContent>
       <AccountMenu />
