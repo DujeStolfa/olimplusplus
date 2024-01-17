@@ -106,9 +106,9 @@ def edit_word(wordid):
 @login_required
 def get_words(languageid):
     words = db.session.execute(
-        db.select(
-            Word.wordid, Word.croatianname, Word.foreignname, Word.audiopath
-        ).where(Word.languageid == languageid)
+        db.select(Word.wordid, Word.croatianname, Word.foreignname, Word.audiopath)
+        .where(Word.languageid == languageid)
+        .order_by(Word.croatianname)
     ).all()
 
     return words_schema.dump(words)
@@ -146,6 +146,7 @@ def get_words_in_dictionary(dictionaryid):
         db.select(Word.wordid, Word.croatianname, Word.foreignname, Word.audiopath)
         .join(WordDictionary)
         .where(WordDictionary.dictionaryid == dictionaryid)
+        .order_by(Word.croatianname)
     ).all()
 
     return words_schema.dump(words_in_dictionary)
