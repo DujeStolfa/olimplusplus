@@ -1,22 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { Box, Button, Container, TextField, Typography, Alert, Stack } from "@mui/material";
 
 import route from "../../constants/route";
-import RegisterInput from "../../types/inputs/korisnik/RegisterInput";
-import { useAppDispatch } from "../../redux/store";
-import { registerStudent } from "../../redux/slices/authSlice";
+import RegisterInput from "../../types/inputs/user/RegisterInput";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { clearRegistered, registerStudent } from "../../redux/slices/authSlice";
 import { FormTitleWrapper, FormWrapper, ScreenWrapper } from "./index.styled";
 
 const Register = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<RegisterInput>();
+  const { registered } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (registered) {
+      navigate(`/${route.login}`);
+      dispatch(clearRegistered());
+    }
+  }, [registered]);
 
   const onSubmit = (data: RegisterInput) => {
-    dispatch(registerStudent(data))
-    navigate(`/${route.login}`);
+    dispatch(registerStudent(data));
   };
 
   return (
@@ -30,28 +38,36 @@ const Register = () => {
             <Box marginBottom="20px">
               <Stack spacing={1}>
                 <Alert severity="info">
-                  <s>Privremena lozinka bit će poslana na Vašu email adresu nakon registracije.</s>
-                </Alert>
-                <Alert severity="error">
-                  Za potrebu generičkih funkcionalnosti ne šalju se mailovi s privremenom lozinkom, već su sve lozinke za nove učenike <b>progi123</b>
+                  Privremena lozinka bit će poslana na Vašu email adresu nakon registracije. Provjerite neželjenu poštu &#128512;
                 </Alert>
               </Stack>
             </Box>
+            {
+              (registered === false)
+                ? <Box marginBottom="20px">
+                  <Stack spacing={1}>
+                    <Alert severity="error">
+                      Registracija nije uspjela. Provjerite podatke i pokušajte ponovo.
+                    </Alert>
+                  </Stack>
+                </Box>
+                : null
+            }
             <Box marginBottom="20px">
               <TextField
-                {...register("ime")}
+                {...register("firstname")}
                 label="Ime"
-                name="ime"
-                id="ime"
+                name="firstname"
+                id="firstname"
                 required
                 fullWidth
               />
             </Box><Box marginBottom="20px">
               <TextField
-                {...register("prezime")}
+                {...register("lastname")}
                 label="Prezime"
-                name="prezime"
-                id="prezime"
+                name="lastname"
+                id="lastname"
                 required
                 fullWidth
               />

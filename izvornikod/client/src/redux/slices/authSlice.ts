@@ -2,24 +2,28 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import authService from "../../services/api/routes/auth";
 import usersService from "../../services/api/routes/users";
-import Korisnik from "../../types/models/Korisnik";
-import LoginInput from "../../types/inputs/korisnik/LoginInput";
-import RegisterInput from "../../types/inputs/korisnik/RegisterInput";
+import User from "../../types/models/User";
+import LoginInput from "../../types/inputs/user/LoginInput";
+import RegisterInput from "../../types/inputs/user/RegisterInput";
+import CreateAdminInput from "../../types/inputs/user/CreateAdminInput";
+import EditPasswordInput from "../../types/inputs/user/EditPasswordInput";
 
 interface AuthState {
-  korisnik: Korisnik | undefined;
+  user: User | undefined;
   authenticated: boolean | undefined;
+  registered: boolean | undefined;
 }
 
 const initialState: AuthState = {
-  korisnik: undefined,
+  user: undefined,
   authenticated: undefined,
+  registered: undefined,
 };
 
 const attemptLogin = createAsyncThunk(
   'auth/loginStatus',
-  async (korisnik: LoginInput) => {
-    const response = await authService.login(korisnik);
+  async (user: LoginInput) => {
+    const response = await authService.login(user);
     return response.data;
   }
 );
@@ -48,35 +52,62 @@ const registerStudent = createAsyncThunk(
   }
 );
 
+const editPassword = createAsyncThunk(
+  'auth/editPasswordStatus',
+  async (data: EditPasswordInput) => {
+    const response = await usersService.editPassword(data);
+    return response.data;
+  }
+);
+
+const deleteCurrentUser = createAsyncThunk(
+  'auth/deleteCurrentUSer',
+  async (userid: number) => {
+    const response = await usersService.deleteUser(userid);
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
     clearUser: (state, action: PayloadAction<number>) => {
-      state.korisnik = undefined;
+      state.user = undefined;
       state.authenticated = undefined;
+    },
+    clearRegistered: (state) => {
+      state.registered = undefined;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(attemptLogin.fulfilled, (state, action: PayloadAction<Korisnik>) => {
-      state.korisnik = action.payload;
+    builder.addCase(attemptLogin.fulfilled, (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
       state.authenticated = true;
     }).addCase(attemptLogin.rejected, (state, action) => {
       state.authenticated = false;
     });
-    builder.addCase(attemptLogout.fulfilled, (state, action: PayloadAction<Korisnik['korisnikid']>) => {
-      state.korisnik = undefined;
+    builder.addCase(attemptLogout.fulfilled, (state, action: PayloadAction<User['userid']>) => {
+      state.user = undefined;
       state.authenticated = undefined;
     });
-    builder.addCase(fetchCurrentUser.fulfilled, (state, action: PayloadAction<Korisnik>) => {
-      state.korisnik = action.payload;
+    builder.addCase(fetchCurrentUser.fulfilled, (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
       state.authenticated = true;
     });
+    builder.addCase(editPassword.fulfilled, (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
+    });
+    builder.addCase(registerStudent.fulfilled, (state, action) => {
+      state.registered = true;
+    }).addCase(registerStudent.rejected, (state, action) => {
+      state.registered = false;
+    })
   }
 });
 
 export const {
   clearUser,
+  clearRegistered,
 } = authSlice.actions;
 
 export {
@@ -84,6 +115,8 @@ export {
   attemptLogout,
   fetchCurrentUser,
   registerStudent,
+  editPassword,
+  deleteCurrentUser,
 };
 
 export default authSlice.reducer;

@@ -1,10 +1,47 @@
 from marshmallow import Schema, fields
 
 
-class KorisnikSchema(Schema):
-    korisnikid = fields.Int()
-    ime = fields.Str()
-    prezime = fields.Str()
+class UserSchema(Schema):
+    userid = fields.Int()
+    firstname = fields.Str()
+    lastname = fields.Str()
     email = fields.Str()
-    uloga = fields.Str()
-    promijeniolozinku = fields.Bool()
+    role = fields.Str()
+    passwordchanged = fields.Bool()
+    usercreatedat = fields.DateTime()
+
+
+class DictionarySchema(Schema):
+    dictionaryid = fields.Int()
+    dictionaryname = fields.Str()
+    dictionarycreatedat = fields.DateTime()
+    dictionarysize = fields.Int()
+    languageid = fields.Int(load_only=True)
+
+
+class DictionaryWordStateSchema(Schema):
+    dictionaryid = fields.Int()
+    dictionaryname = fields.Str()
+    totalwordcount = fields.Int()
+    unfinishedwordcount = fields.Int()
+    availablewordcount = fields.Int()
+
+
+class WordSchema(Schema):
+    wordid = fields.Int()
+    croatianname = fields.Str()
+    foreignname = fields.Str()
+    audiopath = fields.Str()
+    languageid = fields.Int()
+
+
+class LanguageSchema(Schema):
+    languageid = fields.Int()
+    languagename = fields.Str()
+    isocode = fields.Str()
+
+
+class PhraseSchema(Schema):
+    phraseid = fields.Int()
+    phrase = fields.Str()
+    wordid = fields.Int()

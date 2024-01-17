@@ -28,6 +28,16 @@ Za lokalno pokretanje aplikacije trebate imati instaliran:
 - PostgreSQL
 - Node.js
 
+U razvoju će vam dobro doći i:
+- Postman
+
+> **Napomena - VAŽNO**
+>
+> Prije nego što nastavite provjerite imate li pristup `pg_config` datoteci. 
+>
+> Dakle, otvorite terminal i upišite `pg_config`. Trebala bi se ispisati konfiguracija vašeg postgresa.
+> Ako izvršavanje te naredbe završi s `command not found` greškom, trebate dodati lokaciju te datoteke u PATH.
+
 ## Server
 
 Pri prvom pokretanju backenda potrebno je:
@@ -38,17 +48,18 @@ izvornikod/server> .venv\Scripts\activate
 ```
 
 2. Instalirati vanjske pakete iz `requirements.txt` datoteke
+	- Ako u ovom koraku ne budete mogli instalirati paket `psycopg2`, provjerite imate li pristup `pg_config` datoteci i dodajte je u PATH
 ```console
 (.venv) izvornikod/server> pip install -r requirements.txt
 ```
 
-3. Stvoriti bazu podataka (PgAdmina ili ručno) i nazvati ju `flipmemo`
+3. Stvoriti bazu podataka (pgAdmin ili ručno) i nazvati ju `flipmemo`
 
 4. Stvoriti `.env` datoteku u `server` direktoriju i popuniti je
 	- U ovu datoteku spremamo varijable okruženja koje su nam potrebne za pokretanje backenda
 	- Takve datoteke najčešće sadrže povjerljive informacije i ne želimo ih pushati na git
 	- `SECRET_KEY` varijablu koristi Flask za uspostavljanje i praćenje korisničkih sesija, možete je generirati pokretanjem naredbe `python -c 'import secrets; print(secrets.token_hex())'` u terminalu
-	- `SQLALCHEMY_DATABASE_URI_DEV` poveznica je na lokalno stvorenu bazu podataka. Potrebno je upisati korisničko ime i lozinku korisnika koji se spaja na bazu. Ako niste stvarali dodatne korisnike u bazi `CREATE USER` naredbom, korisničko ime će biti `postgres`, a lozinka će biti ona koju unosite u PgAdmin.
+	- `SQLALCHEMY_DATABASE_URI_DEV` poveznica je na lokalno stvorenu bazu podataka. Potrebno je upisati korisničko ime i lozinku korisnika koji se spaja na bazu. Ako niste stvarali dodatne korisnike u bazi `CREATE USER` naredbom, korisničko ime će biti `postgres`, a lozinka će biti ona koju unosite u pgAdmin.
 	- Konačna datoteka trebala bi izgledati ovako:
 ```env
 SECRET_KEY="<GENERIRANI STRING>"
@@ -75,10 +86,59 @@ Press CTRL+C to quit
  * Debugger PIN: <...>
 ```
 
-U svakom sljedećem pokretanju potrebno je samo aktivirati stvoreno virtualno okruženje pozivanjem `venv\Scripts\activate` skripte (na MacOS i Linux sustavima ta bi se skripta trebala nalaziti u `venv/bin` direktoriju).
+U svakom sljedećem pokretanju potrebno je samo aktivirati stvoreno virtualno okruženje pozivanjem `.venv\Scripts\activate` skripte (na MacOS i Linux sustavima ta bi se skripta trebala nalaziti u `.venv/bin` direktoriju).
+
+### Provjerite radi li backend kako bi trebao
+
+Stvorite novog korisnika i prijavite se kao on.
+
+Naš backend je [HTTP REST API](https://ferhr-my.sharepoint.com/:b:/g/personal/ds54097_fer_hr/EeCVCI_zbApNj5exOE34sbABHQ_XFVr5XVrPxl1Ml6nGEA?e=ZSEuMx) i pristupamo mu slanjem HTTP zahtjeva. Zasigurno već imate najdraži alat za slanje takvih zahtjeva i možete ga slobodno koristiti (ako ga nemate, preporučujem da instalirate Postman). Prefiks za sve endpointove na backendu (dok ga vrtite lokalno) bit će `http://127.0.0.1:5000/api`.
+
+1. Novog korisnika možete stvoriti slanjem zahtjeva `POST` na endpoint `/auth/users`
+	- **Važno!** U Postmanu podatke dodajete u tijelo zahtjeva u kartici `Body` u formatu `raw` i `JSON`
+	- Taj endpoint u tijelu zahtjeva očekuje sve podatke koji su mu potrebni za stvaranje korisnika (proizvoljno ih ispunite)
+```JSON
+{
+    "ime": "...", 
+    "prezime": "...",
+    "email": "...",
+    "lozinka": "...",
+    "uloga": "..."
+}
+```
+2. U pgAdminu provjerite je li korisnik uspješno dodan u bazu
+
+3. U aplikaciju se prijavljujete slanjem zahtjeva `[REDACTED]` s podacima `[REDACTED]` na endpoint `[REDACTED]` 
+	- [Virujen u te (2001.) :)](https://media.giphy.com/media/tZCkL6BsL2AAo/giphy.gif)
+
+4. Nakon uspješne prijave trebali biste u Postmanu vidjeti `session` kolačić za `localhost` domenu (gumb `Cookies` ispod `Send`)
+
+Razmislite o ovih nekoliko pitanja dok radite prethodne korake:
+- Stvaranje korisnika
+	- Zašto je taj zahtjev trebao biti POST?
+	- Kako znamo koje podatke endpoint očekuje dobiti?
+	- [Kako smo još](https://flask.palletsprojects.com/en/3.0.x/quickstart/) mogli poslati podatke tom endpointu? Koja bi tada bila metoda zahtjeva? Bi li to u ovom slučaju imalo smisla tako implementirati?
+	- Što se dogodi ako izostavimo neki od podataka? Ima li dobiveni HTTP odgovor smisla? Ako nema, možete li pronaći neki [informativniji odgovor](https://http.cat/)? Jesmo li u kodu taj slučaj eksplicitno obradili ili je on poslan automatski?
+	- Kako pristupamo tijelu zahtjeva? Što smo napravili da bismo dobili pristup tom objektu?
+	- Kojim naredbama smo stvorili i izvršili SQL `INSERT ... INTO ...` upit? Odakle nam pristup toj varijabli?
+	- U tablicu u bazi dodane su vrijednosti koje nismo naveli u tijelu zahtjeva. Gdje smo definirali koje će biti vrijednosti tih stupaca? Koji dio aplikacije je odgovoran za generiranje tih vrijednosti?
+- Prijava
+	- Što ste dobili u HTTP odgovoru nakon uspješne prijave? Zašto? Gdje je u kodu definiran format tog odgovora? Koju smo knjižnicu pritom koristili?
 
 ## Client
 
-Postavljanje frontenda svodi se na stvaranje `node_modules` foldera iz `package.json` i `package-lock.json` datoteka. Pokrenite `npm install` naredbu iz `izvornikod\client` direktorija, i pričekajte da se svi potrebni moduli instaliraju. 
+Postavljanje frontenda svodi se na stvaranje foldera `node_modules` iz datoteka `package.json` i `package-lock.json`. Pokrenite naredbu `npm install` iz direktorija `izvornikod\client` i pričekajte da se svi potrebni moduli instaliraju. 
 
-Frontend pokrećete `npm start` naredbom.
+Frontend pokrećete naredbom `npm start`. 
+
+Prijavite se u aplikaciju kao korisnik kojeg ste stvorili prilikom postavljanja backenda. Pokušajte pristupiti stranici kojoj taj korisnik ne smije pristupiti.
+
+Proučite kod za prijavu na frontendu i razmislite o sljedećim pitanjima:
+- Kako smo definirali što klik na gumb s atributom `type="submit"` radi?
+	- Što on radi?
+	- Koji smo [hook](https://react.dev/learn/state-a-components-memory#meet-your-first-hook) koristili u tijelu handlera? Iz koje smo ga knjižnice uzeli? Koju funkciju s njim pozivamo? Koji tip podatka prima funkcija koju pozivamo? Što ona radi?
+- Gdje smo definirali HTTP zahtjev (metodu, endpoint i tijelo) kojeg šaljemo na backend? Koju knjižnicu smo koristili za to?
+- U **cijeloj** aplikaciji postoje dva foldera `api`. Kako su oni povezani; jesu li slični? Zašto? Na koji od SOLID principa vas to podsjeća?
+- Što radimo s primljenim odgovorom na login zahtjev? 
+	- Koju smo knjižnicu pritom koristili?
+	- Gdje smo točno definirali kojeg je tipa taj odgovor? U kojoj smo datoteci definirali taj tip? Kojem razredu na backendu odgovara taj tip?
