@@ -1,22 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { Box, Button, Container, TextField, Typography, Alert, Stack } from "@mui/material";
 
 import route from "../../constants/route";
 import RegisterInput from "../../types/inputs/user/RegisterInput";
-import { useAppDispatch } from "../../redux/store";
-import { registerStudent } from "../../redux/slices/authSlice";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { clearRegistered, registerStudent } from "../../redux/slices/authSlice";
 import { FormTitleWrapper, FormWrapper, ScreenWrapper } from "./index.styled";
 
 const Register = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<RegisterInput>();
+  const { registered } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (registered) {
+      navigate(`/${route.login}`);
+      dispatch(clearRegistered());
+    }
+  }, [registered]);
 
   const onSubmit = (data: RegisterInput) => {
-    dispatch(registerStudent(data))
-    navigate(`/${route.login}`);
+    dispatch(registerStudent(data));
   };
 
   return (
@@ -34,6 +42,17 @@ const Register = () => {
                 </Alert>
               </Stack>
             </Box>
+            {
+              (registered === false)
+                ? <Box marginBottom="20px">
+                  <Stack spacing={1}>
+                    <Alert severity="error">
+                      Registracija nije uspjela. Provjerite podatke i pokušajte ponovo.
+                    </Alert>
+                  </Stack>
+                </Box>
+                : null
+            }
             <Box marginBottom="20px">
               <TextField
                 {...register("firstname")}

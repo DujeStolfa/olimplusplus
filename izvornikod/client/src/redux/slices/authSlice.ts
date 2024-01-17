@@ -11,11 +11,13 @@ import EditPasswordInput from "../../types/inputs/user/EditPasswordInput";
 interface AuthState {
   user: User | undefined;
   authenticated: boolean | undefined;
+  registered: boolean | undefined;
 }
 
 const initialState: AuthState = {
   user: undefined,
   authenticated: undefined,
+  registered: undefined,
 };
 
 const attemptLogin = createAsyncThunk(
@@ -71,7 +73,7 @@ const deleteCurrentUser = createAsyncThunk(
   async (userid: number) => {
     const response = await usersService.deleteUser(userid);
   }
-)
+);
 
 const authSlice = createSlice({
   name: "auth",
@@ -80,6 +82,9 @@ const authSlice = createSlice({
     clearUser: (state, action: PayloadAction<number>) => {
       state.user = undefined;
       state.authenticated = undefined;
+    },
+    clearRegistered: (state) => {
+      state.registered = undefined;
     },
   },
   extraReducers: (builder) => {
@@ -100,11 +105,17 @@ const authSlice = createSlice({
     builder.addCase(editPassword.fulfilled, (state, action: PayloadAction<User>) => {
       state.user = action.payload;
     });
+    builder.addCase(registerStudent.fulfilled, (state, action) => {
+      state.registered = true;
+    }).addCase(registerStudent.rejected, (state, action) => {
+      state.registered = false;
+    })
   }
 });
 
 export const {
   clearUser,
+  clearRegistered,
 } = authSlice.actions;
 
 export {

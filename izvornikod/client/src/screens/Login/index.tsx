@@ -28,7 +28,11 @@ const Login = () => {
       if (user.role === ROLE.Admin) {
         navigate(`/${route.selectLanguage}/admin`);
       } else if (user.role === ROLE.Student) {
-        navigate(`/${route.selectLanguage}/student`);
+        if (user.passwordchanged) {
+          navigate(`/${route.selectLanguage}/student`);
+        } else {
+          navigate(`/${route.editPassword}`);
+        }
       }
     }
   }, [user]);
