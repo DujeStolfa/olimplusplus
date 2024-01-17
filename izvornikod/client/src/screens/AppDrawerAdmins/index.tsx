@@ -141,7 +141,6 @@ const AppDrawerAdmins = () => {
             <ListItem>
               <Stack direction="column" alignItems="center">
                 <IconButton
-                  disabled={selectedLanguage === undefined}
                   component={Link}
                   to={`/${route.adminList}`}
                 >
@@ -155,9 +154,11 @@ const AppDrawerAdmins = () => {
       </Box >
       <AppContent>
         {
-          (selectedLanguage === undefined && location.pathname !== `/${route.selectLanguage}/admin`)
-            ? <Error errorText="Nije odabran nijedan jezik. Molimo odaberite ga u izborniku." />
-            : <Outlet />
+          (location.pathname === `/${route.adminList}`)
+            ? <Outlet />
+            : (selectedLanguage === undefined && location.pathname !== `/${route.selectLanguage}/admin`)
+              ? <Error errorText="Nije odabran nijedan jezik. Molimo odaberite ga u izborniku." />
+              : <Outlet />
         }
       </AppContent>
       <AccountMenu />
