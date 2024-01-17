@@ -104,7 +104,14 @@ const AddWords = () => {
                     marginTop={"2.5em"}
                 >
                     <Button variant="outlined" fullWidth onClick={handleCancel}>Odustani</Button>
-                    <Button variant="contained" fullWidth onClick={handleConfirm}>Dodaj riječi</Button>
+                    <Button
+                        variant="contained"
+                        fullWidth
+                        onClick={handleConfirm}
+                        disabled={selectedWordIDs.length == 0}
+                    >
+                        Dodaj riječi
+                    </Button>
                 </Box>
             </FormWrapper>
         </Container>
