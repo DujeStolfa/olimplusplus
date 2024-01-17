@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 
 
 app = Flask(__name__)
-app.config.from_object("config.DevConfig")
+app.config.from_object("config.ProdConfig")
 
 from db import db, models
 
