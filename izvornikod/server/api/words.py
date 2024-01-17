@@ -7,7 +7,7 @@ from flask_login import current_user, login_required
 from googletrans import Translator
 
 from db import db, word_schema, words_schema, phrases_schema
-from db.models import Word, User, Bowl, WordDictionary, WordState, Phrase
+from db.models import Dictionary, Word, User, Bowl, WordDictionary, WordState, Phrase
 from . import api
 
 translator = Translator()
@@ -154,17 +154,24 @@ def get_words_in_dictionary(dictionaryid):
 @api.route("words/dict/<int:dictionaryid>")
 @login_required
 def get_words_not_in_dictionary(dictionaryid):
+    curr_lang = db.session.execute(
+        db.select(Dictionary.languageid).where(Dictionary.dictionaryid == dictionaryid)
+    ).first()
+
+    if curr_lang == None:
+        return abort(404)
+
     # endpoint za rijeci koje nisu u nekom rijecniku
     words_not_in_dictionary = db.session.execute(
-        db.select(
-            Word.wordid, Word.croatianname, Word.foreignname, Word.audiopath
-        ).where(
+        db.select(Word.wordid, Word.croatianname, Word.foreignname, Word.audiopath)
+        .where(
             Word.wordid.not_in(
                 db.select(Word.wordid)
                 .join(WordDictionary)
                 .where(WordDictionary.dictionaryid == dictionaryid)
             )
         )
+        .where(Word.languageid == curr_lang.languageid)
     ).all()
 
     return words_schema.dump(words_not_in_dictionary)
