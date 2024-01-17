@@ -111,7 +111,6 @@ def study_session_setup_teardown(login_student, client):
     wordids = []
     for word in words_data:
         added_word = client.post("/api/words/1", json=word)
-        # warnings.warn(str(added_word.data))
         wordids.append(added_word.json["wordid"])
 
     # Add words to dictionary

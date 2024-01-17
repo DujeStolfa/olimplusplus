@@ -1,4 +1,4 @@
-def test_create_and_get_word(login_admin, client, revert_create_word):
+def test_create_word(login_admin, client, revert_create_word):
     croatianname = revert_create_word
 
     create_word_input = {
@@ -6,14 +6,15 @@ def test_create_and_get_word(login_admin, client, revert_create_word):
         "foreignname": "Test foreign name",
         "audiopath": "Dummy audio path",
     }
+    languageid = 1
 
-    resp = client.post("api/words/1", json=create_word_input)
+    resp = client.post(f"api/words/{languageid}", json=create_word_input)
 
     assert resp.status_code == 200
     assert resp.json["croatianname"] == croatianname
     assert resp.json["foreignname"] == "Test foreign name"
     assert resp.json["audiopath"] == "Dummy audio path"
-    assert resp.json["languageid"] == 1
+    assert resp.json["languageid"] == languageid
 
 
 def test_start_study_session_unavailable(
