@@ -51,7 +51,6 @@ const DictionariesTableRow = ({ setSelectedDictionary, dictionary }: Props) => {
           size="small"
           onClick={(event) => {
             setRenameState(CRUD_ACTION.EDIT);
-            console.log(`Rename ${dictionary.dictionaryid}`);
             event.stopPropagation();
           }}
         >
@@ -60,7 +59,6 @@ const DictionariesTableRow = ({ setSelectedDictionary, dictionary }: Props) => {
         <IconButton
           size="small"
           onClick={(event) => {
-            console.log(`Delete ${dictionary.dictionaryid}`);
             setSelectedDictionary(dictionary);
             event.stopPropagation();
           }}

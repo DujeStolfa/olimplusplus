@@ -68,7 +68,6 @@ const fetchWordsNotInDictionary = createAsyncThunk(
 const createWord = createAsyncThunk(
     'words/createWordStatus',
     async (data: CreateWordInput) => {
-        console.log(data)
         const response = await wordService.createWord(data, data.languageid);
         return response.data;
     }

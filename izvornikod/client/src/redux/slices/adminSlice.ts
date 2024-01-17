@@ -70,7 +70,6 @@ const adminSlice = createSlice({
       state.admins.push(action.payload);
       state.adminError = false;
     }).addCase(createAdmin.rejected, (state, action) => {
-      console.log("eeeee")
       state.adminError = true;
     });
 
