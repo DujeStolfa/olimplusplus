@@ -1,7 +1,8 @@
+import bcrypt
 import pytest
 
 from db import db
-from db.models import Word
+from db.models import User, Word
 from server import app as flask_app
 
 
@@ -48,12 +49,20 @@ def login_admin(app):
 
 
 @pytest.fixture()
-def revert_student_password_change(login_student, client):
+def revert_student_password_change(app, login_student):
     yield
 
     old_password_data = {"newPassord": "progi123", "email": "ucenik@ucenik.com"}
 
-    client.put("/api/users/edit-password", json=old_password_data)
+    with app.app_context():
+        user = db.session.execute(
+            db.select(User).where(User.email == old_password_data["email"])
+        ).scalar()
+
+        user.password = bcrypt.hashpw(
+            old_password_data["newPassord"].encode("utf-8"), bcrypt.gensalt()
+        ).decode()
+        db.session.commit()
 
 
 @pytest.fixture()
