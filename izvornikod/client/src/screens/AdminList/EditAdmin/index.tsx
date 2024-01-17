@@ -17,11 +17,11 @@ const EditAdmin: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
   const { register, handleSubmit } = useForm<EditAdminInput>();
 
-  const onSubmit = async (data: EditAdminInput) => {
+  const onSubmit = (data: EditAdminInput) => {
     if (props.admin)
-      await dispatch(editAdmin({ admin: data, adminId: props.admin.userid }));
+      dispatch(editAdmin({ admin: data, adminId: props.admin.userid }));
     props.toggleDrawer();
-    props.refreshAdmins();
+    // props.refreshAdmins();
   };
 
   return (

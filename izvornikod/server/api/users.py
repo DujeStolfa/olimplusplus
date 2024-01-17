@@ -117,7 +117,7 @@ def create_admin():
     db.session.add(user)
     db.session.commit()
 
-    return "", 204
+    return user_schema.dump(user)
 
 
 @api.route("users/edit-admin/<int:userid>", methods=["POST"])
@@ -138,7 +138,7 @@ def edit_admin(userid):
 
     db.session.commit()
 
-    return "", 204
+    return user_schema.dump(admin)
 
 
 @api.route("users/get-admins", methods=["GET"])

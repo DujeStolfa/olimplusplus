@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Alert, Box, Button, Container, TextField, Typography } from "@mui/material";
 
-import { useAppDispatch } from "../../../redux/store";
-import { createAdmin } from "../../../redux/slices/authSlice";
+import { RootState, useAppDispatch } from "../../../redux/store";
+import { clearAdminError, createAdmin } from "../../../redux/slices/adminSlice";
 import { FormTitleWrapper, FormWrapper, ScreenWrapper } from "./index.styled";
 import CreateAdminInput from "../../../types/inputs/user/CreateAdminInput";
+import { useSelector } from "react-redux";
 
 interface Props {
   toggleDrawer: () => void;
@@ -14,17 +15,25 @@ interface Props {
 
 const CreateAdmin: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
+  const { adminError } = useSelector((state: RootState) => state.admins);
+
   const { register, handleSubmit } = useForm<CreateAdminInput>();
   const [password, setPassword] = React.useState<string>("");
   const [confirmPassword, setConfirmPassword] = React.useState<string>("");
   const [submitted, setSubmitted] = React.useState<boolean>(false);
 
+  useEffect(() => {
+    if (adminError === false) {
+      props.toggleDrawer();
+      dispatch(clearAdminError());
+    }
+  }, [adminError]);
+
   const onSubmit = (data: CreateAdminInput) => {
     setSubmitted(true);
     if (password === confirmPassword) {
       dispatch(createAdmin(data));
-      props.toggleDrawer();
-      props.refreshAdmins();
+      // props.refreshAdmins();
     }
   };
 
@@ -44,6 +53,12 @@ const CreateAdmin: React.FC<Props> = (props) => {
                   <Alert severity="error">Lozinke se razlikuju!</Alert>
                 </Box>
                 : null
+            }
+            {
+              (adminError === true) &&
+              <Box marginBottom="20px">
+                <Alert severity="error">Stvaranje administratora nije uspjelo. Provjerite podatke i pokušajte ponovo.</Alert>
+              </Box>
             }
             <Box marginBottom="20px">
               <TextField

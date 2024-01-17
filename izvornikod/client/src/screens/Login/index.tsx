@@ -48,7 +48,7 @@ const Login = () => {
             {
               (authenticated === false) ?
                 <Box marginBottom="20px">
-                  <Alert severity="error">Neuspješna prijava. Pokušajte ponovo.</Alert>
+                  <Alert severity="error">Neuspješna prijava. Provjerite podatke i pokušajte ponovo.</Alert>
                 </Box>
                 : null
             }

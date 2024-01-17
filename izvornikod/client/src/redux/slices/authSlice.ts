@@ -52,14 +52,6 @@ const registerStudent = createAsyncThunk(
   }
 );
 
-const createAdmin = createAsyncThunk(
-  'auth/createAdminStatus',
-  async (data: CreateAdminInput) => {
-    const response = await usersService.createAdmin(data);
-    return response.data;
-  }
-);
-
 const editPassword = createAsyncThunk(
   'auth/editPasswordStatus',
   async (data: EditPasswordInput) => {
@@ -123,7 +115,6 @@ export {
   attemptLogout,
   fetchCurrentUser,
   registerStudent,
-  createAdmin,
   editPassword,
   deleteCurrentUser,
 };
