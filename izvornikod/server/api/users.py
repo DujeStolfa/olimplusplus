@@ -18,6 +18,13 @@ def register_student():
     if False in chk:
         return abort(400)
 
+    chk_user = db.session.execute(
+        db.select(User).where(User.email == user_data["email"])
+    ).scalar()
+
+    if chk_user != None:
+        return abort(400)
+
     password = secrets.token_urlsafe(5)
 
     # Poslati mail s inicijalnom lozinkom
