@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid, GridColDef, GridRowSelectionModel, GridToolbar } from '@mui/x-data-grid';
 import { Button, Container, Typography, Box } from "@mui/material";
 import { useSelector } from "react-redux";
@@ -8,14 +8,22 @@ import { clearWordsNotInDict } from "../../redux/slices/wordsSlice";
 import { addWordsToDictionary } from "../../redux/slices/wordsSlice"
 import { FormTitleWrapper, FormWrapper } from "../../components/common/styled";
 import route from "../../constants/route";
+import words from "../../services/api/routes/words";
 
 
 const AddWords = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [selectedWordIDs, setSelectedWordIDs] = useState<number[]>([]);
-    const wordsNotInDictionary = useSelector((state: RootState) => state.words.wordsNotInDictionary);
+    const { wordsNotInDictionary, wordsInDictionary } = useSelector((state: RootState) => state.words);
     const { selectedDictionary } = useSelector((state: RootState) => state.dictionaries);
+    const [submitted, setSubmitted] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (selectedDictionary !== undefined && submitted) {
+            navigate(`/${route.editDictionary}/${selectedDictionary.dictionaryid}`);
+        }
+    }, [wordsInDictionary]);
 
     var columns: GridColDef[] = [
         // { field: "id", headerName: "ID", flex: 1 },
@@ -45,8 +53,8 @@ const AddWords = () => {
     const handleConfirm = () => {
         if (selectedDictionary !== undefined) {
             dispatch(addWordsToDictionary({ dictionaryid: selectedDictionary?.dictionaryid, wordids: selectedWordIDs }));
-            navigate(`/${route.editDictionary}/${selectedDictionary.dictionaryid}`);
             dispatch(clearWordsNotInDict());
+            setSubmitted(true);
         }
     }
 
