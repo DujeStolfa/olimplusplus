@@ -4,15 +4,15 @@
 		\section{Korištene tehnologije i alati}
 
              \subsection{Korišteni alati}
-                    Alati koji su bili korišteni za izradu aplikacije nisu divergirali od standarda u industriji. Za pisanje
+                \par    Alati koji su bili korišteni za izradu aplikacije nisu divergirali od standarda u industriji. Za pisanje
                 programskog koda i skripti, sa poslužiteljske i korisničke strane, korišten je Microsoftov Visual Studio Code. 
                 Jednostavan program čija osnovna funkcionalnost uključuje sve klasične operacije nad tekstom koji predstavlja kod:
                 automatsko naglašavanje teksta bojom ovisno o programskom jeziku koji se koristi, mnoštvo kratica 
                 na tipkovnici za manipulaciju teksta, ubacivanje ili uklanjanje komentara, tabulatora i sl. VSC se također može 
                 specijalizirati za razvoj bilo koje vrste projekta pomoću dodataka koji su javno dostupni svima i mogu se 
                 opcionalno instalirati.
-
-                Za bazu podataka je korišten pgAdmin. Program unutar kojeg se koristi SQL kako bi se definirala relacijska baza
+                
+                \par Za bazu podataka je korišten pgAdmin. Program unutar kojeg se koristi SQL kako bi se definirala relacijska baza
                 podataka, sve njene tablice, te konačno, podatci. Poveznicu između njih čini kod napisan za poslužiteljsku stranu 
                 u Pythonu, čije su krajnje API točke testirane pomoću alata Postman. Postman omogućuje slanje HTTP zahtjeva na 
                 bilo koju adresu, te dopušta apsolutnu kontrolu nad poslanim paketom. Pomoću tog alata je testirano prima
@@ -23,25 +23,25 @@
                     Korištene tehnologije su sve u skladu razvoja RESTful aplikacije, što samo zapravo znači da se komunikacija
                 klijenta i poslužitelja odvija preko HTTP ili HTTPS protokola, sa GET, POST, PUT i DELETE zahtjevima. 
                 
-                    Na korisničkoj strani je korišten javascript radni okvir React, koji je razvila Meta (bivši Facebook), koji je 
+                \par    Na korisničkoj strani je korišten javascript radni okvir React, koji je razvila Meta (bivši Facebook), koji je 
                 zasnovan na komponentama. Svaka komponenta može imati svoju definiranu funkcionalnost, te može sadržavati druge predefinirane, 
                 ili korisnički definirane komponente.
 
-                    Za neke dijelove korisničkog sučelja je korišten MUI (Material User Interface) koji ima nekolicinu predefiniranih
+                \par    Za neke dijelove korisničkog sučelja je korišten MUI (Material User Interface) koji ima nekolicinu predefiniranih
                 komponenti, kao npr. gumbe, tablice ili kartice za prikaz podataka. MUI je napravljen za React i ne može se koristiti
                 sa nekom drugom bibliotekom.
 
-                    Za pamćenje stanja aplikacije (tzv. State) je korišten Redux. Redux je mala biblioteka sa jednostavnim API-em.
+                \par    Za pamćenje stanja aplikacije (tzv. State) je korišten Redux. Redux je mala biblioteka sa jednostavnim API-em.
                 Bazirana je na logici da svako novo stanje aplikacije je redukcija prijašnjeg, što zapravo znači da se
                 svako novo stanje računa pomoću reducijske funkcije. Kao prvi argument uzima trenutno stanje, a kao drugi
                 argument akciju pomoću koje izmjeni trenutno stanje kako bi dobili sljedeće. Ukupno stanje aplikacije se 
                 dijeli u tzv. kriške (slices), od kojih je svaka odgovorna za praćenje stanja jednog dijela aplikacije (npr.
                 trenutno odabrani jezik ili trenutno stanje odabranog rječnika).
 
-                    Za dohvaćanje podataka je korišten Axios, biblioteka utemeljena na obećanjima (u javascriptu) koja služi
+                \par    Za dohvaćanje podataka je korišten Axios, biblioteka utemeljena na obećanjima (u javascriptu) koja služi
                 za slanje zahtjeva bilo kojem poslužitelju. 
 
-                    Na poslužiteljskoj strani je implementacijski jezik Python, a korištene biblioteke su Flask i nekolicina popratnih
+                \par    Na poslužiteljskoj strani je implementacijski jezik Python, a korištene biblioteke su Flask i nekolicina popratnih
                 tehnologija koje služe za proširivanje funkcionalnosti Flaska, kao što su Marshmellow i SQL-Alchemy, čiji su
                 zadatci ORM (Object Relational Mapping). Marshmellow je agnostičan na radne okvire, tj može se koristiti sa bilo
                 kojim radnim okvirom u pythonu, dok za korištenje SQL-Alchemy je korišten nastavak Flask-SQLAlchemy. 
