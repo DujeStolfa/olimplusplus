@@ -12,9 +12,12 @@ import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import { AppContent, UserBox } from "./index.styled";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { clearSelectedLanguage } from "../../redux/slices/languageSlice";
+import { clearSelectedDictionary } from "../../redux/slices/studentDictionariesSlice";
 import { attemptLogout } from "../../redux/slices/authSlice";
+import { clearSession } from "../../redux/slices/studySessionSlice";
 import Error from "../../components/common/Error";
 import route from "../../constants/route";
+
 
 
 const AppDrawerAdmins = () => {
@@ -28,6 +31,9 @@ const AppDrawerAdmins = () => {
   const open = Boolean(menuAnchor);
 
   const handleLogout = () => {
+    dispatch(clearSelectedLanguage());
+    dispatch(clearSelectedDictionary());
+    dispatch(clearSession());
     navigate(`/${route.login}`, { replace: true });
     dispatch(attemptLogout());
   }

@@ -1,14 +1,18 @@
 import React from "react";
-import { Button, Container, Stack } from "@mui/material";
+import { Button, Container, Stack, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import AddIcon from '@mui/icons-material/Add';
 
 import { TableHeading, TableWrapper } from "../../components/common/styled";
-import WordsTable from "./WordsTable";
+import { RootState } from "../../redux/store";
 import route from "../../constants/route";
-import { useNavigate } from "react-router-dom";
+import WordsTable from "./WordsTable";
+
 
 const Words = () => {
   const navigate = useNavigate();
+  const { words } = useSelector((state: RootState) => state.words);
 
   return (
     <Container>
@@ -30,9 +34,14 @@ const Words = () => {
         </Button>
       </Stack>
 
-      <TableWrapper>
-        <WordsTable />
-      </TableWrapper>
+
+      {(words.length === 0)
+        ? <Typography variant="h6" color="gray"> Odabrani jezik nema dostupnih riječi </Typography>
+        : <TableWrapper>
+          <WordsTable />
+        </TableWrapper>
+      }
+
     </Container>
   );
 }
