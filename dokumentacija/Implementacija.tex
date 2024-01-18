@@ -24,106 +24,55 @@
 			 
 
 			\subsection{Ispitivanje sustava}
-Ispitivanje sustava ostvareno je Selenium WebDriverom u Pythonu. Provedeni testovi s kodom priloženi su u nastavku.
+Ispitivanje sustava ostvareno je Selenium WebDriverom u Pythonu. Selenium WebDriver je alat za automatizaciju web preglednika. WebDriver koristi preglednikove vlastite mehanizme za kontrolu, čime osigurava visoku razinu realističnosti u testiranju, što ga čini ključnim alatom u razvoju softvera i osiguravanju kvalitete web aplikacija. Provedeni testovi s kodom priloženi su u nastavku.
 \break
-Prvi ispitni slučaj obrađuje pokušaj prijave emailom koji ne postoji u sustavu. Očekivani izlaz je neuspjeh prijave.
-
-\lstset{language=Python, xleftmargin=0pt}
-\begin{lstlisting}
-def test1() -> bool:
-    url = "http://localhost:3000/login"
-    driver.get(url)
-    driver.find_element(By.ID, "email").send_keys("osoba@osoba.com")
-    driver.find_element(By.ID, "password").send_keys("123456")
-    driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
-
-    if driver.current_url.endswith("/login"):
-        return True
-    else:
-        return False
-\end{lstlisting}
-
-Drugi ispitni slučaj obrađuje pokušaj registracije s emailom u neispravnom formatu. Očekivani izlaz je neuspjeh registracije.
-
-\lstset{language=Python, xleftmargin=0pt}
-\begin{lstlisting}
-def test2() -> bool:
-    url = "http://localhost:3000/login"
-    driver.get(url)
-    driver.find_element(By.CSS_SELECTOR, "button[type='button']").click()
-    driver.find_element(By.ID, "firstname").send_keys("Osoba")
-    driver.find_element(By.ID, "lastname").send_keys("Osoba")
-    driver.find_element(By.ID, "email").send_keys("osoba.com")
-    driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
-
-    if driver.current_url.endswith("/register"):
-        return True
-    else:
-        return False
-\end{lstlisting}
-
-Treći ispitni slučaj obrađuje pokušaj registracije s svim valjanim podacima. Očekivani izlaz je uspješna registracija i preusmjeravanje.
-
-\lstset{language=Python, xleftmargin=0pt}
-\begin{lstlisting}
-def test3() -> bool:
-    url = "http://localhost:3000/login"
-    driver.get(url)
-    driver.find_element(By.CSS_SELECTOR, "button[type='button']").click()
-    driver.find_element(By.ID, "firstname").send_keys("Osoba")
-    driver.find_element(By.ID, "lastname").send_keys("Osoba")
-    driver.find_element(By.ID, "email").send_keys("osoba@osoba.com")
-    driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
-
-    if driver.current_url.endswith("/register"):
-        return False
-    else:
-        return True
-\end{lstlisting}
-
-Četvrti ispitni slučaj obrađuje pokušaj prijave s postojećim emailom, ali s neispravnom lozinkom. Očekivani izlaz je neuspjeh prijave.
-
-\lstset{language=Python, xleftmargin=0pt}
-\begin{lstlisting}
-def test4() -> bool:
-    url = "http://localhost:3000/login"
-    driver.get(url)
-    driver.find_element(By.ID, "email").send_keys("admin@admin.com")
-    driver.find_element(By.ID, "password").send_keys("123456")
-    driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
-
-    if driver.current_url.endswith("/login"):
-        return True
-    else:
-        return False
-\end{lstlisting}
-
-Peti ispitni slučaj obrađuje pokušaj prijave s ispravnim emailom i lozinkom. Očekivani izlaz je uspješna prijava i preusmjeravanje. 
-
-\lstset{language=Python, xleftmargin=0pt}
-\begin{lstlisting}
-def test5() -> bool:
-    url = "http://localhost:3000/login"
-    driver.get(url)
-    driver.find_element(By.ID, "email").send_keys("admin@admin.com")
-    driver.find_element(By.ID, "password").send_keys("progi123")
-    driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
-    time.sleep(0.5)
-
-    if driver.current_url.endswith("/login"):
-        return False
-    else:
-        return True
-\end{lstlisting}
-
-Na slici 5.1 prikazan je screenshot terminala nakon pokretanja navedenih pet ispitnih slučajeva.
 
 \begin{figure}[htp]
-    \includegraphics[scale=0.5]{dijagrami/testsScreenshot.png}
+    \caption{prvi ispitni slučaj koji obrađuje ispravnu prijavu. Očekivani izlaz je uspješna prijava i preusmjeravanje.}
+    \includegraphics[scale=0.5]{dijagrami/test1.png}
     \centering
-    \caption{Rezultati ispitivanja Selenium WebDriverom}
+    
 \end{figure}
+\break
 
+\begin{figure}[htp]
+    \caption{drugi ispitni slučaj koji obrađuje neispravnu registraciju. Unosom maila u krivom formatu očekivani izlaz je neuspjela registracija.}
+    \includegraphics[scale=0.5]{dijagrami/test2.png}
+    \centering
+    
+\end{figure}
+\break
+
+\begin{figure}[htp]
+    \caption{treći ispitni slučaj koji obrađuje uspješnu promjenu lozinke. Preduvjet za promjenu lozinke je uspješna prijava u sustav kao student. Unosom podudarajućih lozinki očekivani izlaz je izmjena lozinke i preusmjeravanje.}
+    \includegraphics[scale=0.5]{dijagrami/test3.png}
+    \centering
+    
+\end{figure}
+\break
+
+\begin{figure}[htp]
+    \caption{četvrti ispitni slučaj koji obrađuje neispravno stvaranje admina. Preduvjet za stvaranje admina je uspješna prijava u sustav kao admin. Unosom nepodudarajućih lozinki u predložak, očekivani izlaz je neuspjela kreacija admina.}
+    \includegraphics[scale=0.5]{dijagrami/test4.png}
+    \centering
+    
+\end{figure}
+\break
+
+\begin{figure}[htp]
+    \caption{peti ispitni slučaj koji obrađuje stvaranje rječnika s praznim imenom. Preduvjet za stvaranje rječnika je uspješna prijava u sustav kao admin. Bez unosa imena novog rječnika očekivani izlaz je nepromijenjeno stanje tablice rječnika u sustavu.}
+    \includegraphics[scale=0.5]{dijagrami/test5.png}
+    \centering
+    
+\end{figure}
+\break
+
+\begin{figure}[htp]
+    \caption{terminal nakon pokretanja testova ispitivanja sustava.}
+    \includegraphics[scale=0.4]{dijagrami/terminal_screen.png}
+    \centering
+    
+\end{figure}
 \eject
 
 		
