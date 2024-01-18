@@ -289,75 +289,78 @@ koja provjerava promjenu lozinke. Atributi su privatni i razred ima javni konstr
 
 \subsection{Razredi na frontendu}
 
-Razredi na frontend dijelu aplikacije podijeljeni su u tri skupine.
+Razredi na frontend dijelu aplikacije podijeljeni su u tri skupine. Isječke (slices) u kojima se spremaju podaci tipa Models, a čije metode primaju podatke iz Inputs skupine razreda. Kako su isječci međusobno neovisni i radi preglednosti razredi na klijentskom dijelu aplikacije prikazani su u nekoliko dijagrama, ovisno o isječku s kojim su povezani.
 \begin{description}
 	\item[Modeli] su reprezentacije entiteta s backend dijela aplikacije. Backend modeli ne preslikavaju se izravno u odgovarajuće frontend modele, već se proširuju s dodatnim podacima iz povezanih tablica. Tako, primjerice, dok razredi Riječ i Fraza na backendu nisu povezani, razred Riječ na frontendu u sebi ima listu objekata razreda Fraza.
-	\item[Slice] razredi specifični su za implementiranu arhitekturu koja koristi Redux za upravljanje stanjem aplikacije. S ciljem odvajanja odgovornosti, stanje cijele aplikacije podijeljeno je na proizvoljan broj samostalnih cjelina (kriška, \textit{slice}) koje upravljaju i pohranjuju podatke iz isključivo jedne domene. Stanje u određenom sliceu može se mijenjati samo preko njegovih metoda, a unutar njih se nerijetko pozivaju \textit{axios} metode za slanje HTTP zahtjeva backend dijelu aplikacije jer se rezultati tih poziva moraju spremati upravo u stanje aplikacije.
 	\item[Input] razredi predstavljaju \textit{data transfer} objekte. Objekti tog razreda izravno se mogu pohraniti u tijelo HTTP zahtjeva i odgovaraju onoj strukturi u kojoj  pojedina pristupna točka na backendu očekuje primiti podatke.
-\end{description}
+	\item[Slice] razredi specifični su za implementiranu arhitekturu koja koristi Redux za upravljanje stanjem aplikacije. S ciljem odvajanja odgovornosti, stanje cijele aplikacije podijeljeno je na proizvoljan broj samostalnih cjelina (isječak, \textit{slice}) koje upravljaju i pohranjuju podatke iz isključivo jedne domene. Stanje u određenom isječku može se mijenjati samo preko njegovih metoda, a unutar njih se nerijetko pozivaju \textit{axios} metode za slanje HTTP zahtjeva backend dijelu aplikacije jer se rezultati tih poziva moraju spremati upravo u stanje aplikacije. Ukupno je implementirano sedam razreda za isječke stanja:
+	
+	\begin{packed_enum}
 
-Za potrebu generičkih funkcionalnosti (Slika \ref{fig:class-front-implemented}) implementiran je AuthSlice razred sa svim povezanim razredima (Korisnik, LoginInput, RegisterInput). Na slici \ref{fig:class-front} prikazani su na konceptualnoj razini i razini modela domene sustava razredi s frontend dijela aplikacije koji ne pripadaju generičkim funkcionalnostima.
+		\item \emph{Admin} -- upravljanje administratorima
+		\item \emph{Auth} -- podaci o trenutno prijavljenom korisniku
+		\item \emph{Dictionaries} -- upravljanje rječnicima 
+		\item \emph{Language} -- dostupni jezici i trenutno odabran jezik
+		\item \emph{Student Dictionaries} -- rječnici nekog jezika s dodatnim podacima koji se prikazuju učeniku
+		\item \emph{Study Session} -- podaci potrebni za učenje u bilo kojem načinu učenja
+		\item \emph{Words} -- upravljanje riječima
+		
+	\end{packed_enum}
+	
+\end{description}
 
 \begin{figure}[htp]
 	\includegraphics[scale=0.47]{dijagrami/AdminSlice.png}
 	\centering
 	\caption{Dijagram razreda za slice Admin}
-	\label{fig:class-front}
+	\label{fig:cls-admin}
 \end{figure}
 
 \begin{figure}[htp]
 	\includegraphics[scale=0.6]{dijagrami/authSlice.png}
 	\centering
 	\caption{Dijagram razreda za slice Auth}
-	\label{fig:class-front}
+	\label{fig:cls-auth}
 \end{figure}
 
 \begin{figure}[htp]
 	\includegraphics[scale=0.57]{dijagrami/DictionariesSlice.png}
 	\centering
 	\caption{Dijagram razreda za slice Dictionaries}
-	\label{fig:class-front}
+	\label{fig:cls-dict}
 \end{figure}
 
 \begin{figure}[htp]
 	\includegraphics[scale=0.6]{dijagrami/LanguageSlice.png}
 	\centering
 	\caption{Dijagram razreda za slice Language}
-	\label{fig:class-front}
+	\label{fig:cls-lang}
 \end{figure}
 
 \begin{figure}[htp]
 	\includegraphics[scale=0.6]{dijagrami/StudentDictionariesSlice.png}
 	\centering
 	\caption{Dijagram razreda za slice Student Dictionaries}
-	\label{fig:class-front}
+	\label{fig:cls-student-dict}
 \end{figure}
 
 \begin{figure}[htp]
 	\includegraphics[scale=0.5]{dijagrami/StudySessionSlice.png}
 	\centering
 	\caption{Dijagram razreda za slice Study Session}
-	\label{fig:class-front}
+	\label{fig:cls-study-sesion}
 \end{figure}
 
 \begin{figure}[htp]
 	\includegraphics[scale=0.5]{dijagrami/WordsSlice.png}
 	\centering
 	\caption{Dijagram razreda za slice Words}
-	\label{fig:class-front}
+	\label{fig:cls-words}
 \end{figure}
 
 \eject
 
-			
-			\textbf{\textit{dio 2. revizije}}\\			
-			
-			\textit{Prilikom druge predaje projekta dijagram razreda i opisi moraju odgovarati stvarnom stanju implementacije}
-			
-			
-			
-			\eject
-		
+
 		\section{Dijagram stanja}
 			
 			
