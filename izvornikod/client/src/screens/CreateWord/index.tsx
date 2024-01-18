@@ -18,7 +18,7 @@ const CreateWord = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { selectedLanguage } = useSelector((state: RootState) => state.languages);
-  const { createWordHelperText } = useSelector((state: RootState) => state.words);
+  const { createWordHelperText, words } = useSelector((state: RootState) => state.words);
   const { register, handleSubmit, setValue } = useForm<CreateWordInput>({
     defaultValues: {
       audiopath: "audio",
@@ -32,6 +32,13 @@ const CreateWord = () => {
   const [croatianname, setCroatianname] = useState<string>("");
   const [activeAudio, setActiveAudio] = useState<HTMLMediaElement | undefined>(undefined);
   const [audioIsPlaying, setAudioIsPlaying] = useState<boolean>(false);
+  const [submitted, setSubmitted] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (submitted) {
+      navigate(`/${route.words}`);
+    }
+  }, [words]);
 
   useEffect(() => {
     if (createWordHelperText !== undefined) {
@@ -114,7 +121,8 @@ const CreateWord = () => {
         }
       }
 
-      navigate(`/${route.words}`);
+      // navigate(`/${route.words}`);
+      setSubmitted(true);
       dispatch(clearHelperText());
     }
   };
