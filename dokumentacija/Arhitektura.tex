@@ -289,7 +289,7 @@ koja provjerava promjenu lozinke. Atributi su privatni i razred ima javni konstr
 
 \subsection{Razredi na frontendu}
 
-Razredi na frontend dijelu aplikacije podijeljeni su u tri skupine. Isječke (slices) u kojima se spremaju podaci tipa Models, a čije metode primaju podatke iz Inputs skupine razreda. Kako su isječci međusobno neovisni i radi preglednosti razredi na klijentskom dijelu aplikacije prikazani su u nekoliko dijagrama, ovisno o isječku s kojim su povezani.
+Razredi na frontend dijelu aplikacije podijeljeni su u tri skupine. Isječke (slices) u kojima se spremaju podaci tipa Models, a čije metode primaju podatke iz Inputs skupine razreda. Kako su isječci međusobno neovisni, ali i radi preglednosti, razredi na klijentskom dijelu aplikacije prikazani su u više dijagrama, ovisno o isječku u kojem se koriste.
 \begin{description}
 	\item[Modeli] su reprezentacije entiteta s backend dijela aplikacije. Backend modeli ne preslikavaju se izravno u odgovarajuće frontend modele, već se proširuju s dodatnim podacima iz povezanih tablica. Tako, primjerice, dok razredi Riječ i Fraza na backendu nisu povezani, razred Riječ na frontendu u sebi ima listu objekata razreda Fraza.
 	\item[Input] razredi predstavljaju \textit{data transfer} objekte. Objekti tog razreda izravno se mogu pohraniti u tijelo HTTP zahtjeva i odgovaraju onoj strukturi u kojoj  pojedina pristupna točka na backendu očekuje primiti podatke.
@@ -361,14 +361,20 @@ Razredi na frontend dijelu aplikacije podijeljeni su u tri skupine. Isječke (sl
 \clearpage
 
 \section{Dijagram stanja}
-	
-	
+
+Slika \ref{fig:state-ucenici} prikazuje implementirane funkcionalnosti korisničkog sučelja za učenike. Učenici započinju učenje tako što redom odabiru jezik, rječnik i način učenja. Kako bi se prikazali dostupni jezici i rječnici, prije ulaska u svako od tih stanja poziva se metoda koja dohvaća odgovarajuće podatke iz baze podatka. Netom prije početka učenja dohvaćaju se sve riječi koje su učeniku trenutno dostupne za učenje.
+
+Tijekom učenja učeniku se naizmjence prikazuju pitanja i povratne informacije o unesenim odgovorima sve dok ima dostupnih riječi ili dok učenik ne zaustavi učenje. Nakon unesenog odgovora poziva se metoda koja premješta riječ u odgovarajuću posudu. Učenik može zaustaviti učenje prije i nakon odgovora na pitanje, pri čemu odlazi u stanje za odabir rječnika. U to stanje odlazi i nakon što je odgovorio na sve trenutno dostupne riječi. 
+
 \begin{figure}[htp]
-\includegraphics[scale=0.5]{dijagrami/state_ucenici.png}
-\centering
-\caption{Dijagram stanja - sučelje za učenike}
-\label{fig:state-ucenici}
-\end{figure}
+	\includegraphics[scale=0.5]{dijagrami/state_ucenici.png}
+	\centering
+	\caption{Dijagram stanja - sučelje za učenike}
+	\label{fig:state-ucenici}
+	\end{figure}
+
+Stanja administratorskog sučelja prikazana su Slikom \ref{fig:state-admin} Četiri glavna stanja u kojima se to sučelje može nalaziti su  \emph{Odabir jezika}, |emph{Popis administratora}, \emph{Popis rječnika} i \emph{Popis riječi}. Administrator može doći u svako od tih stanja preko navigacijske trake, a ulaskom u to stanje dohvaćaju se podaci koji se trebaju prikazati na sučelju. Izuzev odabira jezika, administrator u svakom od tih stanja može brisati i stvarati odgovarajuće zapise. Pri stvaranju riječi dohvaćaju se podaci iz vanjskog API-ja i mogu se dodavati ili brisati fraze. Riječi i rječnici mogu se uređivati. Uređivanjem rječnika administrator iz njega uklanja riječi ili dodaje nove.
+
 
 \begin{figure}[htp]
 \includegraphics[scale=0.4]{dijagrami/state_administratori.png}
@@ -377,10 +383,12 @@ Razredi na frontend dijelu aplikacije podijeljeni su u tri skupine. Isječke (sl
 \label{fig:state-admin}
 \end{figure}
 	
-	
+\eject
 
 
 \section{Dijagram aktivnosti}
+
+Slikom \ref{fig:aktivnosti-izgovor} prikazano je učenje snimanjem izgovora. Odabirom načina učenja aplikacija dohvaća dostupne riječi i učeniku prikazuje pitanje. Nakon što učenik snimi izgovor i potvrdi unos, sustav obrađuje njegov odgovor: servis za ocjenjivanje izgovora analizira unos i vraća ocjenu, dok se učeniku prikazuje tijek obrade. U slučaju da je ocjena strogo manja od 5, riječ se prebacuje u prvi posudu. U protivnom se riječ prebacuje u sljedeću posudu ako ona postoji, inače se označava kao u potpunosti naučena. Promjena posude sprema se u bazu podataka, a zatim se učeniku prikazuje ocjena. Klikom na gumb završi učenje aplikacija preusmjerava korisnika na stranicu s popisom rječnika.
 	
 \begin{figure}[htp]
 \includegraphics[scale=0.4]{dijagrami/aktivnosti.png}
@@ -393,8 +401,14 @@ Razredi na frontend dijelu aplikacije podijeljeni su u tri skupine. Isječke (sl
 	\eject
 \section{Dijagram komponenti}
 
+Klijentska komponenta aplikacije organizirana je u međusobno neovisne module za pohranu stanja aplikacije i jedne upravljačke komponente preko kojeg moduli komuniciraju s ostatkom aplikacije. Svaki modul zadužen je za određeni isječak cijelog stanja aplikacije. Upravljačka komponenta nudi sučelje preko kojeg preglednik može dohvaćati podatke o stanju, a zahtjeva sučelje preko kojeg može slati zahtjeve na krajnje točke serverskog dijela aplikacije. 
+
+Serverska komponenta sadrži upravljačku komponentu Flask za primanje i obradu HTTP zahtjeva. Metode te komponente koriste modul SQLAlchemy za izvršavanje SQL upita i pristup bazi podataka. Baza podataka nudi određeno sučelje, a SQLAlchemy ga zahtijeva. Komponenta Flask pri obradi određenih zahtjeva komunicira sa servisom za ocjenu izgovora i mail poslužiteljem te od njih zahtijeva REST\_API sučelje.
+
+
 \begin{figure}[htp]
-\includegraphics[scale=0.4]{dijagrami/ComponentDiagram0.png}
+\includegraphics[scale=0.35]{dijagrami/ComponentDiagram0.png}
 \centering
 \caption{Dijagram komponenti}
+\label{fig:komponente}
 \end{figure}
