@@ -3,22 +3,28 @@ olimplusplus
 
 Projektni zadatak na kolegiju Programsko inženjerstvo: **FlipMemo** (G17.4)
 
-**Prva revizija** aplikacije dostupna je na adresi https://olimplusplus-frontend.onrender.com/login
+**Druga revizija** aplikacije dostupna je na adresi https://olimplusplus-frontend.onrender.com/login
 
-Dostupne putanje su:
-- [/login](https://olimplusplus-frontend.onrender.com/login) i [/register](https://olimplusplus-frontend.onrender.com/register)
-- [/student-info](https://olimplusplus-frontend.onrender.com/student-info) - pristup dozvoljen samo učenicima
-- [/admin-info](https://olimplusplus-frontend.onrender.com/student-info) - pristup dozvoljen samo administratorima
+*Napomena*: Aplikacija je prilikom razvoja testirana u preglednicima Chrome i Firefox, preporučamo pristupati joj preko njih.
 
 U aplikaciju se možete prijaviti sa sljedećim podacima:
-| Ime   | Prezime | Email              | Lozinka  | Uloga         |
-|-------|---------|--------------------|----------|---------------|
-| Nikša | Brala   | niksa.brala@fer.hr | niksa123 | Administrator |
-| Nina  | Bulić   | nina.bulic@fer.hr  | nina123  | Administrator |
-| Karlo | Kuzle   | karlo.kuzle@fer.hr | karlo123 | Učenik        |
-| Ivo   | Žilić   | ivo.zilic@fer.hr   | ivo123   | Učenik        |
 
+| Ime | Prezime | Email | Lozinka | Uloga |
+| ---- | ---- | ---- | ---- | ---- |
+| Admin | Root | admin@admin.com | progi123 | Administrator |
+| Učenik | Root | ucenik@ucenik.com | progi123 | Učenik |
 
+Pri registraciji učeničkog računa inicijalna lozinka šalje se na unesenu email adresu. Ako prilikom testiranja želite stvoriti više učeničkih računa, morat ćete koristiti različite email adrese, pa u tom slučaju preporučamo korištenje Gmail adrese s [_plus addressing_](https://gmail.googleblog.com/2008/03/2-hidden-ways-to-get-more-from-your.html) opcijom umjesto korištenja potpuno različitih email adresa. 
+
+Zbog lakšeg testiranja, u drugoj su reviziji aplikacije vremenske odgode za svaku posudu postavljene na vrlo kratke intervale: 
+
+| R.br. posude | Odgoda u slučaju točnog odgovora |
+| ---- | ---- |
+| 1 | 5 sekundi |
+| 2 | 30 sekundi |
+| 3 | 1 minuta |
+| 4 | 3 minute |
+| 5 | 5 minuta |
 
 Dev - postavljanje razvojnog okruženja
 ======
