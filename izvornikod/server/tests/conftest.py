@@ -83,13 +83,13 @@ def revert_create_word(app, login_admin):
 
 @pytest.fixture()
 def study_session_setup_teardown(login_student, client):
-    # Create dictionary
+    # Dodaj rječnik
     dictionary_data = {"dictionaryname": "Test dictionary"}
 
     dictionary = client.post("/api/dictionaries/1", json=dictionary_data)
     dictionaryid = dictionary.json["dictionaryid"]
 
-    # Create words
+    # Dodaj riječi
     words_data = [
         {
             "croatianname": "Cro 1",
@@ -97,14 +97,14 @@ def study_session_setup_teardown(login_student, client):
             "audiopath": "Audio 1",
         },
         {
-            "croatianname": "Cro 1",
-            "foreignname": "Foreign 1",
-            "audiopath": "Audio 1",
+            "croatianname": "Cro 2",
+            "foreignname": "Foreign 2",
+            "audiopath": "Audio 2",
         },
         {
-            "croatianname": "Cro 1",
-            "foreignname": "Foreign 1",
-            "audiopath": "Audio 1",
+            "croatianname": "Cro 3",
+            "foreignname": "Foreign 3",
+            "audiopath": "Audio 3",
         },
     ]
 
@@ -113,7 +113,7 @@ def study_session_setup_teardown(login_student, client):
         added_word = client.post("/api/words/1", json=word)
         wordids.append(added_word.json["wordid"])
 
-    # Add words to dictionary
+    # Dodaj riječi u rječnik
     add_to_dict_input = {
         "dictionaryid": dictionaryid,
         "wordids": wordids,
@@ -121,12 +121,12 @@ def study_session_setup_teardown(login_student, client):
 
     client.post("/api/dictionaries/add-words", json=add_to_dict_input)
 
-    # Run test
+    # Pokreni test
     yield dictionaryid, wordids[0]
 
-    # Remove dictionaries
+    # Izbriši rječnike
     client.delete(f"/api/dictionaries/{dictionaryid}")
 
-    # Remove words
+    # Izbriši riječi
     for wordid in wordids:
         client.delete(f"/api/words/{wordid}")
