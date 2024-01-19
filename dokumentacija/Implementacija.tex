@@ -33,13 +33,15 @@
 
                 \par    Za upravljanje stanjem aplikacije (tzv. state) korišten je Redux. Redux je mala biblioteka sa jednostavnim API-jem.
                 Bazirana je na logici da je svako novo stanje aplikacije redukcija prijašnjeg, što zapravo znači da se
-                svako novo stanje računa pomoću reducijske funkcije. Ukupno stanje aplikacije se 
+                svako novo stanje računa pomoću redukcijske funkcije. Ukupno stanje aplikacije se 
                 dijeli u isječke (slices), od kojih je svaki odgovoran za praćenje stanja jednog dijela aplikacije.
 
                 \par   Korišteni HTTP klijent je Axios. Za upravljanje formama u aplikaciji korištena je biblioteka React Hook Form, a za routing React Router.
 
                 \par    Na poslužiteljskoj strani implementacijski jezik je Python 3, a korištene su biblioteke Flask i nekolicina popratnih
                 tehnologija koje služe za proširivanje funkcionalnosti Flaska. Korisničke sesije ostvarene su na poslužiteljskoj strani pomoću biblioteke Flask-Login. Od ORM-ova odabran je Flask-SQLAlchemy, a za serijalizaciju podataka korišten je Marshmallow. Migracijama baze podataka upravljali smo bibliotekom Flask-Migrate.
+
+                \par Google Translate Ajax API (\emph{googletrans}) korišten je kao vanjski API za prevođenje. Za slanje mailova korišten je Brevo (bivši Sendinblue).
 
                 \par    Ispitivanje komponenti provedeno je pomoću biblioteke pytest, dok je za ispitivanje sustava korišten Selenium WebDriver.
 
@@ -61,6 +63,8 @@
                 \item \href{https://flask-sqlalchemy.palletsprojects.com/en/3.1.x/}{Flask-SQLAlchemy}
                 \item \href{https://flask-migrate.readthedocs.io/en/latest/}{Flask-Migrate}
                 \item \href{https://flask-login.readthedocs.io/en/latest/}{Flask-Login}
+                \item \href{https://pypi.org/project/googletrans/}{googletrans}
+                \item \href{https://www.brevo.com/}{Brevo}
                 \item \href{https://docs.pytest.org/en/7.4.x/}{pytest}
                 \item \href{https://www.selenium.dev/documentation/webdriver/}{Selenium Webdriver}
               \end{itemize}
@@ -68,61 +72,237 @@
 		
 	
 		\section{Ispitivanje programskog rješenja}
-			
-			\textbf{\textit{dio 2. revizije}}\\
-			
-			 \textit{U ovom poglavlju je potrebno opisati provedbu ispitivanja implementiranih funkcionalnosti na razini komponenti i na razini cijelog sustava s prikazom odabranih ispitnih slučajeva. Studenti trebaju ispitati temeljnu funkcionalnost i rubne uvjete.}
 	
 			
 			\subsection{Ispitivanje komponenti}
-			\textit{Potrebno je provesti ispitivanje jedinica (engl. unit testing) nad razredima koji implementiraju temeljne funkcionalnosti. Razraditi \textbf{minimalno 6 ispitnih slučajeva} u kojima će se ispitati redovni slučajevi, rubni uvjeti te izazivanje pogreške (engl. exception throwing). Poželjno je stvoriti i ispitni slučaj koji koristi funkcionalnosti koje nisu implementirane. Potrebno je priložiti izvorni kôd svih ispitnih slučajeva te prikaz rezultata izvođenja ispita u razvojnom okruženju (prolaz/pad ispita). }
-			
-			 
+
+Testiranje komponenti proveli smo koristeći razvojni okvir pytest. Specifičnost tog okvira je korištenje kontekstnih funkcija (engl. fixture). Kontekstnim funkcijama definiramo kontekst za izvršavanje ispitnih funkcija: koji će podaci biti dostupni testu, što će se dogoditi prije, a što nakon testa. Kako se u kontekstnoj funkciji naredbom \emph{yield} poziva ispitna funkcija, sve naredbe prije nje predstavljaju \emph{setup} tog testa, a naredbe nakon \emph{teardown}. 
+
+Osnovne kontekstne funkcije koje koristimo tijekom testiranja komponenti su one za prijavu administratora odnosno učenika (Slika \ref{fig:test-1})\footnote{Radi se o zadanim (default) korisnicima i osigurano je da će njihovi korisnički računi postojati u bazi podataka}. Također, za pristup kontekstu objekta aplikacije Flask koristimo funkciju \emph{app}, dok  funkcija \emph{client} omogućava emulaciju HTTP zahtjeva prema aplikaciji bez pokretanja backenda (Slika \ref{fig:test-2}).
+
+Pri definiciji kontekstne funkcije definiramo njen djelokrug, tj. kada će se u procesu testiranja ona pozivati. Zadani djelokrug je \emph{function}, a kontekstna funkcija s tim djelokrugom pozvat će se prije izvršavanja svake ispitne funkcije, dok će se funkcija s djelokrugom \emph{module} pozivati jednom po ispitnom skupu.
+
+Ispitne funkcije organizirane su u više ispitnih skupova (modula) tako da svaki skup testira jedan dio funkcionalnosti aplikacije. Implementirano je ukupno šest ispitnih funkcija u tri ispitna skupa. Rezultati testova prikazani su na Slici \ref{fig:test-12}.
+
+
+\subsubsection{Ispitni skup \emph{test\_dictionary.py}}
+
+\begin{packed_item}
+
+    \item Stvaranje rječnika s praznim nazivom (rubni slučaj, Slika \ref{fig:test-3})
+    \item[]  \begin{packed_item}
+
+        \item Obrascem uporabe 9 definirano je da zahtjev za stvaranje novog rječnika čiji je naziv prazan niz znakova treba odbiti. Očekivani rezultat je HTTP odgovor sa statusom \emph{400 Bad request} jer su podaci u tijelu zahtjeva u neispravnom formatu.
+        
+    \end{packed_item}
+
+    \item Stvaranje rječnika bez prethodne prijave (pogreška, Slika \ref{fig:test-4}) 
+    \item[]  \begin{packed_item}
+
+        \item Kako ispitna funkcija nema \emph{login\_admin} kontekst, očekivano je da će takav zahtjev za stvaranje rječnika biti odbijen i da će status HTTP odgovora biti \emph{401 Unauthorised}.
+        
+    \end{packed_item}
+    
+\end{packed_item}
+
+\clearpage
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.9]{slike/fixture_login.png}
+	\centering
+	\caption{Kontekstne funkcije za autentifikaciju korisnika}
+	\label{fig:test-1}
+\end{figure}
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.9]{slike/fixture_root.png}
+	\centering
+	\caption{Osnovne kontekstne funkcije}
+	\label{fig:test-2}
+\end{figure}
+
+\begin{figure}[htp]
+	\includegraphics[scale=1]{slike/test_dict_1.png}
+	\centering
+	\caption{Stvaranje rječnika s praznim nazivom}
+	\label{fig:test-3}
+\end{figure}
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.95]{slike/test_dict_2.png}
+	\centering
+	\caption{Stvaranje rječnika bez prethodne prijave}
+	\label{fig:test-4}
+\end{figure}
+
+\eject
+
+\subsubsection{Ispitni skup \emph{test\_users.py}}
+
+\begin{packed_item}
+
+    \item Stvaranje administratora s nepotpunim podacima (pogreška, Slika \ref{fig:test-5})
+    \item[]  \begin{packed_item}
+
+        \item Za stvaranje administratora u tijelu zahtjeva trebaju biti polja \emph{email}, \emph{firstname}, \emph{lastname} i \emph{password}. U slučaju da barem jedan od tih polja nije prisutan, zahtjev se ne može izvršiti i završava s \emph{400 Bad request} odgovorom.
+        
+    \end{packed_item}
+
+    \item Promjena lozinke učenika (redovni slučaj, Slika \ref{fig:test-6})
+    \item[]  \begin{packed_item}
+
+        \item Kako bi stanje u aplikaciji nakon uspješno provedenog testa ostalo isto kao i prije testa, napisana je kontekstna funkcija \emph{revert\_student\_password\_change} (Slika \ref{fig:test-7}) koja nakon testa izvršava upit koji u bazu podataka sprema korisnikovu staru lozinku. Uspješan zahtjev za promjenu lozinke u odgovoru vraća podatke o korisniku. 
+        
+    \end{packed_item}
+    
+\end{packed_item}
+
+\begin{figure}[htp]
+	\includegraphics[scale=1]{slike/test_admin.png}
+	\centering
+	\caption{Stvaranje administratora s nepotpunim podacima}
+	\label{fig:test-5}
+\end{figure}
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.9]{slike/test_pwd.png}
+	\centering
+	\caption{Promjena lozinke učenika}
+	\label{fig:test-6}
+\end{figure}
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.9]{slike/fixture_pwd.png}
+	\centering
+	\caption{Kontekstna funkcija za poništavanje promjene lozinke}
+	\label{fig:test-7}
+\end{figure}
+
+\eject
+\pagebreak
+
+\subsubsection{Ispitni skup \emph{test\_words.py}}
+
+\begin{packed_item}
+
+    \item Stvaranje riječi (redovni slučaj, Slika \ref{fig:test-8})
+    \item[]  \begin{packed_item}
+
+        \item Za stvaranje nove riječi u tijelu zahtjeva potrebno je imati id jezika u kojeg spremamo riječ, hrvatski naziv, strani naziv i naziv spremljene audiodatoteke. U odgovoru se vraća stvorena riječ koja mora odgovarati podacima iz zahtjeva. 
+        \item Kontekstna funkcija \emph{revert\_create\_word} (Slika \ref{fig:test-9}) nakon uspješnog testa briše stvorenu riječ iz sustava.
+        
+    \end{packed_item}
+
+    \item Započni učenje nad rječnikom (rubni slučaj, Slika \ref{fig:test-10})
+    \item[]  \begin{packed_item}
+
+        \item  Kako se u određenim načinima učenja na pitanje odgovara odabirom jedne od četiri ponuđene riječi iz istog rječnika, domenu veličine rječnika možemo podijeliti na particije od $\left[0,3 \right]$ riječi i $ > 4$ riječi.
+        \item Za rječnike s tri ili manje riječi nije moguće prikazati ponuđene odgovore pa nije moguće započeti učenje nad tim rječnikom i očekujemo da će takav zahtjev biti odbijen sa statusom \emph{403 Forbidden}. 
+        \item Kontekstna funkcija \emph{study\_session\_setup\_teardown} (Slika \ref{fig:test-11}) osigurava kontekst za izvršavanje ovog testa: prije izvršavanja stvara novi rječnik, u njega dodaje tri riječi te testu prosljeđuje podatke o rječniku i stvorenim riječima. Nakon testa dodane riječi i rječnik brišu se iz sustava.
+        
+    \end{packed_item}
+    
+\end{packed_item}
+
+\clearpage
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.9]{slike/test_word.png}
+	\centering
+	\caption{Stvaranje riječi}
+	\label{fig:test-8}
+\end{figure}
+
+\begin{figure}[htp]
+	\includegraphics[scale=1]{slike/fixture_word.png}
+	\centering
+	\caption{Kontekstna funkcija koja nakon testa briše stvorenu riječ}
+	\label{fig:test-9}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.9]{slike/fixture_study.png}
+	\centering
+	\caption{Kontekstna funkcija za početak učenja}
+	\label{fig:test-11}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.95]{slike/test_study.png}
+	\centering
+	\caption{Započni učenje nad rječnikom}
+	\label{fig:test-10}
+\end{figure}
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.6]{slike/pytest_run.png}
+	\centering
+	\caption{Dijagram razreda za slice Admin}
+	\label{fig:test-12}
+\end{figure}
+
+\eject
+\pagebreak
 
 			\subsection{Ispitivanje sustava}
-Ispitivanje sustava ostvareno je Selenium WebDriverom u Pythonu. Selenium WebDriver je alat za automatizaciju web preglednika. WebDriver koristi preglednikove vlastite mehanizme za kontrolu, čime osigurava visoku razinu realističnosti u testiranju, što ga čini ključnim alatom u razvoju softvera i osiguravanju kvalitete web aplikacija. Provedeni testovi s kodom priloženi su u nastavku.
+Ispitivanje sustava ostvareno je Selenium WebDriverom u Pythonu. Selenium WebDriver je alat za automatizaciju web preglednika. WebDriver koristi preglednikove vlastite mehanizme za kontrolu, čime osigurava visoku razinu realističnosti u testiranju, što ga čini ključnim alatom u razvoju softvera i osiguravanju kvalitete web aplikacija. Provedeno je pet testova, a njihov kod priložen je u nastavku. Rezultati testova prikazani su na Slici \ref{fig:sys-res}.
+
+\begin{packed_item}
+
+    \item  Prvi ispitni slučaj obrađuje ispravnu prijavu. Očekivani izlaz je uspješna prijava i preusmjeravanje. (Slika \ref{fig:sys-1})
+    \item Drugi ispitni slučaj obrađuje neispravnu registraciju. Unosom maila u krivom formatu očekivani izlaz je neuspjela registracija. (Slika \ref{fig:sys-2})
+    \item Treći ispitni slučaj obrađuje uspješnu promjenu lozinke. Preduvjet za promjenu lozinke je uspješna prijava u sustav kao student. Unosom podudarajućih lozinki očekivani izlaz je izmjena lozinke i preusmjeravanje. (Slika \ref{fig:sys-3})
+    \item Četvrti ispitni slučaj koji obrađuje neispravno stvaranje admina. Preduvjet za stvaranje admina je uspješna prijava u sustav kao admin. Unosom nepodudarajućih lozinki u predložak, očekivani izlaz je neuspjela kreacija admina. (Slika \ref{fig:sys-4})
+    \item Peti ispitni slučaj obrađuje stvaranje rječnika s praznim imenom. Preduvjet za stvaranje rječnika je uspješna prijava u sustav kao admin. Bez unosa imena novog rječnika očekivani izlaz je nepromijenjeno stanje tablice rječnika u sustavu. (Slika \ref{fig:sys-5})
+    
+\end{packed_item}
+
 
 
 \begin{figure}[htp]
     \includegraphics[scale=0.5]{dijagrami/test1.png}
     \centering
-    \caption{prvi ispitni slučaj koji obrađuje ispravnu prijavu. Očekivani izlaz je uspješna prijava i preusmjeravanje.}
-
+    \caption{Ispravna prijava}
+    \label{fig:sys-1}
 \end{figure}
 
 \begin{figure}[htp]
     \includegraphics[scale=0.5]{dijagrami/test2.png}
     \centering
-    \caption{drugi ispitni slučaj koji obrađuje neispravnu registraciju. Unosom maila u krivom formatu očekivani izlaz je neuspjela registracija.}
-    
+    \caption{Neispravna registracija}
+    \label{fig:sys-2}
 \end{figure}
 
 \begin{figure}[htp]    
     \includegraphics[scale=0.5]{dijagrami/test3.png}
     \centering
-    \caption{treći ispitni slučaj koji obrađuje uspješnu promjenu lozinke. Preduvjet za promjenu lozinke je uspješna prijava u sustav kao student. Unosom podudarajućih lozinki očekivani izlaz je izmjena lozinke i preusmjeravanje.}
-
+    \caption{Uspješna promjena lozinke}
+    \label{fig:sys-3}
 \end{figure}
 
 \begin{figure}[htp]
     \includegraphics[scale=0.5]{dijagrami/test4.png}
     \centering
-    \caption{četvrti ispitni slučaj koji obrađuje neispravno stvaranje admina. Preduvjet za stvaranje admina je uspješna prijava u sustav kao admin. Unosom nepodudarajućih lozinki u predložak, očekivani izlaz je neuspjela kreacija admina.}
-
+    \caption{Neispravno stvaranje administratora}
+    \label{fig:sys-4}
 \end{figure}
 
 \begin{figure}[htp]
     \includegraphics[scale=0.5]{dijagrami/test5.png}
     \centering
-    \caption{peti ispitni slučaj koji obrađuje stvaranje rječnika s praznim imenom. Preduvjet za stvaranje rječnika je uspješna prijava u sustav kao admin. Bez unosa imena novog rječnika očekivani izlaz je nepromijenjeno stanje tablice rječnika u sustavu.}
-
+    \caption{Stvaranje rječnika s praznim imenom}
+    \label{fig:sys-5}
 \end{figure}
 
 \begin{figure}[htp]
     \includegraphics[scale=0.35]{dijagrami/terminal_screen.png}
     \centering
-    \caption{terminal nakon pokretanja testova ispitivanja sustava.}
-    
+    \caption{Terminal nakon pokretanja testova ispitivanja sustava}
+	\label{fig:sys-res}
 \end{figure}
 
 \clearpage
