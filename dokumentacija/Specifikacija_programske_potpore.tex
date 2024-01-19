@@ -132,13 +132,8 @@
 			\item Sustav upozorava korisnika i onemogućuje mu registraciju							
 		\end{packed_enum}
 
-\item[2.b] Korisnik se pokušava registrirati nepostojećom e-mail adresom
-\item[] \begin{packed_enum}
+	\end{packed_item}
 
-\item Sustav upozorava korisnika i onemogućuje mu registraciju 								
-\end{packed_enum}
-
-\end{packed_item}
 \end{packed_item}
 
 \noindent \underbar{\textbf{UC2 - Promjena lozinke}}
@@ -167,10 +162,10 @@
 			\item Ne dolazi do promjene lozinke, učenik mora ponoviti proces					
 		\end{packed_enum}
 
-		\item[2.a] Nova lozinka je jednaka staroj
+		\item[2.a]Polja "lozinka" i "potvrdi lozinku" se razlikuju
 		\item[] \begin{packed_enum}
 			
-			\item Sustav upozorava učenika i traži ispravak unosa  								
+			\item Sustav upozorava učenika i traži ispravak unosa			
 		\end{packed_enum}
 		
 	\end{packed_item}
@@ -247,7 +242,7 @@
 \noindent \underbar{\textbf{UC5 - Dodavanje administratora}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik:} Administrator (admin)
+	\item \textbf{Glavni sudionik:} Administrator
 	\item  \textbf{Cilj:} Stvaranje administratora
 	\item  \textbf{Sudionici:} Baza podataka
 	\item  \textbf{Preduvjet:} Prijava administratora u sustav $($UC3 Prijava u sustav$)$
@@ -256,7 +251,7 @@
 	\item[] \begin{packed_enum}
 
 		\item Administrator odabire opciju ”stvori administratora "
-		\item Administrator dolazi na stranicu u kojoj mora upisati email adresu i lozinku novog administratora
+		\item Administrator dolazi na stranicu u kojoj mora upisati ime, prezime, email adresu i lozinku novog administratora
 		\item Administrator potvrđuje stvaranje novog administratora
 		\item Podaci se spremaju u bazu podataka
 	\end{packed_enum}
@@ -269,12 +264,6 @@
 		\item[] \begin{packed_enum}
 			
 			\item Sustav ga upozorava da već postoji admin s upisanom email adresom							
-		\end{packed_enum}
-
-		\item[2.b] Admin unosi email korisnika
-		\item[] \begin{packed_enum}
-			
-			\item Sustav ga upozorava da korisnička adresa ne može bit iskorištena pri stvaranju admina								
 		\end{packed_enum}
 		
 	\end{packed_item}
@@ -333,7 +322,7 @@
 		\item[] \begin{packed_item}
 
 			\item učenika na zaslon za odabir rječnika (UC8 Pregledavanje i odabir rječnika)
-			\item administratora na zaslon za upravljanje riječima i rječnicima
+			\item administratora na zaslon za upravljanje riječima
 		
 		\end{packed_item}
 
@@ -440,7 +429,7 @@
 	\item[] \begin{packed_enum}
 		
 		\item U obrascu je prikazan popis svih riječi u rječniku
-		\item Administrator odabire opciju "Dodaj riječ"
+		\item Administrator odabire opciju "Dodaj riječi"
 		\item Administratoru je prikazan okvir s popisom svih riječi trenutnog jezika koje nisu u rječniku
 		\item Administrator odabire jednu ili više riječi
 		\item Administrator potvrđuje odabir
@@ -557,7 +546,7 @@
 \noindent \underbar{\textbf{UC13 - Odabir načina učenja}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Korisnik
+	\item \textbf{Glavni sudionik: } Učenik
 	\item \textbf{Cilj: } Započeti dnevnu sesiju učenja u odabranom načinu
 	\item \textbf{Sudionici: } -
 	\item \textbf{Preduvjet: } Postojanje korisničkog računa, prijava u sustav s korisničkim računom, odabir jezika i rječnika (UC8 pregledavanje i odabir rječnika)
@@ -565,8 +554,8 @@
 	
 	\item[] \begin{packed_enum}
 		
-		\item Korisnik bira jedan od četiri gumba koji predstavljaju načine rada
-		\item Nakon odabira, korisnika se preusmjerava na stranicu tog specifičnog
+		\item Učenik bira jedan od četiri gumba koji predstavljaju načine rada
+		\item Nakon odabira, učenika se preusmjerava na stranicu tog specifičnog
 		načina rada i započinje učenje
 
 	\end{packed_enum}
@@ -579,8 +568,8 @@
 \noindent \underbar{\textbf{UC14 - Prijevod strane riječi}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Korisnik
-	\item \textbf{Cilj: } Korisnik je naučio prijevod strane riječi ili izraza na hrvatski
+	\item \textbf{Glavni sudionik: } Učenik
+	\item \textbf{Cilj: } Učenik je naučio prijevod strane riječi ili izraza na hrvatski
 	\item \textbf{Sudionici: } Baza podataka
 	\item \textbf{Preduvjet: } Učenik je prijavljen, učenik je prethodno odabrao koji će jezik učiti, iz kojeg će rječnika učiti te je odabrao način učenja Prijevod strane riječi (UC13 Odabir načina učenja)
 	\item  \textbf{Opis osnovnog tijeka:}
@@ -600,8 +589,8 @@
 \noindent \underbar{\textbf{UC15 - Prijevod na strani jezik}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Korisnik
-	\item \textbf{Cilj: } Korisnik je naučio prijevod strane riječi ili izraza na hrvatski
+	\item \textbf{Glavni sudionik: } Učenik
+	\item \textbf{Cilj: } Učenik je naučio prijevod strane riječi ili izraza na hrvatski
 	\item \textbf{Sudionici: } Baza podataka
 	\item \textbf{Preduvjet: } Učenik je prijavljen, učenik je prethodno odabrao koji će jezik učiti, iz kojeg će rječnika učiti te je odabrao način učenja Prijevod na strani jezik (UC13 Odabir načina učenja)
 	\item  \textbf{Opis osnovnog tijeka:} 
@@ -621,17 +610,17 @@
 \noindent \underbar{\textbf{UC16 - Prijevod zvučnog zapisa}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Korisnik
-	\item \textbf{Cilj: } Korisnik slušajući razumije strani jezik
+	\item \textbf{Glavni sudionik: } Učenik
+	\item \textbf{Cilj: } Učenik može točno napisati riječ na stranom jeziku
 	\item \textbf{Sudionici: } Baza podataka
 	\item \textbf{Preduvjet: } Učenik je prijavljen, učenik je prethodno odabrao koji će jezik učiti, iz kojeg će rječnika učiti te je odabrao način učenja Prijevod zvučnog zapisa (UC13 Odabir načina učenja)
 	\item  \textbf{Opis osnovnog tijeka:} 
 	
 	\item[] \begin{packed_enum}
 
-		\item Korisniku klikom na simbol zvučnika čuje riječ ili izraz na stranom jeziku
-		\item Korisnik upisuje prijevod
-		\item Sustav korisnika obavještava je li odabrao ispravan prijevod
+		\item Korisniku klikom na simbol zvučnika čuje riječ na stranom jeziku
+		\item Korisnik upisuje riječ na stranom jeziku
+		\item Sustav korisnika obavještava je li upisana riječ ispravno napisana
 		\item Sustav korisniku nudi nastavak učenja ili povratak na odabir načina učenja
 
 	\end{packed_enum}
@@ -642,8 +631,8 @@
 \noindent \underbar{\textbf{UC17 - Snimanje izgovora riječi}}
 \begin{packed_item}
 
-	\item \textbf{Glavni sudionik: } Korisnik
-	\item \textbf{Cilj: } Korisnik pravilno izgovara riječi na stranom jeziku
+	\item \textbf{Glavni sudionik: } Učenik
+	\item \textbf{Cilj: } Učenik pravilno izgovara riječi na stranom jeziku
 	\item \textbf{Sudionici: } Baza podataka, Servis za ocjenu izgovora
 	\item \textbf{Preduvjet: } Učenik je prijavljen, učenik je prethodno odabrao koji će jezik učiti, iz kojeg će rječnika učiti te je odabrao način učenja Snimanje izgovora (UC13 Odabir načina učenja)
 	\item  \textbf{Opis osnovnog tijeka:} 
@@ -679,9 +668,8 @@
 		\item Administrator odabire opciju dodavanja riječi u sustav
 		\item Preusmjerava se na zaslon s obrascem za stvaranje riječi
 		\item Administrator unosi riječ
-		\item Administrator unosi prijevod riječi
-		\item Administrator unosi značenje riječi, pri čemu pomaže API
-		\item Administrator unosi pomoćne fraze, pri čemu pomaže API
+		\item Administrator unosi prijevod riječi, pri čemu pomaže API
+		\item Administrator unosi pomoćne fraze
 		\item Administrator unosi zvučnu datoteku izgovora riječi na odabranom jeziku
 
 	\end{packed_enum}
@@ -756,12 +744,24 @@
 		
 		\item Administrator odabire opciju pregleda riječi
 		\item Na ekranu mu se prikazuje lista svih riječi u odabranom jeziku koje se nalaze u sustavu (bazi podataka)
-		\item Pored svake riječi postoji stavka "uredi"
-		\item Administrator bira opciju uređivanja riječi te ide na stranicu za uređivanje
-		\item Ima opciju promijeniti pisanje riječi, pomoćnu frazu ili audio zapis
+		\item Administrator klikom na određenu riječ ide na stranicu za uređivanje
+		\item Ima opciju promijeniti riječ, njen prijevod na strani jezik ili pomoćne fraze
 		\item Nakon napravljenih željenih promjena, administrator potvrdi svoj rad i vraća se na pregled riječi
 
 	\end{packed_enum}
+
+	\item  \textbf{Opis mogućih odstupanja:}
+	
+	\item[] \begin{packed_item}
+
+		\item[5.a] Admin odustaje od uređivanja
+		\item[] \begin{packed_enum}
+			
+			\item Riječ ostaje nepromijenjena
+			
+		\end{packed_enum}
+		
+	\end{packed_item}
 	
 \end{packed_item}
 

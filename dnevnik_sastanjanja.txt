@@ -1,0 +1,80 @@
+1. sastanak
+• Datum: u ovom formatu: 15. listopada 2023.
+• Prisustvovali: Cijela grupa
+• Teme sastanka:
+– rasprava o funkcijskim zahtjevima
+– razrješavanje nedoumica oko teksta zadatka
+
+2. sastanak
+• Datum: u ovom formatu: 25. listopada 2023.
+• Prisustvovali: N.Buli´c, D.Štolfa, I. Žilić
+• Teme sastanka:
+– popis obrazaca uporabe
+– razrada aktora, dionika i funkcijskih zahtjeva
+
+3. sastanak
+• Datum: u ovom formatu: 30. listopada 2023.
+• Prisustvovali: Cijela grupa
+• Teme sastanka:
+– Git i LaTeX instalacija, postavljanje okruženja
+
+4. sastanak
+• Datum: u ovom formatu: 6. studenog 2023.
+• Prisustvovali: N.Brala, K.Kuzle, G. Čobanov, F.Kuzmanić
+• Teme sastanka:
+– dijagrami obrazaca uporabe
+– dijagram baze podataka
+
+5. sastanak 
+ Datum: 9. prosinca 2023.
+ Prisustvovali: Cijela grupa
+ Teme sastanka:
+- analiza izvornog koda prve revizije projekta
+- rješavanje zadataka iz dev odjeljka u Readme datoteci
+- podjela početnih zadataka
+
+6. sastanak
+ Datum: 18. prosinca 2023.
+ Prisustvovali: N.Bulić, D.Štolfa
+ Teme sastanka:
+- zaslon za promjenu lozinke
+- struktura serverskog dijela aplikacije
+
+7. sastanak
+ Datum: 21. prosinca 2023.
+ Prisustvovali: Cijela grupa
+ Teme sastanka: 
+- recap o tijeku zadataka
+- uklanjanje pogrešaka
+- podjela novih zadatka
+
+8. sastanak
+ Datum: 8. siječnja 2024.
+ Prisustvovali: N.Brala, D.Štolfa
+ Teme sastanka: 
+- plan razrade dijagrama
+- početak izrade dijagrama komponenti
+- analiza arhitekture sustava
+
+9. sastanak
+ Datum: 12. siječnja 2024.
+ Prisustvovali: N. Bulić, D. Štolfa
+ Teme sastanka:
+- zaslon za upravljanje rječnicima
+- analiza klijentske strane aplikacije
+- Redux mehanizmi
+
+10. sastanak
+ Datum: 15. siječnja 2024.
+ Prisustvovali: N.Brala, I.Žilić
+ Teme sastanka:
+- dijagrami razreda
+
+
+11. sastanak
+Datum: 17. siječnja 2024.
+Prisustvovali: N.Brala, K.Kuzle, D.Štolfa, G.Čobanov
+Teme sastanka:
+- ispitivanje sustava
+- dijagrami razreda
+- provjera izrađene dokumentacije

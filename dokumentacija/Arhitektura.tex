@@ -233,7 +233,7 @@ Kako bismo centralizirali pohranjivanje stanja aplikacije i odvojili logiku upra
 		
 \subsection{Razredi na backendu}
 
-Ova se skupina razreda (Slika \ref{fig:class-back}) izravno preslikava u bazu podataka tako da se za svaki razred stvara jedna tablica u bazi. Dakle, svi su razredi svedeni na treću normalnu formu i ni u kojem slučaju ne mogu biti povezani pridruživanjem (agregacijom ili asocijacijom). U generičkim funkcionalnostima implementiran je razred Korisnik.
+Ova se skupina razreda (Slika \ref{fig:class-back}) izravno preslikava u bazu podataka tako da se za svaki razred stvara jedna tablica u bazi. Dakle, svi su razredi svedeni na treću normalnu formu i ni u kojem slučaju ne mogu biti povezani pridruživanjem (agregacijom ili asocijacijom).
 
 \subsubsection{db.Model}
 
@@ -373,7 +373,7 @@ Tijekom učenja učeniku se naizmjence prikazuju pitanja i povratne informacije 
 	\label{fig:state-ucenici}
 	\end{figure}
 
-Stanja administratorskog sučelja prikazana su Slikom \ref{fig:state-admin} Četiri glavna stanja u kojima se to sučelje može nalaziti su  \emph{Odabir jezika}, |emph{Popis administratora}, \emph{Popis rječnika} i \emph{Popis riječi}. Administrator može doći u svako od tih stanja preko navigacijske trake, a ulaskom u to stanje dohvaćaju se podaci koji se trebaju prikazati na sučelju. Izuzev odabira jezika, administrator u svakom od tih stanja može brisati i stvarati odgovarajuće zapise. Pri stvaranju riječi dohvaćaju se podaci iz vanjskog API-ja i mogu se dodavati ili brisati fraze. Riječi i rječnici mogu se uređivati. Uređivanjem rječnika administrator iz njega uklanja riječi ili dodaje nove.
+Stanja administratorskog sučelja prikazana su Slikom \ref{fig:state-admin} Četiri glavna stanja u kojima se to sučelje može nalaziti su  \emph{Odabir jezika}, \emph{Popis administratora}, \emph{Popis rječnika} i \emph{Popis riječi}. Administrator može doći u svako od tih stanja preko navigacijske trake, a ulaskom u to stanje dohvaćaju se podaci koji se trebaju prikazati na sučelju. Izuzev odabira jezika, administrator u svakom od tih stanja može brisati i stvarati odgovarajuće zapise. Pri stvaranju riječi dohvaćaju se podaci iz vanjskog API-ja i mogu se dodavati ili brisati fraze. Riječi i rječnici mogu se uređivati. Uređivanjem rječnika administrator iz njega uklanja riječi ili dodaje nove.
 
 
 \begin{figure}[htp]
@@ -391,7 +391,7 @@ Stanja administratorskog sučelja prikazana su Slikom \ref{fig:state-admin} Čet
 Slikom \ref{fig:aktivnosti-izgovor} prikazano je učenje snimanjem izgovora. Odabirom načina učenja aplikacija dohvaća dostupne riječi i učeniku prikazuje pitanje. Nakon što učenik snimi izgovor i potvrdi unos, sustav obrađuje njegov odgovor: servis za ocjenjivanje izgovora analizira unos i vraća ocjenu, dok se učeniku prikazuje tijek obrade. U slučaju da je ocjena strogo manja od 5, riječ se prebacuje u prvi posudu. U protivnom se riječ prebacuje u sljedeću posudu ako ona postoji, inače se označava kao u potpunosti naučena. Promjena posude sprema se u bazu podataka, a zatim se učeniku prikazuje ocjena. Klikom na gumb završi učenje aplikacija preusmjerava korisnika na stranicu s popisom rječnika.
 	
 \begin{figure}[htp]
-\includegraphics[scale=0.4]{dijagrami/aktivnosti.png}
+\includegraphics[scale=0.35]{dijagrami/aktivnosti.png}
 \centering
 \caption{Dijagram aktivnosti za učenje sa snimanjem izgovora}
 \label{fig:aktivnosti-izgovor}
