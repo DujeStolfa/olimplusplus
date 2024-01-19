@@ -81,73 +81,181 @@
 
 			\subsection{Ispitivanje sustava}
 Ispitivanje sustava ostvareno je Selenium WebDriverom u Pythonu. Selenium WebDriver je alat za automatizaciju web preglednika. WebDriver koristi preglednikove vlastite mehanizme za kontrolu, čime osigurava visoku razinu realističnosti u testiranju, što ga čini ključnim alatom u razvoju softvera i osiguravanju kvalitete web aplikacija. Provedeni testovi s kodom priloženi su u nastavku.
-\break
+
 
 \begin{figure}[htp]
-    \caption{prvi ispitni slučaj koji obrađuje ispravnu prijavu. Očekivani izlaz je uspješna prijava i preusmjeravanje.}
     \includegraphics[scale=0.5]{dijagrami/test1.png}
     \centering
-    
+    \caption{prvi ispitni slučaj koji obrađuje ispravnu prijavu. Očekivani izlaz je uspješna prijava i preusmjeravanje.}
+
 \end{figure}
-\break
 
 \begin{figure}[htp]
-    \caption{drugi ispitni slučaj koji obrađuje neispravnu registraciju. Unosom maila u krivom formatu očekivani izlaz je neuspjela registracija.}
     \includegraphics[scale=0.5]{dijagrami/test2.png}
     \centering
+    \caption{drugi ispitni slučaj koji obrađuje neispravnu registraciju. Unosom maila u krivom formatu očekivani izlaz je neuspjela registracija.}
     
 \end{figure}
-\break
 
-\begin{figure}[htp]
-    \caption{treći ispitni slučaj koji obrađuje uspješnu promjenu lozinke. Preduvjet za promjenu lozinke je uspješna prijava u sustav kao student. Unosom podudarajućih lozinki očekivani izlaz je izmjena lozinke i preusmjeravanje.}
+\begin{figure}[htp]    
     \includegraphics[scale=0.5]{dijagrami/test3.png}
     \centering
-    
+    \caption{treći ispitni slučaj koji obrađuje uspješnu promjenu lozinke. Preduvjet za promjenu lozinke je uspješna prijava u sustav kao student. Unosom podudarajućih lozinki očekivani izlaz je izmjena lozinke i preusmjeravanje.}
+
 \end{figure}
-\break
 
 \begin{figure}[htp]
-    \caption{četvrti ispitni slučaj koji obrađuje neispravno stvaranje admina. Preduvjet za stvaranje admina je uspješna prijava u sustav kao admin. Unosom nepodudarajućih lozinki u predložak, očekivani izlaz je neuspjela kreacija admina.}
     \includegraphics[scale=0.5]{dijagrami/test4.png}
     \centering
-    
+    \caption{četvrti ispitni slučaj koji obrađuje neispravno stvaranje admina. Preduvjet za stvaranje admina je uspješna prijava u sustav kao admin. Unosom nepodudarajućih lozinki u predložak, očekivani izlaz je neuspjela kreacija admina.}
+
 \end{figure}
-\break
 
 \begin{figure}[htp]
-    \caption{peti ispitni slučaj koji obrađuje stvaranje rječnika s praznim imenom. Preduvjet za stvaranje rječnika je uspješna prijava u sustav kao admin. Bez unosa imena novog rječnika očekivani izlaz je nepromijenjeno stanje tablice rječnika u sustavu.}
     \includegraphics[scale=0.5]{dijagrami/test5.png}
     \centering
-    
+    \caption{peti ispitni slučaj koji obrađuje stvaranje rječnika s praznim imenom. Preduvjet za stvaranje rječnika je uspješna prijava u sustav kao admin. Bez unosa imena novog rječnika očekivani izlaz je nepromijenjeno stanje tablice rječnika u sustavu.}
+
 \end{figure}
-\break
 
 \begin{figure}[htp]
-    \caption{terminal nakon pokretanja testova ispitivanja sustava.}
-    \includegraphics[scale=0.4]{dijagrami/terminal_screen.png}
+    \includegraphics[scale=0.35]{dijagrami/terminal_screen.png}
     \centering
+    \caption{terminal nakon pokretanja testova ispitivanja sustava.}
     
 \end{figure}
+
+\clearpage
+
 \eject
 
 		
 		\section{Dijagram razmještaja}
+
+        Aplikacija je organizirana u tri razine: klijentsku, serversku i podatkovnu. Klijentska razina izvršava se u web pregledniku koji pokreće React aplikaciju. Serverska razina pokreće se na odvojenom poslužitelju u Python 3.11.7 okruženju koji komunicira s PostgreSQL 15 bazom podataka puštenom u pogon na trećem računalu. Komunikacija između izvršnih okruženja odvija se protokolom HTTP.
 			
 		\begin{figure}[htp]
-			\includegraphics[scale=0.4]{dijagrami/DeploymentDiagram0.png}
+			\includegraphics[scale=0.35]{dijagrami/DeploymentDiagram0.png}
 			\centering
 			\caption{Dijagram razmještaja}
 		\end{figure}
+
+        \eject
 		
 		\section{Upute za puštanje u pogon}
-		
-			\textbf{\textit{dio 2. revizije}}\\
-		
-			 \textit{U ovom poglavlju potrebno je dati upute za puštanje u pogon (engl. deployment) ostvarene aplikacije. Na primjer, za web aplikacije, opisati postupak kojim se od izvornog kôda dolazi do potpuno postavljene baze podataka i poslužitelja koji odgovara na upite korisnika. Za mobilnu aplikaciju, postupak kojim se aplikacija izgradi, te postavi na neku od trgovina. Za stolnu (engl. desktop) aplikaciju, postupak kojim se aplikacija instalira na računalo. Ukoliko mobilne i stolne aplikacije komuniciraju s poslužiteljem i/ili bazom podataka, opisati i postupak njihovog postavljanja. Pri izradi uputa preporučuje se \textbf{naglasiti korake instalacije uporabom natuknica} te koristiti što je više moguće \textbf{slike ekrana} (engl. screenshots) kako bi upute bile jasne i jednostavne za slijediti.}
-			
-			
-			 \textit{Dovršenu aplikaciju potrebno je pokrenuti na javno dostupnom poslužitelju. Studentima se preporuča korištenje neke od sljedećih besplatnih usluga: \href{https://aws.amazon.com/}{Amazon AWS}, \href{https://azure.microsoft.com/en-us/}{Microsoft Azure} ili \href{https://www.heroku.com/}{Heroku}. Mobilne aplikacije trebaju biti objavljene na F-Droid, Google Play ili Amazon App trgovini.}
-			
+
+        Aplikaciju puštamo u pogon preko usluge \href{https://render.com/}{Render} koju povezujemo s repozitorijem na GitHubu. Ovakva konfiguracija omogućava nam da jednom postavljenu aplikaciju možemo automatski ponovno pustiti u pogon pushem na granu koju smo odabrali kao produkcijsku. Puštanje u pogon odvija se u tri faze.
+
+        \subsection{Baza podataka}
+
+        \begin{packed_item}
+
+            \item Nakon registracije i prijave u servis Render odabiremo gumb \emph{New PostgreSQL} (Slika \ref{fig:dep-1})
+            \item Bazu podataka konfiguriramo prema Slici \ref{fig:dep-2} i potvrdimo unos
+            \item Nakon uspješnog puštanja u pogon, iz postavki kopiramo vanjski URL za pristup bazi (Slika \ref{fig:dep-3})
+            \item Inicijalizaciju baze provodimo pomoću biblioteke Flask-Migrate. URL za pristup bazi pohranimo lokalno u varijablu okruženja na serverskom dijelu aplikacije. Izvršavanjem naredbe \emph{flask --app server db upgrade} u lokalnom okruženju izvršavaju se sve stvorene \emph{up} migracije i u produkcijskoj bazi stvaraju se sve potrebne tablice.
+            
+        \end{packed_item}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.17]{slike/deploy_1.png}
+			\centering
+			\caption{Dashboard zaslon nakon uspješne registracije}
+            \label{fig:dep-1}
+		\end{figure}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.17]{slike/deploy_2.png}
+			\centering
+			\caption{Konfiguracija baze podataka}
+            \label{fig:dep-2}
+		\end{figure}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.15]{slike/deploy_3.png}
+			\centering
+			\caption{Podaci za pristup bazi podataka}
+            \label{fig:dep-3}
+		\end{figure}
+
+        \subsection{Poslužiteljski dio aplikacije}
+
+        \begin{packed_item}
+
+            \item Poslužiteljsku stranu puštamo u pogon kao web servis. Nakon odabira opcije \emph{Web Service} iz izbornika \emph{New} odabiremo opciju puštanja u pogon s GitHub repozitorija (Slika \ref{fig:dep-4}).
+            \item Render povežemo s GitHub računom (Slika \ref{fig:dep-5}). Nakon uspješnog povezivanja moći ćete odabrati repozitorij kojeg želite pustiti u pogon (Slika \ref{fig:dep-6}).
+            \item Web servis konfiguriramo prema slici Slika \ref{fig:dep-7} i potvrdimo unos.
+            \item U postavkama stvorenog servisa pod odjeljkom \emph{Environments} trebamo stvoriti novu datoteku u koju ćemo spremiti sve potrebne varijable okruženja za pokretanje aplikacije, uključujući i URL za pristup bazi podataka (Slika \ref{fig:dep-9}).
+            
+        \end{packed_item}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.15]{slike/deploy_4.png}
+			\centering
+			\caption{Stvaranje web servisa}
+            \label{fig:dep-4}
+		\end{figure}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.17]{slike/deploy_5.png}
+			\centering
+			\caption{Sučelje bez povezanog GitHub računa}
+            \label{fig:dep-5}
+		\end{figure}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.17]{slike/deploy_6.png}
+			\centering
+			\caption{Uspješno povezan GitHub račun}
+            \label{fig:dep-6}
+		\end{figure}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.14]{slike/deploy_7.png}
+			\centering
+			\caption{Konfiguracija serverskog dijela aplikacije}
+            \label{fig:dep-7}
+		\end{figure}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.17]{slike/deploy_9.png}
+			\centering
+			\caption{Dodavanje varijabli okruženja na backend}
+            \label{fig:dep-9}
+		\end{figure}
+
+        \eject
+
+        \subsection{Klijentski dio aplikacije}
+
+        \begin{packed_item}
+
+            \item Prije puštanja fontenda u pogon potrebno je proširiti datoteku \emph{tsconfig.json} prema Slici \ref{fig:dep-10-5} i promjene pushati na git.
+            \item Ovaj dio aplikacije također puštamo u pogon kao web servis i konfiguriramo ga prema Slici \ref{fig:dep-10} .
+            
+        \end{packed_item}
+
+        Nakon navedenih koraka sve tri razine aplikacije trebale bi biti uspješno puštene u pogon (Slika \ref{fig:dep-11}).
+
+        \begin{figure}[htp]
+			\includegraphics[scale=1]{slike/deploy_10_5.png}
+			\centering
+			\caption{Produkcijska konfiguracija React aplikacije}
+            \label{fig:dep-10-5}
+		\end{figure}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.14]{slike/deploy_10.png}
+			\centering
+			\caption{Konfiguracija web servisa za frontend}
+            \label{fig:dep-10}
+		\end{figure}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.17]{slike/deploy_11.png}
+			\centering
+			\caption{Aktivne aplikacije u Renderu}
+            \label{fig:dep-11}
+		\end{figure}
 			
 			\eject 
