@@ -1,0 +1,441 @@
+\chapter{Implementacija i korisničko sučelje}
+		
+		
+		\section{Korištene tehnologije i alati}
+
+             \subsection{Korišteni alati}
+                \par    Alati koji su bili korišteni za izradu aplikacije nisu divergirali od standarda u industriji. Za pisanje
+                programskog koda i skripti, sa poslužiteljske i korisničke strane, korišten je Microsoftov Visual Studio Code. 
+                Jednostavan program čija osnovna funkcionalnost uključuje sve klasične operacije nad tekstom koji predstavlja kod:
+                automatsko naglašavanje teksta bojom ovisno o programskom jeziku koji se koristi, mnoštvo kratica 
+                na tipkovnici za manipulaciju teksta, ubacivanje ili uklanjanje komentara, tabulatora i sl. VSC se također može 
+                specijalizirati za razvoj bilo koje vrste projekta pomoću dodataka koji su javno dostupni svima i mogu se 
+                opcionalno instalirati.
+                
+                \par Za upravljanje bazom podataka korišten je pgAdmin. Program unutar kojeg se koristi SQL kako bi se definirala relacijska baza
+                podataka, sve njene tablice, te konačno, podatci. Poveznicu između njih čini kod napisan za poslužiteljsku stranu 
+                u Pythonu, čije su krajnje API točke testirane pomoću alata Postman. Postman omogućuje slanje HTTP zahtjeva na 
+                bilo koju adresu, te dopušta apsolutnu kontrolu nad poslanim paketom. Pomoću tog alata je testirano prima
+                li poslužiteljska strana pravilno informacije koje se pošalju (npr. informacije za registraciju), ili dobivaju li
+                se točni podatci iz baze kad ih se zatraži (npr. sve riječi nekog rječnika).
+
+            \subsection{Korištene tehnologije}
+                    Korištene tehnologije su sve u skladu razvoja RESTful aplikacije, što samo zapravo znači da se komunikacija
+                klijenta i poslužitelja odvija preko HTTP ili HTTPS protokola, sa GET, POST, PUT i DELETE zahtjevima. 
+                
+                \par    Na korisničkoj strani je korišten javascript radni okvir React, koji je razvila Meta (bivši Facebook), koji je 
+                zasnovan na komponentama. Svaka komponenta može imati svoju definiranu funkcionalnost, te može sadržavati druge predefinirane 
+                ili korisnički definirane komponente. Od klijentskih programskih jezika korišten je Typescript zbog pouzdanosti.
+
+                \par    Za neke dijelove korisničkog sučelja je korišten MUI (Material User Interface) koji ima nekolicinu predefiniranih
+                komponenti, kao npr. gumbe, tablice ili kartice za prikaz podataka. MUI je napravljen za React i ne može se koristiti
+                sa nekom drugom bibliotekom. Biblioteka Styled Components korištena je za proširivanje komponenti MUI-ja CSS-om.
+
+                \par    Za upravljanje stanjem aplikacije (tzv. state) korišten je Redux. Redux je mala biblioteka sa jednostavnim API-jem.
+                Bazirana je na logici da je svako novo stanje aplikacije redukcija prijašnjeg, što zapravo znači da se
+                svako novo stanje računa pomoću redukcijske funkcije. Ukupno stanje aplikacije se 
+                dijeli u isječke (slices), od kojih je svaki odgovoran za praćenje stanja jednog dijela aplikacije.
+
+                \par   Korišteni HTTP klijent je Axios. Za upravljanje formama u aplikaciji korištena je biblioteka React Hook Form, a za routing React Router.
+
+                \par    Na poslužiteljskoj strani implementacijski jezik je Python 3, a korištene su biblioteke Flask i nekolicina popratnih
+                tehnologija koje služe za proširivanje funkcionalnosti Flaska. Korisničke sesije ostvarene su na poslužiteljskoj strani pomoću biblioteke Flask-Login. Od ORM-ova odabran je Flask-SQLAlchemy, a za serijalizaciju podataka korišten je Marshmallow. Migracijama baze podataka upravljali smo bibliotekom Flask-Migrate.
+
+                \par Google Translate Ajax API (\emph{googletrans}) korišten je kao vanjski API za prevođenje. Za slanje mailova korišten je Brevo (bivši Sendinblue).
+
+                \par    Ispitivanje komponenti provedeno je pomoću biblioteke pytest, dok je za ispitivanje sustava korišten Selenium WebDriver.
+
+            \subsection{Poveznice na korištene tehnologije i alate}
+            \begin{itemize}
+                \item \href{https://code.visualstudio.com/}{Visual Studio Code}
+                \item \href{https://www.pgadmin.org/}{PgAdmin}
+                \item \href{https://www.postman.com/}{Postman}
+                \item \href{https://www.python.org/}{Python}
+                \item \href{https://www.typescriptlang.org/}{Typescript}
+                \item \href{https://react.dev/}{React}
+                \item \href{https://mui.com/}{MUI}
+                \item \href{https://styled-components.com/}{Styled Components}
+                \item \href{https://redux.js.org/}{Redux}
+                \item \href{https://axios-http.com/docs/intro}{Axios}
+                \item \href{https://react-hook-form.com/}{React Hook Form}
+                \item \href{https://flask.palletsprojects.com/en/3.0.x/}{Flask}
+                \item \href{https://marshmallow.readthedocs.io/en/stable/}{Marshmallow}
+                \item \href{https://flask-sqlalchemy.palletsprojects.com/en/3.1.x/}{Flask-SQLAlchemy}
+                \item \href{https://flask-migrate.readthedocs.io/en/latest/}{Flask-Migrate}
+                \item \href{https://flask-login.readthedocs.io/en/latest/}{Flask-Login}
+                \item \href{https://pypi.org/project/googletrans/}{googletrans}
+                \item \href{https://www.brevo.com/}{Brevo}
+                \item \href{https://docs.pytest.org/en/7.4.x/}{pytest}
+                \item \href{https://www.selenium.dev/documentation/webdriver/}{Selenium Webdriver}
+              \end{itemize}
+			\eject 
+		
+	
+		\section{Ispitivanje programskog rješenja}
+	
+			
+			\subsection{Ispitivanje komponenti}
+
+Testiranje komponenti proveli smo koristeći razvojni okvir pytest. Specifičnost tog okvira je korištenje kontekstnih funkcija (engl. fixture). Kontekstnim funkcijama definiramo kontekst za izvršavanje ispitnih funkcija: koji će podaci biti dostupni testu, što će se dogoditi prije, a što nakon testa. Kako se u kontekstnoj funkciji naredbom \emph{yield} poziva ispitna funkcija, sve naredbe prije nje predstavljaju \emph{setup} tog testa, a naredbe nakon \emph{teardown}. 
+
+Osnovne kontekstne funkcije koje koristimo tijekom testiranja komponenti su one za prijavu administratora odnosno učenika (Slika \ref{fig:test-1})\footnote{Radi se o zadanim (default) korisnicima i osigurano je da će njihovi korisnički računi postojati u bazi podataka}. Također, za pristup kontekstu objekta aplikacije Flask koristimo funkciju \emph{app}, dok  funkcija \emph{client} omogućava emulaciju HTTP zahtjeva prema aplikaciji bez pokretanja backenda (Slika \ref{fig:test-2}).
+
+Pri definiciji kontekstne funkcije definiramo njen djelokrug, tj. kada će se u procesu testiranja ona pozivati. Zadani djelokrug je \emph{function}, a kontekstna funkcija s tim djelokrugom pozvat će se prije izvršavanja svake ispitne funkcije, dok će se funkcija s djelokrugom \emph{module} pozivati jednom po ispitnom skupu.
+
+Ispitne funkcije organizirane su u više ispitnih skupova (modula) tako da svaki skup testira jedan dio funkcionalnosti aplikacije. Implementirano je ukupno šest ispitnih funkcija u tri ispitna skupa. Rezultati testova prikazani su na Slici \ref{fig:test-12}.
+
+
+\subsubsection{Ispitni skup \emph{test\_dictionary.py}}
+
+\begin{packed_item}
+
+    \item Stvaranje rječnika s praznim nazivom (rubni slučaj, Slika \ref{fig:test-3})
+    \item[]  \begin{packed_item}
+
+        \item Obrascem uporabe 9 definirano je da zahtjev za stvaranje novog rječnika čiji je naziv prazan niz znakova treba odbiti. Očekivani rezultat je HTTP odgovor sa statusom \emph{400 Bad request} jer su podaci u tijelu zahtjeva u neispravnom formatu.
+        
+    \end{packed_item}
+
+    \item Stvaranje rječnika bez prethodne prijave (pogreška, Slika \ref{fig:test-4}) 
+    \item[]  \begin{packed_item}
+
+        \item Kako ispitna funkcija nema \emph{login\_admin} kontekst, očekivano je da će takav zahtjev za stvaranje rječnika biti odbijen i da će status HTTP odgovora biti \emph{401 Unauthorised}.
+        
+    \end{packed_item}
+    
+\end{packed_item}
+
+\clearpage
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.9]{slike/fixture_login.png}
+	\centering
+	\caption{Kontekstne funkcije za autentifikaciju korisnika}
+	\label{fig:test-1}
+\end{figure}
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.9]{slike/fixture_root.png}
+	\centering
+	\caption{Osnovne kontekstne funkcije}
+	\label{fig:test-2}
+\end{figure}
+
+\begin{figure}[htp]
+	\includegraphics[scale=1]{slike/test_dict_1.png}
+	\centering
+	\caption{Stvaranje rječnika s praznim nazivom}
+	\label{fig:test-3}
+\end{figure}
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.95]{slike/test_dict_2.png}
+	\centering
+	\caption{Stvaranje rječnika bez prethodne prijave}
+	\label{fig:test-4}
+\end{figure}
+
+\eject
+
+\subsubsection{Ispitni skup \emph{test\_users.py}}
+
+\begin{packed_item}
+
+    \item Stvaranje administratora s nepotpunim podacima (pogreška, Slika \ref{fig:test-5})
+    \item[]  \begin{packed_item}
+
+        \item Za stvaranje administratora u tijelu zahtjeva trebaju biti polja \emph{email}, \emph{firstname}, \emph{lastname} i \emph{password}. U slučaju da barem jedan od tih polja nije prisutan, zahtjev se ne može izvršiti i završava s \emph{400 Bad request} odgovorom.
+        
+    \end{packed_item}
+
+    \item Promjena lozinke učenika (redovni slučaj, Slika \ref{fig:test-6})
+    \item[]  \begin{packed_item}
+
+        \item Kako bi stanje u aplikaciji nakon uspješno provedenog testa ostalo isto kao i prije testa, napisana je kontekstna funkcija \emph{revert\_student\_password\_change} (Slika \ref{fig:test-7}) koja nakon testa izvršava upit koji u bazu podataka sprema korisnikovu staru lozinku. Uspješan zahtjev za promjenu lozinke u odgovoru vraća podatke o korisniku. 
+        
+    \end{packed_item}
+    
+\end{packed_item}
+
+\begin{figure}[htp]
+	\includegraphics[scale=1]{slike/test_admin.png}
+	\centering
+	\caption{Stvaranje administratora s nepotpunim podacima}
+	\label{fig:test-5}
+\end{figure}
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.9]{slike/test_pwd.png}
+	\centering
+	\caption{Promjena lozinke učenika}
+	\label{fig:test-6}
+\end{figure}
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.9]{slike/fixture_pwd.png}
+	\centering
+	\caption{Kontekstna funkcija za poništavanje promjene lozinke}
+	\label{fig:test-7}
+\end{figure}
+
+\eject
+\pagebreak
+
+\subsubsection{Ispitni skup \emph{test\_words.py}}
+
+\begin{packed_item}
+
+    \item Stvaranje riječi (redovni slučaj, Slika \ref{fig:test-8})
+    \item[]  \begin{packed_item}
+
+        \item Za stvaranje nove riječi u tijelu zahtjeva potrebno je imati id jezika u kojeg spremamo riječ, hrvatski naziv, strani naziv i naziv spremljene audiodatoteke. U odgovoru se vraća stvorena riječ koja mora odgovarati podacima iz zahtjeva. 
+        \item Kontekstna funkcija \emph{revert\_create\_word} (Slika \ref{fig:test-9}) nakon uspješnog testa briše stvorenu riječ iz sustava.
+        
+    \end{packed_item}
+
+    \item Započni učenje nad rječnikom (rubni slučaj, Slika \ref{fig:test-10})
+    \item[]  \begin{packed_item}
+
+        \item  Kako se u određenim načinima učenja na pitanje odgovara odabirom jedne od četiri ponuđene riječi iz istog rječnika, domenu veličine rječnika možemo podijeliti na particije od $\left[0,3 \right]$ riječi i $ > 4$ riječi.
+        \item Za rječnike s tri ili manje riječi nije moguće prikazati ponuđene odgovore pa nije moguće započeti učenje nad tim rječnikom i očekujemo da će takav zahtjev biti odbijen sa statusom \emph{403 Forbidden}. 
+        \item Kontekstna funkcija \emph{study\_session\_setup\_teardown} (Slika \ref{fig:test-11}) osigurava kontekst za izvršavanje ovog testa: prije izvršavanja stvara novi rječnik, u njega dodaje tri riječi te testu prosljeđuje podatke o rječniku i stvorenim riječima. Nakon testa dodane riječi i rječnik brišu se iz sustava.
+        
+    \end{packed_item}
+    
+\end{packed_item}
+
+\clearpage
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.9]{slike/test_word.png}
+	\centering
+	\caption{Stvaranje riječi}
+	\label{fig:test-8}
+\end{figure}
+
+\begin{figure}[htp]
+	\includegraphics[scale=1]{slike/fixture_word.png}
+	\centering
+	\caption{Kontekstna funkcija koja nakon testa briše stvorenu riječ}
+	\label{fig:test-9}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.9]{slike/fixture_study.png}
+	\centering
+	\caption{Kontekstna funkcija za početak učenja}
+	\label{fig:test-11}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.95]{slike/test_study.png}
+	\centering
+	\caption{Započni učenje nad rječnikom}
+	\label{fig:test-10}
+\end{figure}
+
+\begin{figure}[htp]
+	\includegraphics[scale=0.6]{slike/pytest_run.png}
+	\centering
+	\caption{Dijagram razreda za slice Admin}
+	\label{fig:test-12}
+\end{figure}
+
+\eject
+\pagebreak
+
+			\subsection{Ispitivanje sustava}
+Ispitivanje sustava ostvareno je Selenium WebDriverom u Pythonu. Selenium WebDriver je alat za automatizaciju web preglednika. WebDriver koristi preglednikove vlastite mehanizme za kontrolu, čime osigurava visoku razinu realističnosti u testiranju, što ga čini ključnim alatom u razvoju softvera i osiguravanju kvalitete web aplikacija. Provedeno je pet testova, a njihov kod priložen je u nastavku. Rezultati testova prikazani su na Slici \ref{fig:sys-res}.
+
+\begin{packed_item}
+
+    \item  Prvi ispitni slučaj obrađuje ispravnu prijavu. Očekivani izlaz je uspješna prijava i preusmjeravanje. (Slika \ref{fig:sys-1})
+    \item Drugi ispitni slučaj obrađuje neispravnu registraciju. Unosom maila u krivom formatu očekivani izlaz je neuspjela registracija. (Slika \ref{fig:sys-2})
+    \item Treći ispitni slučaj obrađuje uspješnu promjenu lozinke. Preduvjet za promjenu lozinke je uspješna prijava u sustav kao student. Unosom podudarajućih lozinki očekivani izlaz je izmjena lozinke i preusmjeravanje. (Slika \ref{fig:sys-3})
+    \item Četvrti ispitni slučaj koji obrađuje neispravno stvaranje admina. Preduvjet za stvaranje admina je uspješna prijava u sustav kao admin. Unosom nepodudarajućih lozinki u predložak, očekivani izlaz je neuspjela kreacija admina. (Slika \ref{fig:sys-4})
+    \item Peti ispitni slučaj obrađuje stvaranje rječnika s praznim imenom. Preduvjet za stvaranje rječnika je uspješna prijava u sustav kao admin. Bez unosa imena novog rječnika očekivani izlaz je nepromijenjeno stanje tablice rječnika u sustavu. (Slika \ref{fig:sys-5})
+    
+\end{packed_item}
+
+
+
+\begin{figure}[htp]
+    \includegraphics[scale=0.5]{dijagrami/test1.png}
+    \centering
+    \caption{Ispravna prijava}
+    \label{fig:sys-1}
+\end{figure}
+
+\begin{figure}[htp]
+    \includegraphics[scale=0.5]{dijagrami/test2.png}
+    \centering
+    \caption{Neispravna registracija}
+    \label{fig:sys-2}
+\end{figure}
+
+\begin{figure}[htp]    
+    \includegraphics[scale=0.5]{dijagrami/test3.png}
+    \centering
+    \caption{Uspješna promjena lozinke}
+    \label{fig:sys-3}
+\end{figure}
+
+\begin{figure}[htp]
+    \includegraphics[scale=0.5]{dijagrami/test4.png}
+    \centering
+    \caption{Neispravno stvaranje administratora}
+    \label{fig:sys-4}
+\end{figure}
+
+\begin{figure}[htp]
+    \includegraphics[scale=0.5]{dijagrami/test5.png}
+    \centering
+    \caption{Stvaranje rječnika s praznim imenom}
+    \label{fig:sys-5}
+\end{figure}
+
+\begin{figure}[htp]
+    \includegraphics[scale=0.35]{dijagrami/terminal_screen.png}
+    \centering
+    \caption{Terminal nakon pokretanja testova ispitivanja sustava}
+	\label{fig:sys-res}
+\end{figure}
+
+\clearpage
+
+\eject
+
+		
+		\section{Dijagram razmještaja}
+
+        Aplikacija je organizirana u tri razine: klijentsku, serversku i podatkovnu. Klijentska razina izvršava se u web pregledniku koji pokreće React aplikaciju. Serverska razina pokreće se na odvojenom poslužitelju u Python 3.11.7 okruženju koji komunicira s PostgreSQL 15 bazom podataka puštenom u pogon na trećem računalu. Komunikacija između izvršnih okruženja odvija se protokolom HTTP.
+			
+		\begin{figure}[htp]
+			\includegraphics[scale=0.35]{dijagrami/DeploymentDiagram0.png}
+			\centering
+			\caption{Dijagram razmještaja}
+		\end{figure}
+
+        \eject
+		
+		\section{Upute za puštanje u pogon}
+
+        Aplikaciju puštamo u pogon preko usluge \href{https://render.com/}{Render} koju povezujemo s repozitorijem na GitHubu. Ovakva konfiguracija omogućava nam da jednom postavljenu aplikaciju možemo automatski ponovno pustiti u pogon pushem na granu koju smo odabrali kao produkcijsku. Puštanje u pogon odvija se u tri faze.
+
+        \subsection{Baza podataka}
+
+        \begin{packed_item}
+
+            \item Nakon registracije i prijave u servis Render odabiremo gumb \emph{New PostgreSQL} (Slika \ref{fig:dep-1})
+            \item Bazu podataka konfiguriramo prema Slici \ref{fig:dep-2} i potvrdimo unos
+            \item Nakon uspješnog puštanja u pogon, iz postavki kopiramo vanjski URL za pristup bazi (Slika \ref{fig:dep-3})
+            \item Inicijalizaciju baze provodimo pomoću biblioteke Flask-Migrate. URL za pristup bazi pohranimo lokalno u varijablu okruženja na serverskom dijelu aplikacije. Izvršavanjem naredbe \emph{flask --app server db upgrade} u lokalnom okruženju izvršavaju se sve stvorene \emph{up} migracije i u produkcijskoj bazi stvaraju se sve potrebne tablice.
+            
+        \end{packed_item}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.17]{slike/deploy_1.png}
+			\centering
+			\caption{Dashboard zaslon nakon uspješne registracije}
+            \label{fig:dep-1}
+		\end{figure}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.17]{slike/deploy_2.png}
+			\centering
+			\caption{Konfiguracija baze podataka}
+            \label{fig:dep-2}
+		\end{figure}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.15]{slike/deploy_3.png}
+			\centering
+			\caption{Podaci za pristup bazi podataka}
+            \label{fig:dep-3}
+		\end{figure}
+
+        \subsection{Poslužiteljski dio aplikacije}
+
+        \begin{packed_item}
+
+            \item Poslužiteljsku stranu puštamo u pogon kao web servis. Nakon odabira opcije \emph{Web Service} iz izbornika \emph{New} odabiremo opciju puštanja u pogon s GitHub repozitorija (Slika \ref{fig:dep-4}).
+            \item Render povežemo s GitHub računom (Slika \ref{fig:dep-5}). Nakon uspješnog povezivanja moći ćete odabrati repozitorij kojeg želite pustiti u pogon (Slika \ref{fig:dep-6}).
+            \item Web servis konfiguriramo prema slici Slika \ref{fig:dep-7} i potvrdimo unos.
+            \item U postavkama stvorenog servisa pod odjeljkom \emph{Environments} trebamo stvoriti novu datoteku u koju ćemo spremiti sve potrebne varijable okruženja za pokretanje aplikacije, uključujući i URL za pristup bazi podataka (Slika \ref{fig:dep-9}).
+            
+        \end{packed_item}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.15]{slike/deploy_4.png}
+			\centering
+			\caption{Stvaranje web servisa}
+            \label{fig:dep-4}
+		\end{figure}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.17]{slike/deploy_5.png}
+			\centering
+			\caption{Sučelje bez povezanog GitHub računa}
+            \label{fig:dep-5}
+		\end{figure}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.17]{slike/deploy_6.png}
+			\centering
+			\caption{Uspješno povezan GitHub račun}
+            \label{fig:dep-6}
+		\end{figure}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.14]{slike/deploy_7.png}
+			\centering
+			\caption{Konfiguracija serverskog dijela aplikacije}
+            \label{fig:dep-7}
+		\end{figure}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.17]{slike/deploy_9.png}
+			\centering
+			\caption{Dodavanje varijabli okruženja na backend}
+            \label{fig:dep-9}
+		\end{figure}
+
+        \eject
+
+        \subsection{Klijentski dio aplikacije}
+
+        \begin{packed_item}
+
+            \item Prije puštanja fontenda u pogon potrebno je proširiti datoteku \emph{tsconfig.json} prema Slici \ref{fig:dep-10-5} i promjene pushati na git.
+            \item Ovaj dio aplikacije također puštamo u pogon kao web servis i konfiguriramo ga prema Slici \ref{fig:dep-10} .
+            
+        \end{packed_item}
+
+        Nakon navedenih koraka sve tri razine aplikacije trebale bi biti uspješno puštene u pogon (Slika \ref{fig:dep-11}).
+
+        \begin{figure}[htp]
+			\includegraphics[scale=1]{slike/deploy_10_5.png}
+			\centering
+			\caption{Produkcijska konfiguracija React aplikacije}
+            \label{fig:dep-10-5}
+		\end{figure}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.14]{slike/deploy_10.png}
+			\centering
+			\caption{Konfiguracija web servisa za frontend}
+            \label{fig:dep-10}
+		\end{figure}
+
+        \begin{figure}[htp]
+			\includegraphics[scale=0.17]{slike/deploy_11.png}
+			\centering
+			\caption{Aktivne aplikacije u Renderu}
+            \label{fig:dep-11}
+		\end{figure}
+			
+			\eject 
